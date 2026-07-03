@@ -1,0 +1,443 @@
+export type ServiceSeed = {
+  name: string
+  durationMinutes?: number
+  description?: string
+  bullets?: string[]
+}
+
+export type ServiceCategorySeed = {
+  name: string
+  slug: string
+  sortOrder: number
+  services: ServiceSeed[]
+}
+
+export const SERVICE_CATEGORIES: ServiceCategorySeed[] = [
+  {
+    name: 'MANICURE SERVICES',
+    slug: 'manicure-services',
+    sortOrder: 1,
+    services: [
+      {
+        name: 'Royal Manicure - Vanilla Cappuccino',
+        durationMinutes: 35,
+        description:
+          'Nourish and maintain your healthy hands with the indulgent essence of Vanilla Cappuccino. This treatment is designed to deeply relax and rejuvenate the hands.',
+        bullets: [
+          'Soak in Vanilla Cappuccino soak',
+          'Nails and cuticle care',
+          'Vanilla Cappuccino Sugar & Oil Scrub — gently exfoliates dry skin while stimulating cell renewal',
+          'Vanilla Cappuccino Mask — contains natural minerals that enrich the skin',
+          '15 minutes of hand massage with hot stones',
+          'Paraffin — maintains soft, silky-looking skin',
+          'Vanilla Cappuccino Lotion',
+          'Hot towel wrap',
+        ],
+      },
+      {
+        name: 'Tropical Deluxe Manicure - Tropical Citrus',
+        durationMinutes: 30,
+        bullets: [
+          'Soak with Tropical Citrus salt soak',
+          'Nails and cuticle care',
+          'Tropical Citrus Scrub and Mask',
+          '10 minutes of hand massage with hot stones',
+          'Tropical Citrus Lotion — making it feel soft & smooth',
+          'Hot towel wrap',
+        ],
+      },
+      {
+        name: 'Deluxe Manicure - Lavender',
+        durationMinutes: 20,
+        bullets: [
+          'Soak with hand soap',
+          'Nails and cuticle care',
+          'Lavender scrub',
+          '5 minutes of hand massage with Lavender lotion or oil',
+          'Hot towel wipe',
+        ],
+      },
+      {
+        name: 'Express Manicure - Spearmint',
+        durationMinutes: 15,
+        description: '15-minute treatment perfect for those on the go.',
+        bullets: [
+          'Soak with hand soap',
+          'Basic nails and cuticle care',
+          '3 minutes of hand massage with Mint lotion or oil',
+        ],
+      },
+    ],
+  },
+  {
+    name: 'PEDICURE SERVICES',
+    slug: 'pedicure-services',
+    sortOrder: 2,
+    services: [
+      {
+        name: 'Champagne & Rose - Volcano 5-Step Spa in a Box',
+        durationMinutes: 65,
+        description:
+          'This indulgent treatment features the opulent Volcano 5-Step Spa in a Box that immerses your feet and legs in the bubbling eruption. This treatment is designed to pamper your senses and rejuvenate your skin from the very first touch. As the blend fizzes & bubbles, it releases therapeutic minerals and invigorating aromas, creating a truly immersive and refreshing escape.',
+        bullets: [
+          'A warm neck pillow',
+          'Step 1: Volcano crystals soak and activator',
+          'Step 2: Detox Volcano Activator',
+          'Step 3: Honey pearl or lavender or romance exfoliating sugar scrub',
+          'Step 4: Collagen Cream Mask with Rose petals',
+          'Step 5: Collagen Massage Lotion',
+          'Callus removal',
+          'Champagne is delicately poured over your calves and feet, stimulating circulation and enhancing the spa experience with an unforgettable touch of luxury',
+          '25 minutes of foot massage with hot stones',
+          'Paraffin wax — silky butter foot cream',
+          'Hot Towel Wrap',
+        ],
+      },
+      {
+        name: 'Royal Pedicure - Vanilla Cappuccino',
+        durationMinutes: 60,
+        description:
+          'Indulge in the luxurious benefits of our Vanilla Cappuccino collection, featuring:',
+        bullets: [
+          'A warm neck pillow',
+          'Vanilla cappuccino salt soak',
+          'Callus removal',
+          'Vanilla cappuccino & Oil Scrub — gently exfoliates dry skin, stimulating cell renewal',
+          'Vanilla cappuccino Mask with rose petals — deeply nourishes and softens the skin',
+          'Vanilla cappuccino Lotion',
+          '25 minutes of foot massage with hot stones',
+          'Paraffin wax — silky butter foot cream',
+          'Hot Towel Wrap',
+        ],
+      },
+      {
+        name: 'Diamond Pedicure - Lavender',
+        durationMinutes: 50,
+        description:
+          'Indulge your feet in an opulent ritual featuring the finest, meticulously selected for an unparalleled spa experience.',
+        bullets: [
+          'A warm neck pillow',
+          'Lavender sea salt soak',
+          'Callus removal',
+          'Lavender Sugar & Oil Scrub — exfoliates and hydrates the skin, leaving it soft and smooth',
+          'Vanilla cappuccino Mask with rose petals — deeply nourishes and softens the skin',
+          'Lavender Mask with rose petals — a luxurious botanical treatment renowned for its ability to deeply soften and nourish the skin',
+          'Lavender Lotion — rehydrates dry skin & restores its healthy glow',
+          '20 minutes of foot massage with hot stones',
+          'Paraffin wax',
+          'Hot Towel Wrap',
+        ],
+      },
+      {
+        name: 'Tropical Deluxe Pedicure - Tropical Citrus',
+        durationMinutes: 45,
+        description:
+          'Treat your feet to the ultimate escape with our Tropical Deluxe Spa experience, featuring:',
+        bullets: [
+          'A warm neck pillow',
+          'Tropical Citrus salt bath',
+          'Callus removal',
+          'Tropical Citrus Scrub & Mask with rose petals',
+          'Paraffin wax — maintains soft, silky skin, increases blood flow, relaxes muscles, and decreases joint stiffness',
+          'Tropical Citrus Lotion',
+          '15 minutes of foot massage with hot stones',
+          'Hot towel wrap',
+        ],
+      },
+      {
+        name: 'Milk & Honey Pedicure - Milk & Honey',
+        durationMinutes: 40,
+        description:
+          'Indulge your senses with our exquisite ritual pedicure designed to relax your spirit and elevate your well-being, featuring:',
+        bullets: [
+          'A warm neck pillow',
+          'Milk & Honey Salt Bath',
+          'Callus removal',
+          'Milk & Honey Sugar Scrub & Mask with rose petals',
+          'Milk & Honey Lotion — a rich cream that soothes, hydrates and revitalizes the skin, leaving it silky-smooth and naturally radiant',
+          '10 minutes of foot massage',
+          'Hot towel wrap',
+        ],
+      },
+      {
+        name: 'Signature Deluxe Pedicure - Spearmint',
+        durationMinutes: 30,
+        description: 'Indulge your feet with our spearmint treatment, including:',
+        bullets: [
+          'A warm neck pillow',
+          'Spearmint Salt Bath',
+          'Callus removal',
+          'Spearmint Sugar Scrub',
+          'Spearmint Lotion',
+          '5 minutes of foot massage with a refreshing cooling sensation',
+          'Hot towel refresh',
+        ],
+      },
+      {
+        name: 'Express Pedicure - Cucumber',
+        durationMinutes: 25,
+        description: "It's 15 minutes cucumber treatment and perfect for those on the go.",
+        bullets: [
+          'Warm neck pillow',
+          'Cucumber sea salt soak',
+          'Cucumber lotion',
+          '3 minutes foot massage',
+          'Hot towel refresh',
+        ],
+      },
+    ],
+  },
+  {
+    name: "Le'K Manicure Services",
+    slug: 'lek-manicure-services',
+    sortOrder: 3,
+    services: [
+      {
+        name: "Le'K Manicure",
+        durationMinutes: 32,
+        description:
+          "Maintain your healthy hands with our luxurious Le'K products including:",
+        bullets: [
+          'Warm neck wrap',
+          "Rejuvenating your skin with Le'K Immuni - T/ Essential - Dm/ CBD Pure Calm Scrub",
+          "Hydrating, soothing, and antioxidant your skin with Le'K Immuni - T/ Essential - Dm/ CBD Pure Calm Mask",
+          '10 min massage',
+          'Paraffin wax - maintain doft silky looking skin and hot towel wrap',
+          "Finishing with Le' K Virus Fighting Immuni - T/ Essential - Dm/ CBD Pure Calm Lotion",
+        ],
+      },
+    ],
+  },
+  {
+    name: "Le'K Pedicure Services",
+    slug: 'lek-pedicure-services',
+    sortOrder: 4,
+    services: [
+      {
+        name: "Le'K Heavenly Mix",
+        durationMinutes: 60,
+        description:
+          "Enjoy the perfect angelic mixture with a combination of all three of our heavenly Le'K Health formulas. Warm neck pillow.",
+        bullets: [
+          "Start with your Le'K Salt Soak: Mint & Eucalyptus, Peppermint, Lavender & Chamomile",
+          "Rejuvenating your skin with Le'K Sugar Scrub: Pomegranate Walnut, Green Tea Walnut, Lavender & Chamomile Soothing",
+          "Boost your immune system with Le'K Mask: Mint & Eucalyptus Cream Mask, Lavender & Chamomile Soothing Mask",
+          "Finish your pedicure with Le'K Virus Fighting Lotion: Lemon-Lime Healing Therapy, Green Tea Healing, Lavender & Chamomile Calming",
+          'Paraffin — maintain soft silky looking skin and hot towel wrap',
+          '20 minutes of feet massage with hot stone',
+          'Foot cream — preventing dry, damaged feet and suitable for all skin types',
+        ],
+      },
+      {
+        name: "Le'K Treatment",
+        durationMinutes: 50,
+        description:
+          "Revitalize yourself with our immunity boosting, whether you have sensitive skin or need soothing treatment and extreme relaxing with Le'K Immuni-T / Essential-Dm / CBD Pure Calm Treatment:",
+        bullets: [
+          'Warm neck wrap',
+          "Enjoy Le'K Immuni-T / Essential-Dm / CBD Pure Calm Salt Soak",
+          "Enhance the immune system and fight off bacteria with Le'K Immuni-T / Essential-Dm / CBD Pure Calm Scrub",
+          'Seal hydration and soothing with Immuni-T / Essential-Dm / CBD Pure Calm Mask',
+          'Paraffin — maintain soft silky looking skin and hot towel wrap',
+          '10 minutes of feet massage with hot stone',
+          "Finish your pedicure with relaxing Le'K Immuni-T / Essential-Dm / CBD Pure Calm Lotion to prevent multi viruses",
+          'Foot cream — preventing dry, damaged feet and suitable for all skin types',
+        ],
+      },
+      {
+        name: "Le'K Explore",
+        durationMinutes: 40,
+        description:
+          "Revitalize yourself with our immunity boosting, whether you have sensitive skin or need soothing treatment and extreme relaxing with Le'K Immuni-T / Essential-Dm / CBD Pure Calm Treatment:",
+        bullets: [
+          'Warm neck wrap',
+          "Enjoy Le'K Immuni-T / Essential-Dm / CBD Pure Calm Salt Soak",
+          "Enhance the immune system and fight off bacteria with Le'K Immuni-T / Essential-Dm / CBD Pure Calm Scrub",
+          'Seal hydration and soothing with Immuni-T / Essential-Dm / CBD Pure Calm Mask',
+          'Paraffin — maintain soft silky looking skin and hot towel wrap',
+          '10 minutes of feet massage',
+          "Finish your pedicure with relaxing Le'K Immuni-T / Essential-Dm / CBD Pure Calm Lotion to prevent multi viruses",
+          'Foot cream — preventing dry, damaged feet and suitable for all skin types',
+        ],
+      },
+    ],
+  },
+  {
+    name: 'CHILDREN',
+    slug: 'children',
+    sortOrder: 5,
+    services: [
+      { name: 'Manicure' },
+      { name: 'Pedicure' },
+      { name: 'Combo (1 Free Design)' },
+      { name: 'Polish Change Hand' },
+      { name: 'Polish Change Feet' },
+      { name: 'Shellac Add-On' },
+    ],
+  },
+  {
+    name: 'DIP POWDER',
+    slug: 'dip-powder',
+    sortOrder: 6,
+    services: [
+      { name: 'Option 1: Dip Basic (Real Nail, Square Shape)' },
+      { name: 'Option 2: Dip + Extension + Shape' },
+      { name: 'Option 3: Dip + Extension + Shape + Length' },
+      { name: 'Add-on: Ombre' },
+      { name: 'Add-on: Chrome' },
+      { name: 'Add-on: French' },
+      { name: 'Add-on: Cat Eye' },
+      { name: 'Add-on: Cuticle Care' },
+    ],
+  },
+  {
+    name: 'ACRYLIC',
+    slug: 'acrylic',
+    sortOrder: 7,
+    services: [
+      { name: 'Option 4: Clear or Regular Polish (Square Shape)' },
+      { name: 'Option 5: Clear or Regular Polish + Shape' },
+      { name: 'Option 6: Clear or Regular Polish + Shape + Length' },
+      { name: 'Option 7: Color Powder (Square Shape)' },
+      { name: 'Option 8: Color Powder + Shape)' },
+      { name: 'Option 9: Color Powder + Shape + Length' },
+      { name: 'Option 10: Gel (Shellac) Color (Square Shape)' },
+      { name: 'Option 11: Gel (Shellac) + Shape' },
+      { name: 'Option 12: Gel (Shellac) + Shape + Length' },
+      { name: 'Option 13: French Cut Basic (Square Shape)' },
+      { name: 'Option 14: Gel (Shellac) + Shape' },
+      { name: 'Option 15: Gel (Shellac) + Shape + Length' },
+      { name: 'Product Removal' },
+      { name: 'Add-on: French Cut Basic' },
+      { name: 'Add-on: Ombre on Powder Only' },
+      { name: 'Add-on: Chrome' },
+      { name: 'Add-on: French' },
+      { name: 'Add-on: Cat Eye' },
+      { name: 'Add-on: Cuticle Care' },
+    ],
+  },
+  {
+    name: 'HARD BUILDER GEL',
+    slug: 'hard-builder-gel',
+    sortOrder: 8,
+    services: [
+      { name: 'Option 16: Hard Builder Gel Basic (Square Shape)' },
+      { name: 'Option 17: Gel (Shellac) + Shape' },
+      { name: 'Option 18: Gel (Shellac) + Shape + Length' },
+      { name: 'Add-on: Chrome' },
+      { name: 'Add-on: French' },
+      { name: 'Add-on: Cat Eye' },
+      { name: 'Add-on: Cuticle Care' },
+    ],
+  },
+  {
+    name: 'GEL X',
+    slug: 'gel-x',
+    sortOrder: 9,
+    services: [
+      { name: 'Option 19: Gel X Basic Full Set (Square Shape)' },
+      { name: 'Option 20: Gel X Basic + Shape' },
+      { name: 'Option 21: Gel (Shellac) + Shape + Length' },
+    ],
+  },
+  {
+    name: 'POLY GEL',
+    slug: 'poly-gel',
+    sortOrder: 10,
+    services: [
+      { name: 'Option 22: Poly Gel Basic Full Set (Square Shape)' },
+      { name: 'Option 23: Poly Gel + Shape' },
+      { name: 'Option 24: Poly Gel + Shape + Length' },
+      { name: 'Add-on: Chrome' },
+      { name: 'Add-on: French' },
+      { name: 'Add-on: Cat Eye' },
+      { name: 'Add-on: Cuticle Care' },
+    ],
+  },
+  {
+    name: 'REPAIR',
+    slug: 'repair',
+    sortOrder: 11,
+    services: [
+      { name: 'Repair with Additional Services (Each Nail)' },
+      { name: 'Repair without Additional Services (Each Nail)' },
+      { name: 'Toenail Extension/ Refill with Service' },
+      { name: 'Toenail Extension/ Refill without Service' },
+    ],
+  },
+  {
+    name: 'GEL POLISH (SHELLAC)',
+    slug: 'gel-polish-shellac',
+    sortOrder: 12,
+    services: [
+      { name: 'Gel Polish (Shellac) Manicure', durationMinutes: 25 },
+      { name: 'Gel Polish (Shellac) Color Change (Hands) with Removal Gel' },
+      { name: 'Gel Polish (Shellac) Color Change (Feet) with Removal Gel' },
+      { name: 'Gel Polish (Shellac) Color application only hands' },
+      { name: 'Gel Polish (Shellac) Color application only Feet' },
+      { name: 'Gel Polish (Shellac) Color change on artifical nails' },
+      { name: 'Gel Polish (Shellac) add on hands/feet' },
+    ],
+  },
+  {
+    name: 'ADDITIONAL SERVICES',
+    slug: 'additional-services',
+    sortOrder: 13,
+    services: [
+      { name: 'French Tip Polish (Hands/Feet)' },
+      { name: 'French Tip Gel (Hands/Feet)' },
+      { name: 'Hot Stone Massage' },
+      { name: 'Paraffin Wax Hands/Feet' },
+      { name: 'Long Length' },
+      { name: 'Other Shapes that are not square' },
+      { name: 'Cut Down and Reshape or Cuticle Trim w/o Service' },
+      {
+        name: 'Nail Art Designs (Prices are vary depending on designs)',
+      },
+      { name: 'Take Off Gel w/o Service' },
+      { name: 'Take Off Gel w/ Service' },
+      { name: 'Take Off Dip/Acrylic w/o Service' },
+      { name: 'Take Off Dip/Acrylic w/ Service' },
+    ],
+  },
+  {
+    name: 'WAX & BROWS',
+    slug: 'wax-and-brows',
+    sortOrder: 14,
+    services: [
+      { name: 'Eyebrows' },
+      { name: 'Lip' },
+      { name: 'Chin' },
+      { name: 'Eyebrows, Lip & Chin Combo' },
+      { name: 'Full Face' },
+      { name: 'Half Arms' },
+      { name: 'Full Arms' },
+      { name: 'Hands and Fingers' },
+      { name: 'Half Legs' },
+      { name: 'Full Legs' },
+      { name: 'Feet and Toes' },
+      { name: 'Underarms' },
+      { name: 'Full Back' },
+      { name: 'Brazilian' },
+      { name: 'TINTING Eyebrows' },
+    ],
+  },
+  {
+    name: 'LASHES SERVICES',
+    slug: 'lashes-services',
+    sortOrder: 15,
+    services: [
+      { name: 'Strip' },
+      { name: 'Classic Cluster' },
+      { name: 'Volume Cluster' },
+      { name: 'Individual Classic' },
+      { name: 'Individual Classic Refill' },
+      { name: 'Individual Volume' },
+      { name: 'Individual Volume Refill' },
+      { name: 'Wispy Classic' },
+      { name: 'Wispy Classic Refill' },
+      { name: 'Wispy Volume' },
+      { name: 'Wispy Volume Refill' },
+    ],
+  },
+]

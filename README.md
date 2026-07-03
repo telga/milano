@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Milano Nail Spa — Website
 
-## Getting Started
+Enterprise website for [Milano Nail Spa Flower Mound](https://milanonailspaflowermound.com) built with **Next.js 15** + **Payload CMS 3**.
 
-First, run the development server:
+## Stack
+
+- **Frontend:** Next.js App Router, Tailwind CSS v4
+- **CMS / Admin:** Payload CMS at `/admin`
+- **Database:** SQLite (local dev) or Neon Postgres (production)
+- **Images:** Payload media + optional Cloudinary CDN
+- **Booking:** External [ABC Salon POS](https://abcapp.us/feedback/appointment?appid=tI8PdCO)
+
+## Quick Start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # Windows: copy .env.example .env.local
+npm run scrape               # Download 60+ photos from legacy site
+npm run dev                  # http://localhost:3000 — creates SQLite schema on first run
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**First-time database seed** (with dev server running):
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Option A — auto on empty DB (SEED_ON_START=true in .env.local)
+curl http://localhost:3000/api/bootstrap
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Option B — manual
+curl -X POST http://localhost:3000/api/seed -H "x-seed-secret: dev-seed-secret"
+```
 
-## Learn More
+**Admin:** `/admin` — default login `admin@milanonailflowermound.com` / `ChangeMe123!` (change immediately)
 
-To learn more about Next.js, take a look at the following resources:
+**Classic single-page layout** (optional preview of original scroll-style site):
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# Add to .env.local
+NEXT_PUBLIC_CLASSIC_LAYOUT=true
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Restart the dev server. The homepage shows all sections on one scrollable page; other routes redirect to anchor links.
 
-## Deploy on Vercel
+> **Note:** Payload CLI commands (`generate:importmap`, standalone `tsx` seed) may fail on Node.js 24+. Use the API seed routes above, or Node 20 LTS for CLI tools. Production uses Neon Postgres via `DATABASE_URI`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Scripts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server |
+| `npm run build` | Production build |
+| `npm run scrape` | Crawl legacy site & download images |
+| `npm run migrate:images` | Upload scraped images to Cloudinary (optional) |
+| `npm run seed` | Seed CMS with services, blog, photos |
+| `npm run fix:images` | Reassign distinct images to each photo slot |
+| `npm run generate:types` | Regenerate Payload TypeScript types |
+| `npm run test:e2e` | Playwright smoke tests |
+
+## Project Structure
+
+```
+src/
+  app/(frontend)/     Public pages
+  app/(payload)/      Payload admin + API
+  collections/        CMS collections
+  components/         UI components
+  lib/                Data fetchers, utilities
+scripts/
+  scrape-legacy-images.ts
+  seed-content.ts
+  data/services.ts
+docs/                 Deployment & admin guides
+```
+
+## Documentation
+
+- [How to Use the Admin Portal](docs/HOW_TO_USE_ADMIN.md) — Plain-language guide for salon staff
+- [Admin Guide](docs/ADMIN_GUIDE.md) — Technical CMS reference
+- [Deployment](docs/DEPLOYMENT.md) — Vercel + Neon + Cloudflare production setup
+- [Security](docs/SECURITY.md) — Security checklist
+
+## License
+
+Proprietary — Milano Nail Spa Flower Mound
