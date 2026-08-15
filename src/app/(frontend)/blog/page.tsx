@@ -16,8 +16,10 @@ export default async function BlogPage() {
   return (
     <>
       <PageHero title="Blog" subtitle="Stories from Milano Nail Spa" slot={slots['blog-hero']} />
-      <section className="mx-auto max-w-7xl px-4 py-20 lg:px-8">
-        <BlogCardGrid posts={posts} />
+      <section className="section-pad">
+        <div className="container-luxury">
+          <BlogCardGrid posts={posts} />
+        </div>
       </section>
     </>
   )

@@ -43,19 +43,33 @@ export default buildConfig({
     },
     meta: {
       titleSuffix: '— Milano Admin',
+      description: 'Update hours, services, photos, and announcements for Milano Nail Spa.',
+    },
+    components: {
+      graphics: {
+        Logo: '/components/admin/AdminBrand#AdminLogo',
+        Icon: '/components/admin/AdminBrand#AdminIcon',
+      },
+      beforeNavLinks: ['/components/admin/AdminQuickLinks'],
+      views: {
+        dashboard: {
+          Component: '/components/admin/AdminDashboard',
+        },
+      },
     },
   },
+  // Order here sets the sidebar order: everyday content first, admin last.
   collections: [
-    Users,
-    Media,
-    SiteImageSlots,
     ServiceCategories,
     Services,
-    Promotions,
-    PopupAnnouncements,
-    Specialties,
+    SiteImageSlots,
     GalleryItems,
+    Media,
+    PopupAnnouncements,
+    Promotions,
+    Specialties,
     BlogPosts,
+    Users,
   ],
   globals: [SiteSettings],
   editor: lexicalEditor(),

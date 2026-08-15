@@ -32,7 +32,7 @@ export function AccordionTrigger({
     <AccordionPrimitive.Header className="flex">
       <AccordionPrimitive.Trigger
         className={cn(
-          'flex flex-1 items-center justify-between py-5 font-display text-xl text-foreground transition-all hover:text-gold [&[data-state=open]>svg]:rotate-180',
+          'flex flex-1 items-center justify-between gap-4 py-4 text-left font-display text-lg font-normal text-foreground transition-colors hover:text-gold sm:py-5 sm:text-xl data-[state=open]:font-semibold data-[state=open]:text-gold [&[data-state=open]>svg]:rotate-180',
           className,
         )}
         {...props}

@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
 
 import { getMediaAlt, getMediaUrl } from '@/lib/media'
 import type { BlogPost, Promotion, Specialty } from '@/payload-types'
@@ -15,10 +16,7 @@ export function ContentCardGrid({
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {items.map((item) => (
-        <article
-          key={item.id}
-          className="overflow-hidden rounded-sm border border-border bg-surface"
-        >
+        <article key={item.id} className="luxury-card overflow-hidden">
           {item.image && (
             <div className="relative aspect-[4/3]">
               <Image
@@ -30,10 +28,11 @@ export function ContentCardGrid({
               />
             </div>
           )}
-          <div className="p-5">
+          <div className="p-5 sm:p-6">
+            <div className="gold-rule mb-4" />
             <h2 className="font-display text-xl text-foreground">{item.title}</h2>
             {'subtitle' in item && item.subtitle && (
-              <p className="mt-1 text-sm text-gold/80">{item.subtitle}</p>
+              <p className="mt-1 text-sm text-gold/90">{item.subtitle}</p>
             )}
             {item.body && <p className="mt-3 text-sm leading-relaxed text-muted">{item.body}</p>}
           </div>
@@ -51,10 +50,7 @@ export function BlogCardGrid({ posts }: { posts: BlogPost[] }) {
   return (
     <div className="grid gap-8 md:grid-cols-2">
       {posts.map((post) => (
-        <article
-          key={post.id}
-          className="group overflow-hidden rounded-sm border border-border bg-surface"
-        >
+        <article key={post.id} className="group luxury-card overflow-hidden">
           {post.featuredImage && (
             <div className="relative aspect-[16/10] overflow-hidden">
               <Image
@@ -66,8 +62,8 @@ export function BlogCardGrid({ posts }: { posts: BlogPost[] }) {
               />
             </div>
           )}
-          <div className="p-6">
-            <h2 className="font-display text-2xl text-foreground group-hover:text-gold">
+          <div className="p-5 sm:p-6">
+            <h2 className="font-display text-xl text-foreground transition-colors group-hover:text-gold sm:text-2xl">
               <Link href={`/blog/${post.slug}`}>{post.title}</Link>
             </h2>
             {post.excerpt && (
@@ -75,9 +71,9 @@ export function BlogCardGrid({ posts }: { posts: BlogPost[] }) {
             )}
             <Link
               href={`/blog/${post.slug}`}
-              className="mt-4 inline-block text-xs uppercase tracking-widest text-gold"
+              className="mt-5 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-gold"
             >
-              Read More
+              Read More <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
         </article>

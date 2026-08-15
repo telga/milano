@@ -2,7 +2,6 @@ import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import type { Payload } from 'payload'
 
-import { isHeroSlot } from '@/lib/image-slots'
 import { SITE_IMAGE_SLOTS } from '@/collections/SiteImageSlots'
 import { SERVICE_CATEGORIES } from '@/lib/data/services'
 import { runFixImageSlots } from '@/lib/fix-image-slots'
@@ -95,17 +94,49 @@ async function uploadMediaFromFile(
   })
 }
 
+export async function backfillStaffUsernames(payload: Payload) {
+  const users = await payload.find({ collection: 'users', limit: 100 })
+  const updated: Array<{ id: number | string; username: string }> = []
+
+  for (const user of users.docs) {
+    const existing = user as { id: number | string; username?: string | null; email?: string | null }
+    if (existing.username) continue
+
+    const fromEmail =
+      typeof existing.email === 'string' && existing.email.includes('@')
+        ? existing.email.split('@')[0]
+        : null
+    const username =
+      existing.id === users.docs[0]?.id && process.env.ADMIN_USERNAME
+        ? process.env.ADMIN_USERNAME
+        : fromEmail || `staff${existing.id}`
+
+    await payload.update({
+      collection: 'users',
+      id: existing.id,
+      data: { username },
+    })
+    updated.push({ id: existing.id, username })
+  }
+
+  return { updated, total: users.docs.length }
+}
+
 export async function runSeed(payload: Payload) {
-  const users = await payload.find({ collection: 'users', limit: 1 })
+  const users = await payload.find({ collection: 'users', limit: 100 })
   if (!users.docs.length) {
+    const email = process.env.ADMIN_EMAIL || 'admin@milanonailflowermound.com'
     await payload.create({
       collection: 'users',
       data: {
-        email: process.env.ADMIN_EMAIL || 'admin@milanonailflowermound.com',
+        username: process.env.ADMIN_USERNAME || 'admin',
+        email,
         password: process.env.ADMIN_PASSWORD || 'ChangeMe123!',
         role: 'admin',
       },
     })
+  } else {
+    await backfillStaffUsernames(payload)
   }
 
   await payload.updateGlobal({
@@ -135,10 +166,7 @@ export async function runSeed(payload: Payload) {
 
   for (const slotDef of SITE_IMAGE_SLOTS) {
     const manifestEntry = manifest.find((m) => m.slot === slotDef.slotId)
-    const imageId =
-      !isHeroSlot(slotDef.slotId) && manifestEntry
-        ? mediaByUrl.get(manifestEntry.sourceUrl)
-        : undefined
+    const imageId = manifestEntry ? mediaByUrl.get(manifestEntry.sourceUrl) : undefined
 
     const existing = await payload.find({
       collection: 'site-image-slots',
@@ -151,11 +179,7 @@ export async function runSeed(payload: Payload) {
       label: slotDef.label,
       page: slotDef.page,
       sortOrder: slotDef.sortOrder,
-      ...(isHeroSlot(slotDef.slotId)
-        ? { image: null }
-        : imageId
-          ? { image: imageId }
-          : {}),
+      ...(imageId ? { image: imageId } : {}),
     }
 
     if (existing.docs[0]) {

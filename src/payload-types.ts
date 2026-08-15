@@ -22,6 +22,7 @@ export interface SiteImageSlot {
   slotId: string
   label: string
   page: string
+  usePlaceholder?: boolean | null
   image?: Media | number | null
   sortOrder?: number | null
 }

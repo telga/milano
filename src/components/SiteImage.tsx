@@ -1,7 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
 
 import { BookButton } from '@/components/BookButton'
+import { SealBadge } from '@/components/SealBadge'
 import { getMediaAlt, getMediaUrl } from '@/lib/media'
 import type { SiteImageSlot } from '@/payload-types'
 import { cn } from '@/lib/utils'
@@ -25,7 +27,7 @@ export function SlotImage({
   priority,
   sizes = '100vw',
 }: SlotImageProps) {
-  const media = slot?.image
+  const media = slot?.usePlaceholder ? null : slot?.image
   const src = getMediaUrl(media, fallbackSrc)
   const imageAlt = alt || getMediaAlt(media, slot?.label || 'Milano Nail Spa')
 
@@ -51,15 +53,17 @@ type FeatureTileProps = {
 
 export function FeatureTile({ href, title, subtitle, slot, fallbackSrc }: FeatureTileProps) {
   return (
-    <Link
-      href={href}
-      className="group relative aspect-[4/5] overflow-hidden rounded-sm border border-border"
-    >
+    <Link href={href} className="group relative aspect-[4/5] overflow-hidden border border-border">
       <SlotImage slot={slot} fallbackSrc={fallbackSrc} sizes="(max-width:768px) 50vw, 25vw" />
-      <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/40 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[var(--overlay-strong)] via-[var(--overlay)]/35 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 p-5">
-        <p className="font-display text-xl text-slate group-hover:text-gold">{title}</p>
-        {subtitle && <p className="mt-1 text-sm text-foreground/70">{subtitle}</p>}
+        <p className="font-display text-xl text-foreground transition-colors group-hover:text-gold">
+          {title}
+        </p>
+        {subtitle && <p className="mt-1 text-sm text-muted">{subtitle}</p>}
+        <span className="link-gold mt-3 opacity-0 transition-opacity group-hover:opacity-100">
+          View Details <ArrowRight className="h-3 w-3" />
+        </span>
       </div>
     </Link>
   )
@@ -87,54 +91,133 @@ export function PageHero({
   return (
     <section
       className={cn(
-        'relative flex items-end overflow-hidden',
-        isCompact ? 'min-h-[28vh] max-h-[360px]' : 'min-h-[50vh]',
+        'relative flex items-end overflow-hidden border-b border-border',
+        isCompact ? 'min-h-[15rem] max-h-[360px]' : 'min-h-[20rem] md:min-h-[52vh]',
       )}
     >
       <SlotImage slot={slot} fallbackSrc={fallbackSrc} priority sizes="100vw" />
-      <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-background/30" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[var(--overlay-strong)] via-[var(--overlay)] to-transparent" />
       <div
-        className={cn(
-          'relative mx-auto w-full max-w-7xl px-4 lg:px-8',
-          isCompact ? 'py-12 md:py-16' : 'py-20',
-        )}
+        className={cn('container-luxury relative', isCompact ? 'py-10 md:py-16' : 'py-12 md:py-20')}
       >
         <h1
           className={cn(
-            'max-w-3xl font-display text-slate',
-            isCompact ? 'text-3xl md:text-5xl' : 'text-4xl md:text-6xl',
+            'max-w-3xl font-display text-foreground',
+            isCompact ? 'text-[1.875rem] sm:text-4xl md:text-5xl' : 'text-3xl sm:text-4xl md:text-6xl',
           )}
         >
           {title}
         </h1>
-        {subtitle && <p className="mt-4 max-w-2xl text-lg text-foreground/80">{subtitle}</p>}
-        {children && <div className="mt-8">{children}</div>}
+        {subtitle && (
+          <p className="mt-3 max-w-2xl text-sm text-muted sm:mt-4 sm:text-base md:text-lg">
+            {subtitle}
+          </p>
+        )}
+        {children && <div className="mt-6 sm:mt-8">{children}</div>}
       </div>
     </section>
   )
 }
 
+/** Shared by the seal and the scrim behind it so both track the hero seam. */
+const SEAL_POSITION = 'absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2'
+const SEAL_SIZE = 'h-48 w-48 xl:h-56 xl:w-56'
+const SEAL_SIZE_MOBILE = 'h-36 w-36 sm:h-44 sm:w-44'
+
 type HomeHeroProps = {
   slot?: SiteImageSlot | null
   fallbackSrc?: string
   bookingUrl?: string
+  servicesHref?: string
 }
 
-export function HomeHero({ slot, fallbackSrc, bookingUrl }: HomeHeroProps) {
+export function HomeHero({
+  slot,
+  fallbackSrc,
+  bookingUrl,
+  servicesHref = '/services',
+}: HomeHeroProps) {
   return (
-    <section className="relative min-h-[85vh] overflow-hidden">
-      <SlotImage slot={slot} fallbackSrc={fallbackSrc} priority sizes="100vw" />
-      <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/50 to-transparent" />
-      <div className="relative mx-auto flex min-h-[85vh] max-w-7xl flex-col justify-center px-4 lg:px-8">
-        <p className="mb-4 text-xs uppercase tracking-[0.35em] text-gold">Flower Mound, Texas</p>
-        <h1 className="max-w-2xl font-display text-5xl leading-tight text-slate md:text-7xl">
-          Milano Nail Spa
-        </h1>
-        <p className="mt-4 max-w-lg text-lg text-foreground/80">
-          Where glamour meets exquisite nail care in an elegant, relaxing atmosphere.
-        </p>
-        <div className="mt-10">
-          <BookButton bookingUrl={bookingUrl} size="lg" />
+    <section className="border-b border-border">
+      <div className="relative grid lg:grid-cols-2">
+        <div className="flex items-center px-5 py-12 sm:px-8 sm:py-16 lg:py-24 lg:pr-14 lg:[padding-left:max(2rem,calc((100vw-80rem)/2+2rem))]">
+          <div className="w-full max-w-xl">
+            <p className="eyebrow">Experience the Difference</p>
+            <h1 className="mt-5 font-display text-[2.5rem] leading-[1.04] text-foreground sm:text-5xl md:text-6xl lg:text-[4.25rem]">
+              <span className="block">Luxury</span>
+              <span className="block">
+                in <em className="not-italic text-gold md:italic">Every</em>
+              </span>
+              <span className="block">Detail.</span>
+            </h1>
+            <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted sm:mt-6 md:text-base">
+              From meticulous technique to premium products, we deliver an unmatched nail
+              experience.
+            </p>
+            <div className="mt-8 flex flex-col items-start gap-5 sm:mt-10">
+              <BookButton
+                bookingUrl={bookingUrl}
+                size="lg"
+                label="Book Appointment"
+                variant="outline"
+                className="w-full sm:w-auto"
+              />
+              <Link href={servicesHref} className="link-gold text-[11px]">
+                View Services <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Photo + seam seal: desktop only */}
+        <div className="relative hidden min-h-[42rem] lg:block">
+          <div className="absolute inset-0 overflow-hidden">
+            <SlotImage
+              slot={slot}
+              fallbackSrc={fallbackSrc}
+              priority
+              sizes="(max-width:1024px) 100vw, 50vw"
+            />
+            {/* Clipped to the photo so the seal stays legible over busy shots
+                without casting a halo onto the page background. */}
+            <div
+              className={cn('pointer-events-none rounded-full', SEAL_POSITION, SEAL_SIZE)}
+              style={{
+                background:
+                  'radial-gradient(closest-side, rgba(0,0,0,0.72), rgba(0,0,0,0.55) 68%, transparent)',
+              }}
+            />
+          </div>
+
+          <div className={cn('pointer-events-none z-20', SEAL_POSITION)}>
+            <SealBadge className={SEAL_SIZE} />
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile / tablet: seal under the copy, no hero photo */}
+      <div className="flex justify-center pb-10 pt-2 sm:pb-12 lg:hidden">
+        <SealBadge className={SEAL_SIZE_MOBILE} />
+      </div>
+
+      <div className="border-t border-border">
+        <div className="container-luxury grid grid-cols-3 py-4 sm:py-5">
+          {[
+            { step: '01', label: 'Choose Service' },
+            { step: '02', label: 'Select Time' },
+            { step: '03', label: 'Relax & Enjoy' },
+          ].map((item, index) => (
+            <div
+              key={item.step}
+              className={cn(
+                'flex flex-col items-center gap-1 text-center text-[9px] uppercase tracking-[0.2em] sm:flex-row sm:gap-3 sm:text-left sm:text-[10px] sm:tracking-[0.28em]',
+                index > 0 && 'border-l border-border sm:pl-8',
+              )}
+            >
+              <span className="font-display text-base tracking-normal text-gold">{item.step}</span>
+              <span className="text-muted">{item.label}</span>
+            </div>
+          ))}
         </div>
       </div>
     </section>

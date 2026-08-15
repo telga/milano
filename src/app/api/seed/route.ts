@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 
 import { runFixImageSlots } from '@/lib/fix-image-slots'
 import { getPayloadClient } from '@/lib/payload'
-import { runSeed } from '@/lib/seed'
+import { backfillStaffUsernames, runSeed } from '@/lib/seed'
 
 export async function POST(request: Request) {
   const secret = request.headers.get('x-seed-secret')
@@ -10,10 +10,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const fixOnly = new URL(request.url).searchParams.get('fixImagesOnly') === 'true'
+  const params = new URL(request.url).searchParams
+  const fixOnly = params.get('fixImagesOnly') === 'true'
+  const usernamesOnly = params.get('backfillUsernames') === 'true'
 
   try {
     const payload = await getPayloadClient()
+
+    if (usernamesOnly) {
+      const result = await backfillStaffUsernames(payload)
+      return NextResponse.json(result)
+    }
 
     if (fixOnly) {
       const result = await runFixImageSlots(payload)

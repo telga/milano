@@ -25,16 +25,18 @@ export default async function SpecialtiesPage() {
         subtitle="Best Nail Design For You"
         slot={slots['specialties-hero']}
       />
-      <section className="mx-auto max-w-7xl px-4 py-20 lg:px-8">
-        <ContentCardGrid items={specialties} basePath="/specialties" />
-        {!specialties.length && (
-          <p className="text-center text-muted">
-            From classic elegance to bold nail art, our technicians create designs tailored to
-            your style using premium products and the latest techniques.
-          </p>
-        )}
-        <div className="mt-12 text-center">
-          <BookButton bookingUrl={settings?.bookingUrl || undefined} />
+      <section className="section-pad">
+        <div className="container-luxury">
+          <ContentCardGrid items={specialties} basePath="/specialties" />
+          {!specialties.length && (
+            <p className="text-center text-muted">
+              From classic elegance to bold nail art, our technicians create designs tailored to
+              your style using premium products and the latest techniques.
+            </p>
+          )}
+          <div className="mt-12 text-center">
+            <BookButton bookingUrl={settings?.bookingUrl || undefined} label="Book Appointment" />
+          </div>
         </div>
       </section>
     </>

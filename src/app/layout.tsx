@@ -3,6 +3,7 @@ import { Cormorant_Garamond, DM_Sans } from 'next/font/google'
 
 import { BUSINESS } from '@/lib/constants'
 import { localBusinessJsonLd } from '@/lib/seo'
+import { THEME_INIT_SCRIPT } from '@/lib/theme'
 
 import './globals.css'
 
@@ -32,8 +33,11 @@ export default function RootLayout({
   const jsonLd = localBusinessJsonLd({})
 
   return (
-    <html lang="en">
-      <body className={`${cormorant.variable} ${dmSans.variable} min-h-screen antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
+      <body className={`${cormorant.variable} ${dmSans.variable} min-h-screen bg-background text-foreground antialiased`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

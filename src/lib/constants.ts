@@ -12,14 +12,13 @@ export const BUSINESS = {
 
 export const NAV_LINKS = [
   { href: '/', label: 'Home', anchor: 'home' },
-  { href: '/about', label: 'About Us', anchor: 'about' },
-  { href: '/visit-us', label: 'Visit Us', anchor: 'visit-us' },
-  { href: '/promotions', label: 'Promotions', anchor: 'promotions' },
-  { href: '/specialties', label: 'Specialties', anchor: 'specialties' },
   { href: '/services', label: 'Services', anchor: 'services' },
   { href: '/gallery', label: 'Gallery', anchor: 'gallery' },
-  { href: '/blog', label: 'Blog', anchor: 'blog' },
+  { href: '/about', label: 'About Us', anchor: 'about' },
   { href: '/contact', label: 'Contact', anchor: 'contact' },
+  { href: '/promotions', label: 'Promotions', anchor: 'promotions' },
+  { href: '/specialties', label: 'Specialties', anchor: 'specialties' },
+  { href: '/blog', label: 'Blog', anchor: 'blog' },
 ] as const
 
 export const CLASSIC_LAYOUT = process.env.NEXT_PUBLIC_CLASSIC_LAYOUT === 'true'

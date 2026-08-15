@@ -1,15 +1,37 @@
 @import "tailwindcss";
 
 :root {
-  --background: #faf8f4;
-  --foreground: #2c3340;
+  --background: #faf8f5;
+  --foreground: #2f2a24;
   --surface: #ffffff;
-  --muted: color-mix(in srgb, var(--foreground) 70%, transparent);
-  --border: color-mix(in srgb, var(--foreground) 12%, transparent);
-  --gold: #c9a962;
-  --gold-light: #dfc88a;
-  --slate: #2c3340;
-  --cream: #f5f0e8;
+  --muted: color-mix(in srgb, var(--foreground) 62%, transparent);
+  --border: color-mix(in srgb, var(--gold) 30%, transparent);
+  --gold: #b5843a;
+  --gold-light: #c9a45c;
+  --gold-dark: #8f6526;
+  --slate: #2f2a24;
+  --cream: #f3ece1;
+  --overlay: color-mix(in srgb, #faf8f5 80%, transparent);
+  --overlay-strong: color-mix(in srgb, #faf8f5 92%, transparent);
+  --header-bg: color-mix(in srgb, var(--background) 92%, transparent);
+  --shadow-soft: 0 18px 50px color-mix(in srgb, var(--foreground) 7%, transparent);
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #f1ece2;
+  --surface: #121212;
+  --muted: color-mix(in srgb, var(--foreground) 60%, transparent);
+  --border: color-mix(in srgb, var(--gold) 32%, transparent);
+  --gold: #c9a45c;
+  --gold-light: #dcbd7f;
+  --gold-dark: #a8843d;
+  --slate: #f1ece2;
+  --cream: #141210;
+  --overlay: color-mix(in srgb, #0a0a0a 78%, transparent);
+  --overlay-strong: color-mix(in srgb, #0a0a0a 92%, transparent);
+  --header-bg: color-mix(in srgb, var(--background) 90%, transparent);
+  --shadow-soft: 0 18px 50px color-mix(in srgb, #000 50%, transparent);
 }
 
 @theme inline {
@@ -21,6 +43,7 @@
   --color-slate: var(--slate);
   --color-gold: var(--gold);
   --color-gold-light: var(--gold-light);
+  --color-gold-dark: var(--gold-dark);
   --color-cream: var(--cream);
   --font-sans: var(--font-dm-sans);
   --font-display: var(--font-cormorant);
@@ -42,6 +65,25 @@ body {
 
 ::selection {
   background: color-mix(in srgb, var(--gold) 35%, transparent);
+}
+
+*:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--gold) 70%, transparent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 @keyframes accordion-down {
@@ -68,4 +110,46 @@ body {
 
 .animate-accordion-up {
   animation: accordion-up 0.2s ease-out;
+}
+
+.section-pad {
+  @apply py-12 md:py-20;
+}
+
+.container-luxury {
+  @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8;
+}
+
+.eyebrow {
+  @apply text-[9px] uppercase tracking-[0.26em] text-gold sm:text-[10px] sm:tracking-[0.32em];
+}
+
+.luxury-card {
+  @apply border border-border bg-surface;
+}
+
+.gold-rule {
+  @apply h-px w-12 bg-gold;
+}
+
+/* Per-cell borders (rather than gap-px over a filled parent) so a partial
+   last row never leaves a visible block of border colour. */
+.hairline-grid {
+  @apply grid;
+}
+
+.hairline-cell {
+  @apply -mb-px -mr-px border border-border;
+}
+
+.field-label {
+  @apply mb-2 block text-[10px] uppercase tracking-[0.22em] text-muted;
+}
+
+.field {
+  @apply w-full border border-border bg-transparent px-3 py-2.5 text-sm text-foreground transition-colors focus:border-gold focus:outline-none;
+}
+
+.link-gold {
+  @apply inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-gold transition-colors hover:text-gold-light;
 }

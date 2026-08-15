@@ -1,17 +1,26 @@
 import Link from 'next/link'
+import { ArrowRight, Check, Clock, Mail, MapPin, Phone, Sparkles, Star } from 'lucide-react'
 
 import { AnnouncementPopup } from '@/components/AnnouncementPopup'
+import { AboutConnect } from '@/components/AboutConnect'
 import { BookButton } from '@/components/BookButton'
 import { BlogCardGrid, ContentCardGrid } from '@/components/ContentCards'
+import { ContactForm } from '@/components/ContactForm'
 import { GalleryGrid } from '@/components/GalleryGrid'
 import { ServiceAccordion } from '@/components/ServiceAccordion'
-import { FeatureTile, HomeHero, PageHero, SlotImage } from '@/components/SiteImage'
+import { ServiceIconGrid } from '@/components/ServiceIconGrid'
+import { HomeHero, PageHero, SlotImage } from '@/components/SiteImage'
+import { SectionHeading } from '@/components/SectionHeading'
+import { SocialLinks } from '@/components/SocialLinks'
+import { StatsRow } from '@/components/StatsRow'
 import { BUSINESS } from '@/lib/constants'
+import { SALON_EXPERIENCE } from '@/lib/salonExperience'
 import {
   getActiveHomePopup,
   getBlogPosts,
   getGalleryItems,
   getPromotions,
+  getServiceCategories,
   getServicesByCategory,
   getSiteSettings,
   getSlotsMapSafe,
@@ -19,22 +28,21 @@ import {
 } from '@/lib/data'
 import { getMediaUrl } from '@/lib/media'
 
-const EXPERIENCE_POINTS = [
+const ABOUT_HIGHLIGHTS = [
   {
-    title: 'Spacious Sanctuary',
-    body: 'Over 5,000 square feet designed for comfort, privacy, and unhurried pampering.',
+    title: 'Luxury Environment',
+    body: 'A calm, elevated space designed for unhurried pampering.',
+    icon: Sparkles,
   },
   {
-    title: 'Pedicure Excellence',
-    body: '40 high-end pedicure chairs across four rooms with massage features and complimentary beverages.',
+    title: 'Highly Skilled Technicians',
+    body: 'Artistry and precision from highly trained nail specialists.',
+    icon: Star,
   },
   {
-    title: 'Artistry in Manicures',
-    body: '26 manicure stations showcasing seasonal collections and the latest nail trends.',
-  },
-  {
-    title: 'Elevated Ambiance',
-    body: 'Lofty ceilings, European-inspired décor, and a curated entertainment experience.',
+    title: 'Premium Products',
+    body: 'Curated polishes and treatments for lasting, beautiful results.',
+    icon: Check,
   },
 ]
 
@@ -47,6 +55,7 @@ export async function ClassicHome() {
     promotions,
     specialties,
     serviceGroups,
+    categories,
     popup,
   ] = await Promise.all([
     getSlotsMapSafe(),
@@ -56,6 +65,7 @@ export async function ClassicHome() {
     getPromotions().catch(() => []),
     getSpecialties().catch(() => []),
     getServicesByCategory().catch(() => []),
+    getServiceCategories().catch(() => []),
     getActiveHomePopup(),
   ])
 
@@ -83,78 +93,90 @@ export async function ClassicHome() {
       />
 
       <div id="home">
-        <HomeHero slot={slots['home-hero']} bookingUrl={settings?.bookingUrl || undefined} />
+        <HomeHero
+          slot={slots['home-hero']}
+          bookingUrl={settings?.bookingUrl || undefined}
+          servicesHref="/#services"
+        />
       </div>
 
-      <section className="mx-auto max-w-7xl px-4 py-20 lg:px-8">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <FeatureTile href="/#promotions" title="Promotions" slot={slots['home-tile-promotions']} />
-          <FeatureTile
-            href="/#specialties"
-            title="Specialties"
-            subtitle="Best Nail Design For You"
-            slot={slots['home-tile-specialties']}
+      <section className="section-pad">
+        <div className="container-luxury">
+          <SectionHeading
+            title="Excellence in Every"
+            accent="Service."
+            aside={
+              <p className="max-w-xl text-sm leading-relaxed text-muted">
+                Explore promotions, specialties, services, and gallery highlights.
+              </p>
+            }
+            className="mb-10"
           />
-          <FeatureTile
-            href="/#services"
-            title="Services"
-            subtitle="We Have Many Services"
-            slot={slots['home-tile-services']}
-          />
-          <FeatureTile
-            href="/#gallery"
-            title="Gallery"
-            subtitle="Top Best Ever Finished"
-            slot={slots['home-tile-gallery']}
-          />
+          <ServiceIconGrid categories={categories} basePath="/#services" />
         </div>
       </section>
 
-      <section id="about" className="scroll-mt-20 bg-surface py-20">
-        <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 lg:grid-cols-2 lg:px-8">
+      <section id="about" className="scroll-mt-24 border-y border-border bg-surface section-pad">
+        <div className="container-luxury grid items-center gap-12 lg:grid-cols-2">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-gold">About Us</p>
-            <h2 className="mt-4 font-display text-4xl text-foreground">About Milano Nail Spa</h2>
-            <p className="mt-6 leading-relaxed text-foreground/75">
+            <SectionHeading title="Where Passion Meets" accent="Perfection." />
+            <p className="mt-6 leading-relaxed text-muted">
               {aboutText ||
                 'Our nail salon is dedicated to bringing top-of-the-line products mixed with expert techniques to the nail salon industry.'}
             </p>
-            <div className="mt-8">
-              <BookButton bookingUrl={settings?.bookingUrl || undefined} />
+            <ul className="mt-8 space-y-5">
+              {ABOUT_HIGHLIGHTS.map(({ title, body, icon: Icon }) => (
+                <li key={title} className="flex gap-3">
+                  <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center border border-gold/40 text-gold">
+                    <Icon className="h-4 w-4" aria-hidden />
+                  </span>
+                  <div>
+                    <p className="text-sm tracking-wide text-foreground">{title}</p>
+                    <p className="mt-1 text-sm text-muted">{body}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-9">
+              <BookButton
+                bookingUrl={settings?.bookingUrl || undefined}
+                label="Book Appointment"
+                variant="outline"
+              />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            {(['about-grid-1', 'about-grid-2', 'about-grid-3', 'about-grid-4'] as const).map(
-              (id) => (
-                <div key={id} className="relative aspect-square overflow-hidden rounded-sm">
-                  <SlotImage slot={slots[id]} sizes="(max-width:768px) 50vw, 25vw" />
-                </div>
-              ),
-            )}
+          <div className="relative aspect-[4/5] w-full overflow-hidden border border-border sm:aspect-[16/11] lg:aspect-auto lg:min-h-[34rem]">
+            <SlotImage slot={slots['about-grid-1']} sizes="(max-width:1024px) 100vw, 45vw" />
+          </div>
+        </div>
+        <div className="container-luxury mt-14 border-t border-border pt-10">
+          <StatsRow />
+          <AboutConnect links={settings?.socialLinks} className="mt-10" />
+        </div>
+        <div className="container-luxury mt-14">
+          <SectionHeading title="The Salon" accent="Experience." className="mb-8" />
+          <div className="grid items-start gap-10 lg:grid-cols-2">
+            <div className="relative aspect-[4/5] w-full overflow-hidden border border-border sm:aspect-[16/11] lg:aspect-auto lg:min-h-[24rem]">
+              <SlotImage
+                slot={slots['visit-us-hero'] || slots['about-grid-2']}
+                sizes="(max-width:1024px) 100vw, 45vw"
+              />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {SALON_EXPERIENCE.map((point) => (
+                <article key={point.title} className="luxury-card p-5 sm:p-6">
+                  <div className="gold-rule mb-3" />
+                  <h3 className="font-display text-lg text-gold sm:text-xl">{point.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted">{point.body}</p>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="visit-us" className="scroll-mt-20 py-20">
-        <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <PageHero
-            title="Visit Milano Nail Spa"
-            subtitle={settings?.tagline || 'Where glamour meets exquisite nail care'}
-            slot={slots['visit-us-hero']}
-          />
-          <div className="mt-12 grid gap-10 md:grid-cols-2">
-            {EXPERIENCE_POINTS.map((point) => (
-              <article key={point.title} className="border border-border bg-surface p-8">
-                <h3 className="font-display text-2xl text-gold">{point.title}</h3>
-                <p className="mt-4 leading-relaxed text-foreground/75">{point.body}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="promotions" className="scroll-mt-20 bg-surface py-20">
-        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+      <section id="promotions" className="scroll-mt-24 border-y border-border bg-surface section-pad">
+        <div className="container-luxury">
           <PageHero
             title="Promotions"
             subtitle="Exceptional value with monthly promotions and seasonal discounts"
@@ -163,7 +185,7 @@ export async function ClassicHome() {
           <div className="mt-12">
             <ContentCardGrid items={promotions} basePath="/promotions" />
             {!promotions.length && (
-              <p className="text-center text-foreground/70">
+              <p className="text-center text-muted">
                 We consistently offer monthly promotions and weekly discounts for medical
                 professionals, students, educators, military personnel, seniors, and birthday
                 celebrations.
@@ -173,8 +195,8 @@ export async function ClassicHome() {
         </div>
       </section>
 
-      <section id="specialties" className="scroll-mt-20 py-20">
-        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+      <section id="specialties" className="scroll-mt-24 section-pad">
+        <div className="container-luxury">
           <PageHero
             title="Specialties"
             subtitle="Best Nail Design For You"
@@ -186,34 +208,30 @@ export async function ClassicHome() {
         </div>
       </section>
 
-      <section id="services" className="scroll-mt-20 bg-surface py-20">
-        <div className="mx-auto max-w-4xl px-4 lg:px-8">
-          <PageHero
-            title="Services"
-            subtitle="We Have Many Services"
-            slot={slots['services-hero']}
-          />
-          <div className="mt-12">
+      <section id="services" className="scroll-mt-24 border-y border-border bg-surface section-pad">
+        <div className="container-luxury">
+          <SectionHeading title="Excellence in Every" accent="Service." className="mb-10" />
+          <ServiceIconGrid categories={categories} basePath="/#services" />
+          <div className="mx-auto mt-14 max-w-4xl">
             <ServiceAccordion groups={serviceGroups} />
           </div>
         </div>
       </section>
 
-      <section id="gallery" className="scroll-mt-20 py-20">
-        <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <PageHero
-            title="Gallery"
-            subtitle="Top Best Ever Finished"
-            slot={slots['gallery-hero']}
+      <section id="gallery" className="scroll-mt-24 section-pad">
+        <div className="container-luxury">
+          <SectionHeading
+            title="Artistry. Luxury."
+            accent="You."
+            align="center"
+            className="mb-10"
           />
-          <div className="mt-12">
-            <GalleryGrid items={galleryItems} />
-          </div>
+          <GalleryGrid items={galleryItems} showFilters />
         </div>
       </section>
 
-      <section id="blog" className="scroll-mt-20 bg-surface py-20">
-        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+      <section id="blog" className="scroll-mt-24 border-y border-border bg-surface section-pad">
+        <div className="container-luxury">
           <PageHero title="Blog" subtitle="Stories from Milano Nail Spa" slot={slots['blog-hero']} />
           <div className="mt-12">
             <BlogCardGrid posts={blogPosts} />
@@ -221,68 +239,62 @@ export async function ClassicHome() {
         </div>
       </section>
 
-      <section id="contact" className="scroll-mt-20 py-20">
-        <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <PageHero title="Contact" subtitle="For any inquiries" slot={slots['contact-hero']} />
-          <div className="mt-16 grid gap-12 lg:grid-cols-2">
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-xs uppercase tracking-widest text-gold">Store Location</h3>
-                <p className="mt-2 text-foreground/80">{address}</p>
-                <a
-                  href={BUSINESS.mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 inline-block text-sm text-gold hover:underline"
-                >
-                  Get Directions
-                </a>
-              </div>
-              <div>
-                <h3 className="text-xs uppercase tracking-widest text-gold">Phone</h3>
-                <a
-                  href={`tel:${phone.replace(/\D/g, '')}`}
-                  className="mt-2 block text-foreground/80 hover:text-gold"
-                >
+      <section id="contact" className="scroll-mt-24 section-pad">
+        <div className="container-luxury grid gap-12 lg:grid-cols-2">
+          <div>
+            <SectionHeading title="We'd Love to Hear" accent="From You." />
+            <ul className="mt-8 space-y-5 text-sm text-muted">
+              <li className="flex gap-3">
+                <Phone className="mt-0.5 h-4 w-4 text-gold" aria-hidden />
+                <a href={`tel:${phone.replace(/\D/g, '')}`} className="hover:text-gold">
                   {phone}
                 </a>
-              </div>
-              <div>
-                <h3 className="text-xs uppercase tracking-widest text-gold">Email</h3>
-                <a href={`mailto:${email}`} className="mt-2 block text-foreground/80 hover:text-gold">
+              </li>
+              <li className="flex gap-3">
+                <Mail className="mt-0.5 h-4 w-4 text-gold" aria-hidden />
+                <a href={`mailto:${email}`} className="hover:text-gold">
                   {email}
                 </a>
+              </li>
+              <li className="flex gap-3">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold" aria-hidden />
+                <div>
+                  <p>{address}</p>
+                  <a
+                    href={BUSINESS.mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 inline-flex items-center gap-2 text-gold hover:underline"
+                  >
+                    Get Directions <ArrowRight className="h-3.5 w-3.5" />
+                  </a>
+                </div>
+              </li>
+            </ul>
+            <SocialLinks links={settings?.socialLinks} className="mt-8" />
+            <div className="mt-10">
+              <div className="mb-4 flex items-center gap-3">
+                <Clock className="h-4 w-4 text-gold" aria-hidden />
+                <h3 className="text-[11px] uppercase tracking-[0.28em] text-gold">Business Hours</h3>
               </div>
-              <div>
-                <h3 className="text-xs uppercase tracking-widest text-gold">Business Hours</h3>
-                <ul className="mt-2 space-y-1 text-foreground/80">
-                  {hours.map((row) => (
-                    <li key={row.label} className="flex max-w-xs justify-between gap-8">
-                      <span>{row.label}</span>
-                      <span>{row.value}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <BookButton bookingUrl={settings?.bookingUrl || undefined} label="Book Appointment" />
-            </div>
-            <div className="overflow-hidden rounded-sm border border-border">
-              <iframe
-                title="Milano Nail Spa location map"
-                src="https://maps.google.com/maps?q=5801+Long+Prairie+Road+Suite+680+Flower+Mound+TX+75028&output=embed"
-                className="h-[450px] w-full border-0 grayscale contrast-125"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+              <ul className="space-y-2 text-sm text-muted">
+                {hours.map((row) => (
+                  <li key={row.label} className="flex max-w-xs justify-between gap-8">
+                    <span>{row.label}</span>
+                    <span>{row.value}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
+          <ContactForm email={email} services={categories.map((c) => c.name)} />
         </div>
       </section>
 
-      <div className="pb-8 text-center">
+      <div className="pb-10 text-center">
         <Link
           href="/blog/distinctive-features-of-milano-nail-spa-in-flower-mound"
-          className="text-xs uppercase tracking-widest text-gold/70 hover:text-gold"
+          className="text-[11px] uppercase tracking-[0.22em] text-gold/70 hover:text-gold"
         >
           Read our featured story
         </Link>

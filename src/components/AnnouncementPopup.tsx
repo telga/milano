@@ -19,6 +19,19 @@ function storageKey(announcement: PopupAnnouncement) {
 export function AnnouncementPopup({ announcement, siteLogoUrl, phone }: Props) {
   const [visible, setVisible] = useState(false)
 
+  const dismiss = () => {
+    if (!announcement) {
+      setVisible(false)
+      return
+    }
+    try {
+      localStorage.setItem(storageKey(announcement), '1')
+    } catch {
+      // ignore
+    }
+    setVisible(false)
+  }
+
   useEffect(() => {
     if (!announcement) return
     try {
@@ -29,40 +42,36 @@ export function AnnouncementPopup({ announcement, siteLogoUrl, phone }: Props) {
     }
   }, [announcement])
 
+  useEffect(() => {
+    if (!visible) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') dismiss()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  })
+
   if (!announcement || !visible) return null
 
-  const dismiss = () => {
-    try {
-      localStorage.setItem(storageKey(announcement), '1')
-    } catch {
-      // ignore
-    }
-    setVisible(false)
-  }
-
-  const logoSrc = announcement.logo
-    ? getMediaUrl(announcement.logo)
-    : siteLogoUrl
+  const logoSrc = announcement.logo ? getMediaUrl(announcement.logo) : siteLogoUrl
 
   const paragraphs = announcement.body.split(/\n\n+/).filter(Boolean)
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex items-center justify-center bg-slate/40 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-labelledby="popup-announcement-title"
       onClick={dismiss}
-      onKeyDown={(e) => e.key === 'Escape' && dismiss()}
     >
       <article
-        className="relative max-h-[90vh] w-full max-w-2xl cursor-pointer overflow-y-auto border border-gold/60 bg-surface shadow-2xl shadow-slate/20"
+        className="relative max-h-[90vh] w-full max-w-2xl cursor-pointer overflow-y-auto border border-gold/50 bg-surface shadow-[var(--shadow-soft)]"
         onClick={dismiss}
-        onKeyDown={(e) => e.stopPropagation()}
       >
-        <span className="pointer-events-none absolute left-3 top-3 h-8 w-8 border-l-2 border-t-2 border-gold/70" />
-        <span className="pointer-events-none absolute right-3 top-3 h-8 w-8 border-r-2 border-t-2 border-gold/70" />
-        <span className="pointer-events-none absolute bottom-3 left-3 h-8 w-8 border-b-2 border-l-2 border-gold/70" />
+        <span className="pointer-events-none absolute left-3 top-3 h-8 w-8 border-l border-t border-gold/70" />
+        <span className="pointer-events-none absolute right-3 top-3 h-8 w-8 border-r border-t border-gold/70" />
+        <span className="pointer-events-none absolute bottom-3 left-3 h-8 w-8 border-b border-l border-gold/70" />
 
         <div
           className="pointer-events-none absolute bottom-0 right-0 h-16 w-16 bg-gradient-to-tl from-gold via-gold-light to-gold/80 opacity-90"
@@ -75,16 +84,16 @@ export function AnnouncementPopup({ announcement, siteLogoUrl, phone }: Props) {
             <div className="absolute right-6 top-6 flex flex-col items-center gap-1 sm:right-10 sm:top-8">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={logoSrc} alt="" className="h-14 w-14 object-contain sm:h-16 sm:w-16" />
-              {phone && (
-                <p className="text-[10px] tracking-wider text-gold/90">{phone}</p>
-              )}
+              {phone && <p className="text-[10px] tracking-wider text-gold/90">{phone}</p>}
               {announcement.instagramHandle && (
                 <p className="text-[10px] text-muted">{announcement.instagramHandle}</p>
               )}
             </div>
           )}
 
-          <p className="text-center text-xs tracking-[0.35em] text-gold/80">Click anywhere to close</p>
+          <p className="text-center text-[10px] tracking-[0.35em] text-gold/80">
+            Click anywhere to close
+          </p>
 
           <h2
             id="popup-announcement-title"

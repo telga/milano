@@ -3,60 +3,82 @@
 ## Login
 
 1. Go to **your-site.com/admin**
-2. Sign in with your admin email and password
-3. Change your password after first login (Users collection)
+2. Sign in with your admin **username** and password (email is optional on staff accounts)
+3. Change your password after first login
+
+The dashboard is task-oriented for salon staff. Editors see content workflows only; Admins also see Staff Logins and Advanced Site Settings.
+
+## Roles
+
+- **editor** (`role` on Users, `saveToJWT: true`) — content, photos, hours; cannot manage Users or Advanced settings
+- **admin** — full access including Users, creating/deleting fixed image slots, booking URL, SEO
 
 ## Change Photos on the Website
 
-### Fixed photo slots (homepage, about page, etc.)
+### Fixed photo spots
 
-1. Open **Site Photos → Site Image Slots**
+1. Open **Photos → Website Photo Spots**
 2. Each row is labeled by page and position (e.g. "Home — Hero")
-3. Click a row → upload a new image in the **Image** field → **Save**
-4. Changes appear on the live site within ~1 minute
+3. Click a row → choose a **Photo**, or enable **Use grey crosshatch placeholder** → **Save**
+4. The placeholder flag keeps the selected image stored and makes `SlotImage` use `/images/placeholder.svg`
+5. Changes appear on the live site within ~1 minute
+
+Editors can update images; only Admins create/delete slot documents.
 
 ### Gallery page photos
 
-1. Open **Site Photos → Gallery Items**
-2. To add: **Create New** → upload image, optional caption, set **Sort Order** (lower = first)
+1. Open **Photos → Gallery Photos**
+2. To add: **Create New** → upload image, optional caption, set **Order on page** (lower = first)
 3. To remove: open item → **Delete**
-4. To reorder: edit **Sort Order** numbers
+4. To reorder: edit **Order on page** numbers
 
 ## Blog Posts
 
-1. Open **Content → Blog Posts**
+1. Open **Marketing → Blog Posts**
 2. **Create New** or edit existing post
-3. Set **Status** to **Published** and **Published At** date
-4. Fill title, slug (URL-friendly), excerpt, featured image, and content
+3. Set **Status** to **Published**; **Publish date** auto-fills on first publish if empty
+4. Slug auto-generates from title
 5. **Save** — post appears at `/blog/your-slug`
 
 ## Services Menu
 
-1. Open **Services Menu → Service Categories** to add/rename/reorder categories
-2. Open **Services Menu → Services** to add/edit individual services
-3. **Show Price** is off by default — prices are hidden on the public site until you enable it per service
-4. Use **Sort Order** to control display order within a category
+1. Open **Services → Service Categories** to add/rename/reorder categories (slug auto-fills)
+2. Open **Services → Services** to add/edit individual services
+3. **Show price to customers** is off by default
+4. Use **Order on page** and **Show on website**
+5. The list is sorted by category and searchable by name/description
 
-## Promotions & Specialties
+## Promotions & Specialty Designs
 
-- **Content → Promotions** — promo cards with image and text
-- **Content → Specialties** — nail design showcase items
+- **Marketing → Promotions**
+- **Marketing → Specialty Designs**
 
-## Homepage Popup Announcements
+## Homepage Announcements
 
-1. Open **Content → Popup Announcements**
-2. **Create New** or edit an existing announcement
-3. Fill in **Headline**, **Body** (blank line between paragraphs), optional **Highlight Line**, and **Signature**
-4. Enable **Published** and **Active** to show it on the homepage
-5. Optional **Start Date** / **End Date** to schedule when it appears
-6. **Sort Order** — if multiple are active, the highest number is shown first
-7. Visitors dismiss the popup by **clicking anywhere** on it or the dark backdrop; it stays dismissed until you edit and save the announcement (which resets it for returning visitors)
+1. Open **Marketing → Homepage Announcements**
+2. Fill the *What it says* + *When it shows* tabs
+3. Tick **Showing on website** — a `beforeChange` hook mirrors it to the stored `published` field, so staff only manage one switch
+4. Optional start/end dates
 
-To turn off a popup without deleting it, uncheck **Active** or **Published**.
+## Hours & Contact
 
-## Site Settings
+**Website Basics → Hours & Contact** — Contact / Hours / Website text / Advanced (Admin)
 
-**Globals → Site Settings** — phone, email, address, hours, booking link, logo, SEO text
+## Admin UI customisations
+
+All registered in `payload.config.ts` (and mirrored in `src/app/(payload)/admin/importMap.js`):
+
+| Piece | File | Purpose |
+|-------|------|---------|
+| Dashboard | `src/components/admin/AdminDashboard.tsx` | Task-based home screen (`admin.components.views.dashboard`) |
+| Sidebar shortcuts | `src/components/admin/AdminQuickLinks.tsx` | Pinned links via `admin.components.beforeNavLinks` |
+| Branding | `src/components/admin/AdminBrand.tsx` | Logo and icon |
+| List cells | `src/components/admin/cells/ListCells.tsx` | Renders `On website` / `Hidden`, `Yes` / `No`, `$45`, `45 min` instead of raw values |
+| Category cell | `src/components/admin/cells/CategoryCell.tsx` | Server-rendered category name (Payload's client-side relationship lookup only fills the first rows on large pages) |
+| Photo cell | `src/components/admin/cells/PhotoCell.tsx` | Server-rendered list thumbnails, same reason |
+| Row labels | `src/components/admin/cells/RowLabels.tsx` | Readable titles for hours and service-bullet array rows |
+| Shared list defaults | `src/payload/adminFields.ts` (`friendlyList`) | `hideAPIURL` plus 50-per-page pagination for every collection |
+| Styling | `src/app/(payload)/custom.scss` | Dashboard, shortcuts, pills, thumbnails, roomier rows |
 
 ## Need Help?
 

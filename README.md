@@ -29,7 +29,7 @@ curl http://localhost:3000/api/bootstrap
 curl -X POST http://localhost:3000/api/seed -H "x-seed-secret: dev-seed-secret"
 ```
 
-**Admin:** `/admin` — default login `admin@milanonailflowermound.com` / `ChangeMe123!` (change immediately)
+**Admin:** `/admin` — default login `admin` / `ChangeMe123!` (change immediately; email is optional on staff accounts)
 
 **Classic single-page layout** (optional preview of original scroll-style site):
 

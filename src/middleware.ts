@@ -5,13 +5,18 @@ const CLASSIC_LAYOUT = process.env.NEXT_PUBLIC_CLASSIC_LAYOUT === 'true'
 
 const CLASSIC_REDIRECTS: Record<string, string> = {
   '/about': '/#about',
-  '/visit-us': '/#visit-us',
+  '/visit-us': '/#about',
   '/promotions': '/#promotions',
   '/specialties': '/#specialties',
   '/services': '/#services',
   '/gallery': '/#gallery',
   '/blog': '/#blog',
   '/contact': '/#contact',
+}
+
+/** Always redirect the retired Visit Us page to About. */
+const ALWAYS_REDIRECTS: Record<string, string> = {
+  '/visit-us': '/about',
 }
 
 function applySecurityHeaders(response: NextResponse) {
@@ -44,14 +49,23 @@ function applySecurityHeaders(response: NextResponse) {
 }
 
 export function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname
+
   if (CLASSIC_LAYOUT) {
-    const pathname = request.nextUrl.pathname
     const redirectTarget = CLASSIC_REDIRECTS[pathname]
 
     if (redirectTarget && !pathname.startsWith('/blog/')) {
       const url = request.nextUrl.clone()
       url.pathname = '/'
       url.hash = redirectTarget.slice(2)
+      return applySecurityHeaders(NextResponse.redirect(url))
+    }
+  } else {
+    const alwaysTarget = ALWAYS_REDIRECTS[pathname]
+    if (alwaysTarget) {
+      const url = request.nextUrl.clone()
+      url.pathname = alwaysTarget
+      url.hash = ''
       return applySecurityHeaders(NextResponse.redirect(url))
     }
   }

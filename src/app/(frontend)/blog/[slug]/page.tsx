@@ -32,7 +32,7 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <article>
       {post.featuredImage && (
-        <div className="relative h-[45vh] w-full">
+        <div className="relative h-[15rem] w-full border-b border-border sm:h-[42vh]">
           <Image
             src={getMediaUrl(post.featuredImage)}
             alt={getMediaAlt(post.featuredImage, post.title)}
@@ -40,18 +40,20 @@ export default async function BlogPostPage({ params }: Props) {
             priority
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/30 to-background/80" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[var(--overlay)]/30 to-[var(--overlay-strong)]" />
         </div>
       )}
-      <div className="mx-auto max-w-3xl px-4 py-16 lg:px-8">
-        <p className="text-xs uppercase tracking-[0.3em] text-gold">Blog</p>
-        <h1 className="mt-4 font-display text-4xl text-foreground md:text-5xl">{post.title}</h1>
-        {post.excerpt && <p className="mt-6 text-lg text-muted">{post.excerpt}</p>}
+      <div className="container-luxury max-w-3xl py-12 md:py-16">
+        <p className="eyebrow">Blog</p>
+        <h1 className="mt-3 font-display text-[1.875rem] text-foreground sm:mt-4 sm:text-4xl md:text-5xl">
+          {post.title}
+        </h1>
+        {post.excerpt && <p className="mt-5 text-muted sm:mt-6 sm:text-lg">{post.excerpt}</p>}
         <div className="mt-10">
           <RichTextRenderer content={post.content} />
         </div>
         <div className="mt-12">
-          <BookButton bookingUrl={settings?.bookingUrl || undefined} />
+          <BookButton bookingUrl={settings?.bookingUrl || undefined} label="Book Appointment" />
         </div>
       </div>
     </article>

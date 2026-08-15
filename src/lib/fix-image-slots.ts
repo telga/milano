@@ -1,7 +1,8 @@
 import type { Payload } from 'payload'
 
-import { isHeroSlot } from '@/lib/image-slots'
 import { SITE_IMAGE_SLOTS, SLOT_ASSIGNMENT_ORDER } from '@/collections/SiteImageSlots'
+
+const MIN_PHOTO_EDGE = 400
 
 /**
  * Reassigns distinct gallery/media images to each site image slot in order.
@@ -15,8 +16,20 @@ export async function runFixImageSlots(payload: Payload) {
     depth: 0,
   })
 
-  const mediaIds = mediaResult.docs.map((doc) => Number(doc.id))
-  if (!mediaIds.length) {
+  const docs = mediaResult.docs as Array<{
+    id: number | string
+    width?: number | null
+    height?: number | null
+  }>
+
+  /** Small assets are brand marks, not photography — never use them as page imagery */
+  const isMarkSized = (doc: (typeof docs)[number]) =>
+    (doc.width ?? 0) < MIN_PHOTO_EDGE || (doc.height ?? 0) < MIN_PHOTO_EDGE
+
+  const photoIds = docs.filter((doc) => !isMarkSized(doc)).map((doc) => Number(doc.id))
+  const markId = docs.find(isMarkSized)?.id
+
+  if (!photoIds.length) {
     return { success: true, message: 'No media found — run seed first', slotsUpdated: 0 }
   }
 
@@ -46,10 +59,10 @@ export async function runFixImageSlots(payload: Payload) {
       sortOrder: slotDef.sortOrder,
     }
 
-    if (isHeroSlot(slotId)) {
-      data.image = null
-    } else if (mediaIndex < mediaIds.length) {
-      data.image = mediaIds[mediaIndex]
+    if (slotId === 'logo') {
+      data.image = markId !== undefined ? Number(markId) : null
+    } else if (mediaIndex < photoIds.length) {
+      data.image = photoIds[mediaIndex]
       mediaIndex++
     }
 

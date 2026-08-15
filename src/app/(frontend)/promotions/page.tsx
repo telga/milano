@@ -25,17 +25,19 @@ export default async function PromotionsPage() {
         subtitle="Exceptional value with monthly promotions and seasonal discounts"
         slot={slots['promotions-hero']}
       />
-      <section className="mx-auto max-w-7xl px-4 py-20 lg:px-8">
-        <ContentCardGrid items={promotions} basePath="/promotions" />
-        {!promotions.length && (
-          <p className="text-center text-muted">
-            We consistently offer monthly promotions and weekly discounts for medical
-            professionals, students, educators, military personnel, seniors, and birthday
-            celebrations. Call or book online for current offers.
-          </p>
-        )}
-        <div className="mt-12 text-center">
-          <BookButton bookingUrl={settings?.bookingUrl || undefined} />
+      <section className="section-pad">
+        <div className="container-luxury">
+          <ContentCardGrid items={promotions} basePath="/promotions" />
+          {!promotions.length && (
+            <p className="text-center text-muted">
+              We consistently offer monthly promotions and weekly discounts for medical
+              professionals, students, educators, military personnel, seniors, and birthday
+              celebrations. Call or book online for current offers.
+            </p>
+          )}
+          <div className="mt-12 text-center">
+            <BookButton bookingUrl={settings?.bookingUrl || undefined} label="Book Appointment" />
+          </div>
         </div>
       </section>
     </>

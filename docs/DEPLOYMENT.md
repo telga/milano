@@ -25,7 +25,8 @@
 | `DATABASE_URI` | Neon connection string |
 | `NEXT_PUBLIC_SERVER_URL` | `https://milanonailspaflowermound.com` |
 | `REVALIDATION_SECRET` | Random secret |
-| `ADMIN_EMAIL` | Initial admin email (remove after seed) |
+| `ADMIN_USERNAME` | Initial admin username (remove after seed) |
+| `ADMIN_EMAIL` | Optional initial admin email (remove after seed) |
 | `ADMIN_PASSWORD` | Initial admin password (remove after seed) |
 | `CLOUDINARY_*` | If using Cloudinary |
 
@@ -41,7 +42,7 @@ npm run migrate:images   # optional Cloudinary
 DATABASE_URI="..." npm run seed
 ```
 
-Remove `ADMIN_EMAIL` / `ADMIN_PASSWORD` from Vercel after seeding.
+Remove `ADMIN_USERNAME` / `ADMIN_EMAIL` / `ADMIN_PASSWORD` from Vercel after seeding.
 
 ## 4. Cloudflare DNS
 

@@ -1,29 +1,73 @@
 import type { CollectionConfig } from 'payload'
 
-import { authenticated } from '@/payload/access'
+import { adminField, adminOnly, adminOrSelf, hideFromEditors, isAdmin } from '@/payload/access'
+import { friendlyList } from '@/payload/adminFields'
 
 export const Users: CollectionConfig = {
   slug: 'users',
-  admin: {
-    useAsTitle: 'email',
+  labels: {
+    singular: 'Staff Login',
+    plural: 'Staff Logins',
   },
-  auth: true,
+  admin: {
+    ...friendlyList,
+    useAsTitle: 'username',
+    defaultColumns: ['username', 'role', 'updatedAt'],
+    group: 'Administration',
+    description:
+      'People who can sign in to manage the website. Staff only need a username and password — email is optional. Only admins should change this.',
+    hidden: hideFromEditors,
+  },
+  auth: {
+    // Username is the login ID. Email is optional when creating staff.
+    loginWithUsername: {
+      allowEmailLogin: true,
+      requireEmail: false,
+    },
+  },
   access: {
-    read: authenticated,
-    create: authenticated,
-    update: authenticated,
-    delete: authenticated,
+    read: adminOrSelf,
+    create: adminOnly,
+    update: adminOrSelf,
+    delete: adminOnly,
+    admin: ({ req: { user } }) => Boolean(user),
   },
   fields: [
     {
+      name: 'username',
+      type: 'text',
+      required: true,
+      unique: true,
+      admin: {
+        description: 'What they type to sign in. Required.',
+      },
+    },
+    {
+      name: 'email',
+      type: 'email',
+      required: false,
+      admin: {
+        description: 'Optional. Not needed to sign in.',
+      },
+    },
+    {
       name: 'role',
       type: 'select',
-      defaultValue: 'admin',
+      defaultValue: 'editor',
+      saveToJWT: true,
       options: [
-        { label: 'Admin', value: 'admin' },
-        { label: 'Editor', value: 'editor' },
+        { label: 'Admin — full access', value: 'admin' },
+        { label: 'Editor — content only', value: 'editor' },
       ],
       required: true,
+      access: {
+        create: adminField,
+        update: adminField,
+      },
+      admin: {
+        description: 'Editors can update website content. Admins can also manage logins and technical settings.',
+        condition: (_data, _sibling, { user }) => isAdmin(user),
+      },
     },
   ],
 }

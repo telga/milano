@@ -1,11 +1,17 @@
 import type { GlobalConfig } from 'payload'
 
-import { anyone, authenticated } from '@/payload/access'
+import { adminField, anyone, authenticated, hideFromEditors } from '@/payload/access'
 import { revalidateGlobalOnChange } from '@/payload/hooks/revalidateOnChange'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
-  label: 'Site Settings',
+  label: 'Hours & Contact',
+  admin: {
+    group: 'Website Basics',
+    hideAPIURL: true,
+    description:
+      'Phone, address, opening hours, and the About paragraph. Changes here update every page that shows them.',
+  },
   access: {
     read: anyone,
     update: authenticated,
@@ -15,87 +21,213 @@ export const SiteSettings: GlobalConfig = {
   },
   fields: [
     {
-      name: 'businessName',
-      type: 'text',
-      defaultValue: 'Milano Nail Spa Flower Mound',
-      required: true,
-    },
-    {
-      name: 'tagline',
-      type: 'text',
-      defaultValue: 'Where glamour meets exquisite nail care',
-    },
-    {
-      name: 'phone',
-      type: 'text',
-      defaultValue: '(214) 513-4800',
-    },
-    {
-      name: 'email',
-      type: 'email',
-      defaultValue: 'milanonailflowermound@gmail.com',
-    },
-    {
-      name: 'address',
-      type: 'textarea',
-      defaultValue: '5801 Long Prairie Road, Suite 680, Flower Mound, TX 75028',
-    },
-    {
-      name: 'bookingUrl',
-      type: 'text',
-      defaultValue: 'https://abcapp.us/feedback/appointment?appid=tI8PdCO',
-      required: true,
-    },
-    {
-      name: 'aboutText',
-      type: 'textarea',
-      defaultValue:
-        'Our nail salon is dedicated to bringing top-of-the-line products mixed with expert techniques to the nail salon industry. Offering many services such as Manicure, Pedicure, and Artificial Nails allows us to be a one-stop destination for those looking for a complete rejuvenating experience. The friendly staff creates an atmosphere of urban relaxation. We are always trying to be innovative with design and trend, always up-to-date with what the industry has to offer.',
-    },
-    {
-      name: 'logo',
-      type: 'upload',
-      relationTo: 'media',
-    },
-    {
-      name: 'hours',
-      type: 'array',
-      fields: [
-        { name: 'label', type: 'text', required: true },
-        { name: 'value', type: 'text', required: true },
-      ],
-      defaultValue: [
-        { label: 'Mon – Sat', value: '9:00 AM – 7:00 PM' },
-        { label: 'Sunday', value: '10:00 AM – 5:00 PM' },
-      ],
-    },
-    {
-      name: 'socialLinks',
-      type: 'array',
-      fields: [
+      type: 'tabs',
+      tabs: [
         {
-          name: 'platform',
-          type: 'select',
-          options: [
-            { label: 'Facebook', value: 'facebook' },
-            { label: 'Instagram', value: 'instagram' },
-            { label: 'Google', value: 'google' },
+          label: 'Contact',
+          description: 'How customers reach the salon.',
+          fields: [
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'businessName',
+                  label: 'Business name',
+                  type: 'text',
+                  defaultValue: 'Milano Nail Spa Flower Mound',
+                  required: true,
+                  admin: { width: '50%' },
+                },
+                {
+                  name: 'tagline',
+                  label: 'Short tagline',
+                  type: 'text',
+                  defaultValue: 'Where glamour meets exquisite nail care',
+                  admin: { width: '50%' },
+                },
+              ],
+            },
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'phone',
+                  label: 'Phone number',
+                  type: 'text',
+                  defaultValue: '(214) 513-4800',
+                  admin: {
+                    width: '50%',
+                    description: 'Shown in the header, footer, and contact page.',
+                  },
+                },
+                {
+                  name: 'email',
+                  label: 'Email',
+                  type: 'email',
+                  defaultValue: 'milanonailflowermound@gmail.com',
+                  admin: { width: '50%' },
+                },
+              ],
+            },
+            {
+              name: 'address',
+              label: 'Street address',
+              type: 'textarea',
+              defaultValue: '5801 Long Prairie Road, Suite 680, Flower Mound, TX 75028',
+            },
+            {
+              name: 'logo',
+              label: 'Logo (optional)',
+              type: 'upload',
+              relationTo: 'media',
+              admin: {
+                description: 'Used in popups and some branded spots. The header uses the gold “M” seal.',
+              },
+            },
           ],
-          required: true,
         },
-        { name: 'url', type: 'text', required: true },
-      ],
-    },
-    {
-      name: 'seo',
-      type: 'group',
-      fields: [
-        { name: 'title', type: 'text', defaultValue: 'Milano Nail Spa Flower Mound' },
         {
-          name: 'description',
-          type: 'textarea',
-          defaultValue:
-            'Luxury nail salon in Flower Mound, TX. Manicures, pedicures, nail art, lashes, and waxing.',
+          label: 'Hours',
+          description: 'Opening hours shown on the Contact page.',
+          fields: [
+            {
+              name: 'hours',
+              label: 'Opening hours',
+              type: 'array',
+              labels: {
+                singular: 'Row of hours',
+                plural: 'Rows of hours',
+              },
+              admin: {
+                description:
+                  'One row per line of hours. Use “Add row” for holiday hours, and drag rows to reorder them.',
+                components: {
+                  RowLabel: '/components/admin/cells/RowLabels#HoursRowLabel',
+                },
+              },
+              fields: [
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'label',
+                      label: 'Days',
+                      type: 'text',
+                      required: true,
+                      admin: { width: '40%', placeholder: 'Mon – Sat' },
+                    },
+                    {
+                      name: 'value',
+                      label: 'Open hours',
+                      type: 'text',
+                      required: true,
+                      admin: { width: '60%', placeholder: '9:00 AM – 7:00 PM' },
+                    },
+                  ],
+                },
+              ],
+              defaultValue: [
+                { label: 'Mon – Sat', value: '9:00 AM – 7:00 PM' },
+                { label: 'Sunday', value: '10:00 AM – 5:00 PM' },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'Website text',
+          fields: [
+            {
+              name: 'aboutText',
+              label: 'About paragraph',
+              type: 'textarea',
+              defaultValue:
+                'Our nail salon is dedicated to bringing top-of-the-line products mixed with expert techniques to the nail salon industry. Offering many services such as Manicure, Pedicure, and Artificial Nails allows us to be a one-stop destination for those looking for a complete rejuvenating experience. The friendly staff creates an atmosphere of urban relaxation. We are always trying to be innovative with design and trend, always up-to-date with what the industry has to offer.',
+              admin: {
+                description: 'Shown on the About / homepage “passion” section.',
+              },
+            },
+            {
+              name: 'socialLinks',
+              label: 'Social media links',
+              type: 'array',
+              labels: {
+                singular: 'Social link',
+                plural: 'Social links',
+              },
+              fields: [
+                {
+                  name: 'platform',
+                  label: 'Platform',
+                  type: 'select',
+                  options: [
+                    { label: 'Facebook', value: 'facebook' },
+                    { label: 'Instagram', value: 'instagram' },
+                    { label: 'Google', value: 'google' },
+                  ],
+                  required: true,
+                  admin: { width: '40%' },
+                },
+                {
+                  name: 'url',
+                  label: 'Full URL',
+                  type: 'text',
+                  required: true,
+                  admin: {
+                    width: '60%',
+                    placeholder: 'https://…',
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'Advanced',
+          description: 'Technical settings — admins only.',
+          fields: [
+            {
+              name: 'bookingUrl',
+              label: 'Online booking link',
+              type: 'text',
+              defaultValue: 'https://abcapp.us/feedback/appointment?appid=tI8PdCO',
+              required: true,
+              access: {
+                update: adminField,
+              },
+              admin: {
+                description:
+                  'ABC Salon POS appointment URL. Only change this if your booking provider changes.',
+                condition: (_data, _sibling, { user }) => !hideFromEditors({ user }),
+              },
+            },
+            {
+              name: 'seo',
+              label: 'Search engine text (SEO)',
+              type: 'group',
+              access: {
+                update: adminField,
+              },
+              admin: {
+                condition: (_data, _sibling, { user }) => !hideFromEditors({ user }),
+                description: 'Defaults used for Google title/description when a page has no custom SEO.',
+              },
+              fields: [
+                {
+                  name: 'title',
+                  label: 'Default page title',
+                  type: 'text',
+                  defaultValue: 'Milano Nail Spa Flower Mound',
+                },
+                {
+                  name: 'description',
+                  label: 'Default meta description',
+                  type: 'textarea',
+                  defaultValue:
+                    'Luxury nail salon in Flower Mound, TX. Manicures, pedicures, nail art, lashes, and waxing.',
+                },
+              ],
+            },
+          ],
         },
       ],
     },
