@@ -1,18 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --background: #faf8f5;
+  --background: #f6f2eb;
   --foreground: #2f2a24;
   --surface: #ffffff;
   --muted: color-mix(in srgb, var(--foreground) 62%, transparent);
   --border: color-mix(in srgb, var(--gold) 30%, transparent);
+  --line-width: 1px;
+  /* Hero split / seal arc straddles cream and the dark photo, so light mode
+     needs a stronger gold than a regular hairline to read on both sides. */
+  --seam-line: color-mix(in srgb, var(--gold) 85%, transparent);
   --gold: #b5843a;
   --gold-light: #c9a45c;
   --gold-dark: #8f6526;
   --slate: #2f2a24;
   --cream: #f3ece1;
-  --overlay: color-mix(in srgb, #faf8f5 80%, transparent);
-  --overlay-strong: color-mix(in srgb, #faf8f5 92%, transparent);
+  --overlay: color-mix(in srgb, #f6f2eb 80%, transparent);
+  --overlay-strong: color-mix(in srgb, #f6f2eb 92%, transparent);
   --header-bg: color-mix(in srgb, var(--background) 92%, transparent);
   --shadow-soft: 0 18px 50px color-mix(in srgb, var(--foreground) 7%, transparent);
 }
@@ -23,6 +27,8 @@
   --surface: #121212;
   --muted: color-mix(in srgb, var(--foreground) 60%, transparent);
   --border: color-mix(in srgb, var(--gold) 32%, transparent);
+  --line-width: 1px;
+  --seam-line: var(--border);
   --gold: #c9a45c;
   --gold-light: #dcbd7f;
   --gold-dark: #a8843d;
@@ -32,6 +38,31 @@
   --overlay-strong: color-mix(in srgb, #0a0a0a 92%, transparent);
   --header-bg: color-mix(in srgb, var(--background) 90%, transparent);
   --shadow-soft: 0 18px 50px color-mix(in srgb, #000 50%, transparent);
+}
+
+/* Apply theme line weight to Tailwind border utilities (light = thicker). */
+.border {
+  border-width: var(--line-width);
+}
+.border-t {
+  border-top-width: var(--line-width);
+}
+.border-r {
+  border-right-width: var(--line-width);
+}
+.border-b {
+  border-bottom-width: var(--line-width);
+}
+.border-l {
+  border-left-width: var(--line-width);
+}
+.border-x {
+  border-left-width: var(--line-width);
+  border-right-width: var(--line-width);
+}
+.border-y {
+  border-top-width: var(--line-width);
+  border-bottom-width: var(--line-width);
 }
 
 @theme inline {
@@ -57,6 +88,18 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-dm-sans), system-ui, sans-serif;
+}
+
+.theme-image-dark {
+  display: none;
+}
+
+.dark .theme-image-light {
+  display: none;
+}
+
+.dark .theme-image-dark {
+  display: block;
 }
 
 .font-display {
@@ -129,7 +172,9 @@ body {
 }
 
 .gold-rule {
-  @apply h-px w-12 bg-gold;
+  height: var(--line-width);
+  width: 3rem;
+  background: var(--gold);
 }
 
 /* Per-cell borders (rather than gap-px over a filled parent) so a partial
@@ -139,7 +184,9 @@ body {
 }
 
 .hairline-cell {
-  @apply -mb-px -mr-px border border-border;
+  margin-bottom: calc(var(--line-width) * -1);
+  margin-right: calc(var(--line-width) * -1);
+  @apply border border-border;
 }
 
 .field-label {

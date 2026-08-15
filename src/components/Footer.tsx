@@ -11,6 +11,7 @@ type FooterProps = {
   address?: string
   bookingUrl?: string
   socialLinks?: SiteSetting['socialLinks']
+  hiddenNavigationItems?: SiteSetting['hiddenNavigationItems']
 }
 
 export function Footer({
@@ -19,12 +20,17 @@ export function Footer({
   address = BUSINESS.address,
   bookingUrl,
   socialLinks,
+  hiddenNavigationItems,
 }: FooterProps) {
+  const visibleLinks = NAV_LINKS.filter(
+    (link) => !hiddenNavigationItems?.includes(link.anchor),
+  )
+
   return (
     <footer className="border-t border-border bg-surface">
       <div className="container-luxury grid gap-10 py-14 lg:grid-cols-4">
         <div className="lg:col-span-2">
-          <p className="font-display text-2xl tracking-[0.16em] text-gold">MILANO NAIL SPA</p>
+          <p className="font-display text-2xl font-semibold tracking-[0.16em] text-gold">MILANO NAIL SPA</p>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">{BUSINESS.tagline}</p>
           <SocialLinks links={socialLinks} className="mt-6" />
           <div className="mt-6">
@@ -35,7 +41,7 @@ export function Footer({
         <div>
           <p className="mb-4 text-[10px] uppercase tracking-[0.28em] text-gold">Explore</p>
           <ul className="space-y-2.5">
-            {NAV_LINKS.map((link) => (
+            {visibleLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
@@ -67,7 +73,8 @@ export function Footer({
       </div>
 
       <div className="border-t border-border py-5 text-center text-[11px] tracking-wide text-foreground/45">
-        © {new Date().getFullYear()} {BUSINESS.name}. All rights reserved.
+        <p>© {new Date().getFullYear()} {BUSINESS.name}. All rights reserved.</p>
+        <p className="mt-1.5">Developed by Brian Nguyen</p>
       </div>
     </footer>
   )

@@ -112,7 +112,11 @@ export async function ClassicHome() {
             }
             className="mb-10"
           />
-          <ServiceIconGrid categories={categories} basePath="/#services" />
+          <ServiceIconGrid
+            categories={categories}
+            basePath="/#services"
+            hideIcons={settings?.hideServiceCardIcons || false}
+          />
         </div>
       </section>
 
@@ -211,7 +215,11 @@ export async function ClassicHome() {
       <section id="services" className="scroll-mt-24 border-y border-border bg-surface section-pad">
         <div className="container-luxury">
           <SectionHeading title="Excellence in Every" accent="Service." className="mb-10" />
-          <ServiceIconGrid categories={categories} basePath="/#services" />
+          <ServiceIconGrid
+            categories={categories}
+            basePath="/#services"
+            hideIcons={settings?.hideServiceCardIcons || false}
+          />
           <div className="mx-auto mt-14 max-w-4xl">
             <ServiceAccordion groups={serviceGroups} />
           </div>

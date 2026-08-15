@@ -20,7 +20,16 @@ The dashboard is task-oriented for salon staff. Editors see content workflows on
 1. Open **Photos → Website Photo Spots**
 2. Each row is labeled by page and position (e.g. "Home — Hero")
 3. Click a row → choose a **Photo**, or enable **Use grey crosshatch placeholder** → **Save**
-4. The placeholder flag keeps the selected image stored and makes `SlotImage` use `/images/placeholder.svg`
+4. **Home — Hero** also has an optional **Photo (dark mode)**. `SlotImage` switches between it and the light/default image using the root `.dark` theme class.
+5. The placeholder flag keeps both selected images stored and makes `SlotImage` use `/images/placeholder.svg`
+
+### Navigation visibility
+
+Open **Website Basics → Hours & Contact → Navigation** and select any pages that should not appear in the header or footer. This only hides menu links; direct page URLs remain available.
+
+### Service card icons
+
+Open **Website Basics → Hours & Contact → Service cards** and enable **Hide icons on service cards** to remove the decorative icons site-wide.
 5. Changes appear on the live site within ~1 minute
 
 Editors can update images; only Admins create/delete slot documents.

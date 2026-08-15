@@ -73,6 +73,8 @@ Photos are managed in two places: **fixed spots** (hero banners and tiles) and t
 1. Open **Photos → Website Photo Spots**, or use **Change website photos** on the home screen.
 2. Each row is one photo position on the site. Use the table below to find the right spot.
 3. Click a row and either upload/replace the **Photo**, or turn on **Use grey crosshatch placeholder**.
+   - On **Home — Hero**, **Photo (light mode / default)** controls the light theme.
+   - Optionally choose **Photo (dark mode)** for the dark theme. If left empty, both themes use the default photo.
 4. The placeholder is always the same dark grey crosshatch used by the homepage hero. Turning it off restores the photo you selected previously.
 5. Click **Save**. Changes usually appear on the live site within about **one minute**. If not, wait a minute and **refresh the page** (Ctrl+F5 or Cmd+Shift+R).
 
@@ -172,6 +174,8 @@ To turn it off without deleting: untick **Showing on website**.
 2. Use the tabs:
    - **Contact** — phone, email, address, logo
    - **Hours** — business hours rows
+   - **Navigation** — select pages to hide from the header and footer menus
+   - **Service cards** — hide or show the small gold icons on service cards
    - **Website text** — about paragraph and social links
    - **Advanced** (Admins only) — booking link and SEO defaults
 3. Save.

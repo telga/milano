@@ -127,7 +127,8 @@ test.describe('Admin', () => {
     await expect(page.getByText('<No Duration', { exact: false })).toHaveCount(0)
   })
 
-  test('website photo spots offer the standard placeholder', async ({ page }) => {
+  test('admin offers website display controls', async ({ page }) => {
+    test.slow()
     const username =
       process.env.ADMIN_USERNAME || process.env.ADMIN_EMAIL || 'admin@milanonailflowermound.com'
     const password = process.env.ADMIN_PASSWORD || 'ChangeMe123!'
@@ -146,6 +147,13 @@ test.describe('Admin', () => {
     await expect(
       page.getByText('Use grey crosshatch placeholder', { exact: true }).first(),
     ).toBeVisible()
-    await expect(page.getByText('Hero photos can be changed here too.', { exact: false })).toBeVisible()
+    await expect(page.getByText('Photo (light mode / default)', { exact: true }).first()).toBeVisible()
+    await expect(page.getByText('Photo (dark mode)', { exact: true }).first()).toBeVisible()
+
+    await page.goto('/admin/globals/site-settings')
+    await page.getByRole('button', { name: 'Navigation' }).click()
+    await expect(page.getByText('Hide pages from website menus', { exact: true })).toBeVisible()
+    await page.getByRole('button', { name: 'Service cards' }).click()
+    await expect(page.getByText('Hide icons on service cards', { exact: true })).toBeVisible()
   })
 })

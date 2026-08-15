@@ -30,16 +30,30 @@ export function SlotImage({
   const media = slot?.usePlaceholder ? null : slot?.image
   const src = getMediaUrl(media, fallbackSrc)
   const imageAlt = alt || getMediaAlt(media, slot?.label || 'Milano Nail Spa')
+  const darkMedia = slot?.usePlaceholder ? null : slot?.darkModeImage
+  const darkSrc = darkMedia ? getMediaUrl(darkMedia, src) : null
 
   return (
-    <Image
-      src={src}
-      alt={imageAlt}
-      fill={fill}
-      priority={priority}
-      sizes={sizes}
-      className={cn('object-cover', className)}
-    />
+    <>
+      <Image
+        src={src}
+        alt={imageAlt}
+        fill={fill}
+        priority={priority}
+        sizes={sizes}
+        className={cn('object-cover', darkSrc && 'theme-image-light', className)}
+      />
+      {darkSrc && (
+        <Image
+          src={darkSrc}
+          alt={alt || getMediaAlt(darkMedia, imageAlt)}
+          fill={fill}
+          priority={priority}
+          sizes={sizes}
+          className={cn('theme-image-dark object-cover', className)}
+        />
+      )}
+    </>
   )
 }
 
@@ -120,7 +134,7 @@ export function PageHero({
 }
 
 /** Shared by the seal and the scrim behind it so both track the hero seam. */
-const SEAL_POSITION = 'absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2'
+const SEAL_POSITION = 'absolute left-[1px] top-1/2 -translate-x-1/2 -translate-y-1/2'
 const SEAL_SIZE = 'h-48 w-48 xl:h-56 xl:w-56'
 const SEAL_SIZE_MOBILE = 'h-36 w-36 sm:h-44 sm:w-44'
 
@@ -170,27 +184,16 @@ export function HomeHero({
         </div>
 
         {/* Photo + seam seal: desktop only */}
-        <div className="relative hidden min-h-[42rem] lg:block">
-          <div className="absolute inset-0 overflow-hidden">
-            <SlotImage
-              slot={slot}
-              fallbackSrc={fallbackSrc}
-              priority
-              sizes="(max-width:1024px) 100vw, 50vw"
-            />
-            {/* Clipped to the photo so the seal stays legible over busy shots
-                without casting a halo onto the page background. */}
-            <div
-              className={cn('pointer-events-none rounded-full', SEAL_POSITION, SEAL_SIZE)}
-              style={{
-                background:
-                  'radial-gradient(closest-side, rgba(0,0,0,0.72), rgba(0,0,0,0.55) 68%, transparent)',
-              }}
-            />
-          </div>
+        <div className="relative hidden min-h-[42rem] border-l border-[color:var(--seam-line)] lg:block">
+          <SlotImage
+            slot={slot}
+            fallbackSrc={fallbackSrc}
+            priority
+            sizes="(max-width:1024px) 100vw, 50vw"
+          />
 
           <div className={cn('pointer-events-none z-20', SEAL_POSITION)}>
-            <SealBadge className={SEAL_SIZE} />
+            <SealBadge className={SEAL_SIZE} seamEdge />
           </div>
         </div>
       </div>

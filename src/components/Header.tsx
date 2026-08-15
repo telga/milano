@@ -9,15 +9,20 @@ import { BookButton } from '@/components/BookButton'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { CLASSIC_LAYOUT, NAV_LINKS, navHref } from '@/lib/constants'
 import { cn } from '@/lib/utils'
+import type { SiteSetting } from '@/payload-types'
 
 type HeaderProps = {
   bookingUrl?: string
+  hiddenNavigationItems?: SiteSetting['hiddenNavigationItems']
 }
 
-export function Header({ bookingUrl }: HeaderProps) {
+export function Header({ bookingUrl, hiddenNavigationItems }: HeaderProps) {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
   const classic = CLASSIC_LAYOUT
+  const visibleLinks = NAV_LINKS.filter(
+    (link) => !hiddenNavigationItems?.includes(link.anchor),
+  )
 
   useEffect(() => {
     if (!classic || pathname !== '/') return
@@ -55,7 +60,7 @@ export function Header({ bookingUrl }: HeaderProps) {
             M
           </span>
           <div className="min-w-0">
-            <p className="truncate font-display text-[13px] tracking-[0.18em] text-gold sm:text-[15px] sm:tracking-[0.22em]">
+            <p className="truncate font-display text-[13px] font-semibold tracking-[0.18em] text-gold sm:text-[15px] sm:tracking-[0.22em]">
               MILANO NAIL SPA
             </p>
             <p className="hidden text-[9px] tracking-[0.28em] text-muted sm:block">FLOWER MOUND</p>
@@ -66,7 +71,7 @@ export function Header({ bookingUrl }: HeaderProps) {
           className="hidden flex-nowrap items-center justify-center gap-x-4 xl:flex 2xl:gap-x-6"
           aria-label="Main"
         >
-          {NAV_LINKS.map((link) => (
+          {visibleLinks.map((link) => (
             <Link key={link.href} href={navHref(link, classic)} className={linkClass(link)}>
               {link.label}
             </Link>
@@ -93,7 +98,7 @@ export function Header({ bookingUrl }: HeaderProps) {
       {open && (
         <nav className="border-t border-border bg-surface px-4 py-6 xl:hidden" aria-label="Mobile">
           <ul className="flex flex-col gap-4">
-            {NAV_LINKS.map((link) => (
+            {visibleLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={navHref(link, classic)}

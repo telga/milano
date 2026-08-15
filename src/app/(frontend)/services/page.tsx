@@ -42,7 +42,10 @@ export default async function ServicesPage() {
             }
             className="mb-10"
           />
-          <ServiceIconGrid categories={categories} />
+          <ServiceIconGrid
+            categories={categories}
+            hideIcons={settings?.hideServiceCardIcons || false}
+          />
         </div>
       </section>
 

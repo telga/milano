@@ -9,6 +9,7 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
   let email: string | undefined
   let address: string | undefined
   let socialLinks: SiteSetting['socialLinks'] | undefined
+  let hiddenNavigationItems: SiteSetting['hiddenNavigationItems'] | undefined
 
   try {
     const settings = await getSiteSettingsSafe()
@@ -26,13 +27,14 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
     email = settings.email || undefined
     address = settings.address || undefined
     socialLinks = settings.socialLinks || undefined
+    hiddenNavigationItems = settings.hiddenNavigationItems || undefined
   } catch {
     // DB not seeded yet — use defaults
   }
 
   return (
     <>
-      <Header bookingUrl={bookingUrl} />
+      <Header bookingUrl={bookingUrl} hiddenNavigationItems={hiddenNavigationItems} />
       <main>{children}</main>
       <Footer
         phone={phone}
@@ -40,6 +42,7 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
         address={address}
         bookingUrl={bookingUrl}
         socialLinks={socialLinks}
+        hiddenNavigationItems={hiddenNavigationItems}
       />
     </>
   )

@@ -1,9 +1,10 @@
 import { cn } from '@/lib/utils'
 
 export const SITE_STATS = [
-  { value: '100+', label: 'Premium Polishes' },
-  { value: '10K+', label: 'Happy Clients' },
-  { value: '5★', label: 'Client Rating' },
+  { value: '200+', label: 'Premium Polishes' },
+  { value: '15K+', label: 'Happy Clients' },
+  { value: '1.3K+', label: 'Reviews' },
+  { value: '4.9★', label: 'Client Rating' },
   { value: '100%', label: 'Satisfaction' },
 ]
 
@@ -14,7 +15,7 @@ type StatsRowProps = {
 
 export function StatsRow({ stats = SITE_STATS, className }: StatsRowProps) {
   return (
-    <div className={cn('grid grid-cols-2 gap-6 sm:gap-8 lg:grid-cols-4', className)}>
+    <div className={cn('grid grid-cols-2 gap-6 sm:gap-8 sm:grid-cols-3 lg:grid-cols-5', className)}>
       {stats.map((stat) => (
         <div key={stat.label} className="text-center">
           <p className="font-display text-3xl text-gold sm:text-4xl md:text-5xl">{stat.value}</p>

@@ -182,6 +182,48 @@ export const SiteSettings: GlobalConfig = {
           ],
         },
         {
+          label: 'Navigation',
+          description: 'Choose which pages customers see in the header and footer menus.',
+          fields: [
+            {
+              name: 'hiddenNavigationItems',
+              label: 'Hide pages from website menus',
+              type: 'select',
+              hasMany: true,
+              options: [
+                { label: 'Home', value: 'home' },
+                { label: 'About Us', value: 'about' },
+                { label: 'Promotions', value: 'promotions' },
+                { label: 'Specialties', value: 'specialties' },
+                { label: 'Services', value: 'services' },
+                { label: 'Gallery', value: 'gallery' },
+                { label: 'Blog', value: 'blog' },
+                { label: 'Contact', value: 'contact' },
+              ],
+              admin: {
+                description:
+                  'Select any pages you want to remove from both the desktop/mobile header and footer. The page itself remains available through its direct link.',
+              },
+            },
+          ],
+        },
+        {
+          label: 'Service cards',
+          description: 'Display options for service-category cards across the website.',
+          fields: [
+            {
+              name: 'hideServiceCardIcons',
+              label: 'Hide icons on service cards',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description:
+                  'Turn this on to remove the small gold icons from service cards on the homepage and Services page.',
+              },
+            },
+          ],
+        },
+        {
           label: 'Advanced',
           description: 'Technical settings — admins only.',
           fields: [

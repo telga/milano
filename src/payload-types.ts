@@ -24,6 +24,7 @@ export interface SiteImageSlot {
   page: string
   usePlaceholder?: boolean | null
   image?: Media | number | null
+  darkModeImage?: Media | number | null
   sortOrder?: number | null
 }
 
@@ -100,6 +101,10 @@ export interface SiteSetting {
   logo?: Media | number | null
   hours?: Array<{ label: string; value: string; id?: string }> | null
   socialLinks?: Array<{ platform: string; url: string; id?: string }> | null
+  hiddenNavigationItems?: Array<
+    'home' | 'about' | 'promotions' | 'specialties' | 'services' | 'gallery' | 'blog' | 'contact'
+  > | null
+  hideServiceCardIcons?: boolean | null
   seo?: {
     title?: string | null
     description?: string | null

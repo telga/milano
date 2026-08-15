@@ -5,21 +5,35 @@ type SealBadgeProps = {
   bottomText?: string
   monogram?: string
   established?: string
+  /** Gold stroke on the right half of the bg disc (desktop hero seam). */
+  seamEdge?: boolean
   className?: string
 }
 
 const SERIF = { fontFamily: 'var(--font-cormorant), Georgia, serif' } as const
+const SERIF_BOLD = { ...SERIF, fontWeight: 600 } as const
 
 export function SealBadge({
   topText = 'MILANO NAIL SPA',
   bottomText = 'FLOWER MOUND',
   monogram = 'M',
-  established = 'EST. 2022',
+  established = 'EST. 2023',
+  seamEdge = false,
   className,
 }: SealBadgeProps) {
   return (
     <div className={cn('relative h-32 w-32 rounded-full sm:h-40 sm:w-40', className)}>
-      <svg viewBox="0 0 200 200" className="h-full w-full" aria-hidden>
+      {/* Theme-colored disc slightly larger than the gold ring so the seal
+          stays readable when it overlaps the hero photo (esp. light mode). */}
+      <div aria-hidden className="absolute -inset-7 rounded-full bg-background sm:-inset-8">
+        {seamEdge && (
+          <div
+            aria-hidden
+            className="absolute inset-0 rounded-full border border-[color:var(--seam-line)] [clip-path:inset(-1px_-1px_-1px_calc(50%_-_2px))]"
+          />
+        )}
+      </div>
+      <svg viewBox="0 0 200 200" className="relative h-full w-full" aria-hidden>
         <defs>
           {/* Glyphs grow outward from the top arc and inward from the bottom one,
               so the bottom baseline needs the larger radius to sit symmetrically. */}
@@ -29,12 +43,12 @@ export function SealBadge({
 
         <circle cx="100" cy="100" r="97" fill="none" stroke="var(--gold)" strokeWidth="1" />
 
-        <text fill="var(--gold)" fontSize="13.5" letterSpacing="2.6" style={SERIF}>
+        <text fill="var(--gold)" fontSize="13.5" letterSpacing="2.6" style={SERIF_BOLD}>
           <textPath href="#seal-arc-top" startOffset="50%" textAnchor="middle">
             {topText}
           </textPath>
         </text>
-        <text fill="var(--gold)" fontSize="13" letterSpacing="4.7" style={SERIF}>
+        <text fill="var(--gold)" fontSize="13" letterSpacing="4.7" style={SERIF_BOLD}>
           <textPath href="#seal-arc-bottom" startOffset="50%" textAnchor="middle">
             {bottomText}
           </textPath>
@@ -67,7 +81,7 @@ export function SealBadge({
           letterSpacing="3"
           textAnchor="middle"
           opacity="0.85"
-          style={{ ...SERIF, fontFeatureSettings: '"lnum" 1' }}
+          style={{ ...SERIF_BOLD, fontFeatureSettings: '"lnum" 1' }}
         >
           {established}
         </text>

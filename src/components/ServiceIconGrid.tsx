@@ -18,7 +18,7 @@ import {
 } from 'lucide-react'
 
 import type { ServiceCategory } from '@/payload-types'
-import { slugify } from '@/lib/utils'
+import { cn, slugify } from '@/lib/utils'
 
 type GridItem = {
   title: string
@@ -58,6 +58,7 @@ function iconFor(name: string): LucideIcon {
 type ServiceIconGridProps = {
   categories?: ServiceCategory[]
   basePath?: string
+  hideIcons?: boolean
 }
 
 function categoryHref(basePath: string, slug: string) {
@@ -65,7 +66,11 @@ function categoryHref(basePath: string, slug: string) {
   return `${basePath}#cat-${slug}`
 }
 
-export function ServiceIconGrid({ categories, basePath = '/services' }: ServiceIconGridProps) {
+export function ServiceIconGrid({
+  categories,
+  basePath = '/services',
+  hideIcons = false,
+}: ServiceIconGridProps) {
   const items: GridItem[] = categories?.length
     ? categories.map((category) => ({
         title: category.name,
@@ -90,7 +95,10 @@ export function ServiceIconGrid({ categories, basePath = '/services' }: ServiceI
           <Link
             key={item.title}
             href={item.href}
-            className="hairline-cell group flex cursor-pointer flex-col items-center px-4 py-6 text-center transition-colors hover:bg-surface sm:px-5 sm:py-8"
+            className={cn(
+              'hairline-cell group flex cursor-pointer flex-col items-center px-4 py-6 text-center transition-colors hover:bg-surface sm:px-5 sm:py-8',
+              hideIcons && 'justify-center',
+            )}
             onClick={() => {
               if (!hash?.startsWith('cat-')) return
               window.dispatchEvent(
@@ -98,16 +106,23 @@ export function ServiceIconGrid({ categories, basePath = '/services' }: ServiceI
               )
             }}
           >
-            <item.icon className="h-5 w-5 text-gold sm:h-6 sm:w-6" aria-hidden />
-            <p className="mt-3 text-[10px] uppercase tracking-[0.18em] text-foreground sm:mt-4 sm:text-[11px] sm:tracking-[0.22em]">
+            {!hideIcons && (
+              <item.icon className="h-5 w-5 text-gold sm:h-6 sm:w-6" aria-hidden />
+            )}
+            <p
+              className={cn(
+                'w-full text-center text-[10px] uppercase tracking-[0.18em] text-foreground sm:text-[11px] sm:tracking-[0.22em]',
+                !hideIcons && 'mt-3 sm:mt-4',
+              )}
+            >
               {item.title}
             </p>
             {item.description && (
-              <p className="mt-2 text-[11px] leading-relaxed text-muted sm:mt-3 sm:text-xs">
+              <p className="mt-2 w-full text-center text-[11px] leading-relaxed text-muted sm:mt-3 sm:text-xs">
                 {item.description}
               </p>
             )}
-            <span className="link-gold mt-4 sm:mt-5">
+            <span className="link-gold mt-4 justify-center sm:mt-5">
               View Details <ArrowRight className="h-3 w-3" aria-hidden />
             </span>
           </Link>

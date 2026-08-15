@@ -118,15 +118,29 @@ export const SiteImageSlots: CollectionConfig = {
     },
     {
       name: 'image',
-      label: 'Photo',
+      label: 'Photo (light mode / default)',
       type: 'upload',
       relationTo: 'media',
       required: false,
       admin: {
         description:
-          'Choose an existing photo or upload a new one. Hero photos can be changed here too.',
+          'Choose the standard photo. For Home — Hero, this is the light-mode photo and the fallback when no dark-mode photo is selected.',
         condition: (_data, siblingData) => !siblingData?.usePlaceholder,
         components: photoCell,
+      },
+    },
+    {
+      name: 'darkModeImage',
+      label: 'Photo (dark mode)',
+      type: 'upload',
+      relationTo: 'media',
+      required: false,
+      admin: {
+        description:
+          'Optional: choose a different Home hero photo for dark mode. Leave empty to use the light/default photo in both themes.',
+        condition: (data, siblingData) =>
+          (siblingData?.slotId === 'home-hero' || data?.slotId === 'home-hero') &&
+          !siblingData?.usePlaceholder,
       },
     },
     {
