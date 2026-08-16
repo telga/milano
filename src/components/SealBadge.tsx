@@ -5,8 +5,6 @@ type SealBadgeProps = {
   bottomText?: string
   monogram?: string
   established?: string
-  /** Gold stroke on the right half of the bg disc (desktop hero seam). */
-  seamEdge?: boolean
   className?: string
 }
 
@@ -18,21 +16,13 @@ export function SealBadge({
   bottomText = 'FLOWER MOUND',
   monogram = 'M',
   established = 'EST. 2023',
-  seamEdge = false,
   className,
 }: SealBadgeProps) {
   return (
     <div className={cn('relative h-32 w-32 rounded-full sm:h-40 sm:w-40', className)}>
-      {/* Theme-colored disc slightly larger than the gold ring so the seal
-          stays readable when it overlaps the hero photo (esp. light mode). */}
-      <div aria-hidden className="absolute -inset-7 rounded-full bg-background sm:-inset-8">
-        {seamEdge && (
-          <div
-            aria-hidden
-            className="absolute inset-0 rounded-full border border-[color:var(--seam-line)] [clip-path:inset(-1px_-1px_-1px_calc(50%_-_2px))]"
-          />
-        )}
-      </div>
+      {/* Fill stops just inside the gold ring so the seal stays readable over
+          the hero photo without extending past its own circle. */}
+      <div aria-hidden className="absolute inset-[1.5%] rounded-full bg-background" />
       <svg viewBox="0 0 200 200" className="relative h-full w-full" aria-hidden>
         <defs>
           {/* Glyphs grow outward from the top arc and inward from the bottom one,

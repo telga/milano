@@ -133,7 +133,7 @@ export function PageHero({
   )
 }
 
-/** Shared by the seal and the scrim behind it so both track the hero seam. */
+/** Keeps the seal centred on the hero's vertical split. */
 const SEAL_POSITION = 'absolute left-[1px] top-1/2 -translate-x-1/2 -translate-y-1/2'
 const SEAL_SIZE = 'h-48 w-48 xl:h-56 xl:w-56'
 const SEAL_SIZE_MOBILE = 'h-36 w-36 sm:h-44 sm:w-44'
@@ -193,7 +193,7 @@ export function HomeHero({
           />
 
           <div className={cn('pointer-events-none z-20', SEAL_POSITION)}>
-            <SealBadge className={SEAL_SIZE} seamEdge />
+            <SealBadge className={SEAL_SIZE} />
           </div>
         </div>
       </div>
