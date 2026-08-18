@@ -18,7 +18,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  serverExternalPackages: ['drizzle-kit', 'esbuild', 'esbuild-register', '@esbuild-kit/esm-loader'],
+  serverExternalPackages: [
+    'drizzle-kit',
+    'esbuild',
+    'esbuild-register',
+    '@esbuild-kit/esm-loader',
+    'cloudinary',
+    '@payloadcms/plugin-cloud-storage',
+  ],
   outputFileTracingIncludes: {
     '/api/migrate': [
       './node_modules/drizzle-kit/**/*',

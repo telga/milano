@@ -31,7 +31,6 @@ function getPlugins() {
         cloudName,
         credentials: { apiKey, apiSecret },
         folder: 'milano',
-        clientUploads: true,
       }),
     ]
   }
