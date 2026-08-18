@@ -15,6 +15,8 @@ type ManifestEntry = {
   alt: string
   sortOrder?: number
   title?: string
+  cloudinaryPublicId?: string
+  cloudinaryUrl?: string
 }
 
 const BLOG_SLUG = 'distinctive-features-of-milano-nail-spa-in-flower-mound'
@@ -104,6 +106,60 @@ async function uploadMediaFromFile(
       data: { alt, sourceUrl },
       filePath: absolute,
     })
+  } catch {
+    return null
+  }
+}
+
+function buildCloudinaryUrl(entry: ManifestEntry): string | null {
+  if (entry.cloudinaryUrl) return entry.cloudinaryUrl
+  if (!entry.cloudinaryPublicId) return null
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || process.env.CLOUDINARY_CLOUD_NAME
+  if (!cloudName) return null
+  return `https://res.cloudinary.com/${cloudName}/image/upload/${entry.cloudinaryPublicId}`
+}
+
+async function ensureCloudinaryMedia(
+  payload: Payload,
+  entry: ManifestEntry,
+): Promise<{ id: number | string } | null> {
+  const cloudinaryUrl = buildCloudinaryUrl(entry)
+  if (!entry.cloudinaryPublicId || !cloudinaryUrl) return null
+
+  const existing = await payload.find({
+    collection: 'media',
+    where: { sourceUrl: { equals: entry.sourceUrl } },
+    limit: 1,
+  })
+
+  if (existing.docs[0]) {
+    const current = existing.docs[0]
+    await payload.update({
+      collection: 'media',
+      id: current.id,
+      data: {
+        alt: entry.alt,
+        sourceUrl: entry.sourceUrl,
+        cloudinaryPublicId: entry.cloudinaryPublicId,
+        cloudinaryUrl,
+      },
+    })
+    return current as { id: number | string }
+  }
+
+  try {
+    const created = await payload.create({
+      collection: 'media',
+      data: {
+        alt: entry.alt,
+        sourceUrl: entry.sourceUrl,
+        cloudinaryPublicId: entry.cloudinaryPublicId,
+        cloudinaryUrl,
+        url: cloudinaryUrl,
+        filename: entry.localPath.split('/').pop(),
+      },
+    })
+    return created as { id: number | string }
   } catch {
     return null
   }
@@ -238,6 +294,11 @@ export async function runSeed(payload: Payload) {
   if (importMedia) {
     for (const entry of manifest) {
       const media = await uploadMediaFromFile(payload, entry.localPath, entry.alt, entry.sourceUrl)
+      if (media) mediaByUrl.set(entry.sourceUrl, Number(media.id))
+    }
+  } else {
+    for (const entry of manifest) {
+      const media = await ensureCloudinaryMedia(payload, entry)
       if (media) mediaByUrl.set(entry.sourceUrl, Number(media.id))
     }
   }

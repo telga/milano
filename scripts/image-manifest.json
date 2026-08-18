@@ -5,7 +5,9 @@
     "publicPath": "/scraped/7970457a5753.png",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 0,
-    "slot": "logo"
+    "slot": "logo",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-0313720a72dea21cd799d265",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037660/milano-nail-spa/legacy-0313720a72dea21cd799d265.png"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-banner-01.jpg",
@@ -13,7 +15,9 @@
     "publicPath": "/scraped/6b14fbcd515e.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 1,
-    "slot": "home-hero"
+    "slot": "home-hero",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-c23b4cf86847f0e1024e2d0c",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037661/milano-nail-spa/legacy-c23b4cf86847f0e1024e2d0c.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-banner-02.jpg",
@@ -21,7 +25,9 @@
     "publicPath": "/scraped/542e103a25a3.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 2,
-    "slot": "home-tile-promotions"
+    "slot": "home-tile-promotions",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-f6f67fada1446808305879d5",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037661/milano-nail-spa/legacy-f6f67fada1446808305879d5.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-banner-03.jpg",
@@ -29,7 +35,9 @@
     "publicPath": "/scraped/8fe7f6399f0c.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 3,
-    "slot": "home-tile-specialties"
+    "slot": "home-tile-specialties",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-afccdc176b82ed3575334bc7",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037662/milano-nail-spa/legacy-afccdc176b82ed3575334bc7.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-banner-04.jpg",
@@ -37,7 +45,9 @@
     "publicPath": "/scraped/457c25e62ed9.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 4,
-    "slot": "home-tile-services"
+    "slot": "home-tile-services",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-3bd18bfae397340f3bb47267",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037662/milano-nail-spa/legacy-3bd18bfae397340f3bb47267.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-banner-05.jpg",
@@ -45,7 +55,9 @@
     "publicPath": "/scraped/f51790aac116.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 5,
-    "slot": "home-tile-gallery"
+    "slot": "home-tile-gallery",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-cb9cff30186d0e4753a5158d",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037663/milano-nail-spa/legacy-cb9cff30186d0e4753a5158d.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-about-01.jpg",
@@ -53,7 +65,9 @@
     "publicPath": "/scraped/206cb41d28be.jpg",
     "alt": "Image About",
     "sortOrder": 6,
-    "slot": "about-grid-1"
+    "slot": "about-grid-1",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-0ac506a040cdf0cab99601e9",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037664/milano-nail-spa/legacy-0ac506a040cdf0cab99601e9.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-about-02.jpg",
@@ -61,7 +75,9 @@
     "publicPath": "/scraped/738aa9904ca0.jpg",
     "alt": "Image About",
     "sortOrder": 7,
-    "slot": "about-grid-2"
+    "slot": "about-grid-2",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-6e11151f989f6a99063b3fcf",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037665/milano-nail-spa/legacy-6e11151f989f6a99063b3fcf.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-about-03.jpg",
@@ -69,7 +85,9 @@
     "publicPath": "/scraped/84877cff52eb.jpg",
     "alt": "Image About",
     "sortOrder": 8,
-    "slot": "about-grid-3"
+    "slot": "about-grid-3",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-a26bd1375fad816a7007e215",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037665/milano-nail-spa/legacy-a26bd1375fad816a7007e215.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-about-04.jpg",
@@ -77,7 +95,9 @@
     "publicPath": "/scraped/7e229e9873da.jpg",
     "alt": "Image About",
     "sortOrder": 9,
-    "slot": "about-grid-4"
+    "slot": "about-grid-4",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-d71d3422be04d6bb69e9a28f",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037665/milano-nail-spa/legacy-d71d3422be04d6bb69e9a28f.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-promotion-flower-01.jpg",
@@ -85,7 +105,9 @@
     "publicPath": "/scraped/ba898a0f6305.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 10,
-    "slot": "visit-us-hero"
+    "slot": "visit-us-hero",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-5f08978411e999ce6456bd55",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037666/milano-nail-spa/legacy-5f08978411e999ce6456bd55.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-promotion-04.jpg",
@@ -93,7 +115,9 @@
     "publicPath": "/scraped/0e2bfd092128.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 11,
-    "slot": "promotions-hero"
+    "slot": "promotions-hero",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-29b15aa2912a30ec14d5648c",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037667/milano-nail-spa/legacy-29b15aa2912a30ec14d5648c.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-promotion-flower-02.jpg",
@@ -101,7 +125,9 @@
     "publicPath": "/scraped/a1e3b7bd302b.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 12,
-    "slot": "specialties-hero"
+    "slot": "specialties-hero",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-6852d38f83414cfd7c53ef17",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037667/milano-nail-spa/legacy-6852d38f83414cfd7c53ef17.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-specialties-01.jpg",
@@ -109,7 +135,9 @@
     "publicPath": "/scraped/5da73954a46d.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 13,
-    "slot": "services-hero"
+    "slot": "services-hero",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-75ba7f1a0840f28bc8d8e2d3",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037668/milano-nail-spa/legacy-75ba7f1a0840f28bc8d8e2d3.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-specialties-02.jpg",
@@ -117,7 +145,9 @@
     "publicPath": "/scraped/bb6f831c697a.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 14,
-    "slot": "gallery-hero"
+    "slot": "gallery-hero",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-760699244877af6ff0c42dec",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037669/milano-nail-spa/legacy-760699244877af6ff0c42dec.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-specialties-03.jpg",
@@ -125,7 +155,9 @@
     "publicPath": "/scraped/11a223da0abc.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 15,
-    "slot": "blog-hero"
+    "slot": "blog-hero",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-f3a62b076e44dd76cdda1b4e",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037669/milano-nail-spa/legacy-f3a62b076e44dd76cdda1b4e.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-specialties-04.jpg",
@@ -133,7 +165,9 @@
     "publicPath": "/scraped/98f09a2bc18c.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 16,
-    "slot": "contact-hero"
+    "slot": "contact-hero",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-a4327792653123e575736bf7",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037670/milano-nail-spa/legacy-a4327792653123e575736bf7.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-specialties-05.jpg",
@@ -141,7 +175,9 @@
     "publicPath": "/scraped/b4ccdb4a8328.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 17,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-59297090efc156d4d95207ae",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037670/milano-nail-spa/legacy-59297090efc156d4d95207ae.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-specialties-06.jpg",
@@ -149,7 +185,9 @@
     "publicPath": "/scraped/33f75f3beafb.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 18,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-78978a06400b530e65630cfb",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037671/milano-nail-spa/legacy-78978a06400b530e65630cfb.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-specialties-07.jpg",
@@ -157,7 +195,9 @@
     "publicPath": "/scraped/f1c30d130165.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 19,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-65cddf08bb38ef4ad5c99cb9",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037672/milano-nail-spa/legacy-65cddf08bb38ef4ad5c99cb9.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-specialties-08.jpg",
@@ -165,7 +205,9 @@
     "publicPath": "/scraped/c48519151004.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 20,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-a7f3c316177ddc88ec3f4f47",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037673/milano-nail-spa/legacy-a7f3c316177ddc88ec3f4f47.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-specialties-09.jpg",
@@ -173,7 +215,9 @@
     "publicPath": "/scraped/a416723a3a56.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 21,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-c8bf94e2696cb82aeec66084",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037674/milano-nail-spa/legacy-c8bf94e2696cb82aeec66084.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-specialties-10.jpg",
@@ -181,7 +225,9 @@
     "publicPath": "/scraped/8c52d3c1bb98.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 22,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-49e7cc2ff0f7cd4de8fa837a",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037674/milano-nail-spa/legacy-49e7cc2ff0f7cd4de8fa837a.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-specialties-11.jpg",
@@ -189,7 +235,9 @@
     "publicPath": "/scraped/08135c121d8d.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 23,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-04c7a88dbf67ddb62f1a4722",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037675/milano-nail-spa/legacy-04c7a88dbf67ddb62f1a4722.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-specialties-12.jpg",
@@ -197,7 +245,9 @@
     "publicPath": "/scraped/3f575ae2c8f8.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 24,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-8bd99638a0515a969b6fac91",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037676/milano-nail-spa/legacy-8bd99638a0515a969b6fac91.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-service-01.jpg",
@@ -205,7 +255,9 @@
     "publicPath": "/scraped/5179da83e0bb.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 25,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-76f8809cf22eab8e364e4541",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037676/milano-nail-spa/legacy-76f8809cf22eab8e364e4541.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-service-02.jpg",
@@ -213,7 +265,9 @@
     "publicPath": "/scraped/313a6cb9e06c.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 26,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-2200c8bde6938674d1ae783e",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037677/milano-nail-spa/legacy-2200c8bde6938674d1ae783e.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-service-04.jpg",
@@ -221,7 +275,9 @@
     "publicPath": "/scraped/1e5afcaadfd0.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 27,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-ee7ee98ce90aab86db23a6b1",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037677/milano-nail-spa/legacy-ee7ee98ce90aab86db23a6b1.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-service-08.jpg",
@@ -229,7 +285,9 @@
     "publicPath": "/scraped/34ad4b577166.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 28,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-5f36a6122ba5e6d205056fe5",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037678/milano-nail-spa/legacy-5f36a6122ba5e6d205056fe5.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-service-03.jpg",
@@ -237,7 +295,9 @@
     "publicPath": "/scraped/19490126bf64.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 29,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-6fad183bdf0566d0df171be8",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037678/milano-nail-spa/legacy-6fad183bdf0566d0df171be8.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-service-07.jpg",
@@ -245,7 +305,9 @@
     "publicPath": "/scraped/a8a287b44b26.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 30,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-0913d8e120a32679fe8814a4",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037679/milano-nail-spa/legacy-0913d8e120a32679fe8814a4.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-service-06.jpg",
@@ -253,7 +315,9 @@
     "publicPath": "/scraped/b55ff38ac92e.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 31,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-173983207c7b5fa599042e60",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037679/milano-nail-spa/legacy-173983207c7b5fa599042e60.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-service-24.jpg",
@@ -261,7 +325,9 @@
     "publicPath": "/scraped/c7a0a5aad2fa.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 32,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-a5b058cb2232fe0019183376",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037680/milano-nail-spa/legacy-a5b058cb2232fe0019183376.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-service-18.jpg",
@@ -269,7 +335,9 @@
     "publicPath": "/scraped/e069a91e18ce.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 33,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-b91348a2f331ac410d14f79e",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037680/milano-nail-spa/legacy-b91348a2f331ac410d14f79e.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-service-19.jpg",
@@ -277,7 +345,9 @@
     "publicPath": "/scraped/4a022c8c027c.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 34,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-841e8ef60ca05a662d0c58d7",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037681/milano-nail-spa/legacy-841e8ef60ca05a662d0c58d7.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-service-20.jpg",
@@ -285,7 +355,9 @@
     "publicPath": "/scraped/6678e6ce164b.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 35,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-bce4d7eb50666623a21877a6",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037682/milano-nail-spa/legacy-bce4d7eb50666623a21877a6.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-service-23.jpg",
@@ -293,7 +365,9 @@
     "publicPath": "/scraped/69316e918a7d.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 36,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-034a8c67713ecc80a7970d0b",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037682/milano-nail-spa/legacy-034a8c67713ecc80a7970d0b.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-service-22.jpg",
@@ -301,7 +375,9 @@
     "publicPath": "/scraped/a4f080754960.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 37,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-21a036c72a8eddd278f19779",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037683/milano-nail-spa/legacy-21a036c72a8eddd278f19779.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-service-12.jpg",
@@ -309,7 +385,9 @@
     "publicPath": "/scraped/0d42bc3da43b.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 38,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-22e5fdc25c4e2a7fc1f500df",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037683/milano-nail-spa/legacy-22e5fdc25c4e2a7fc1f500df.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-service-13.jpg",
@@ -317,7 +395,9 @@
     "publicPath": "/scraped/b27761b91795.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 39,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-41eb874c480850d6b0785331",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037684/milano-nail-spa/legacy-41eb874c480850d6b0785331.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-gallery-01.jpg",
@@ -325,7 +405,9 @@
     "publicPath": "/scraped/229493f61526.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 40,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-aebeab1fa5ad7672dd3e7486",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037684/milano-nail-spa/legacy-aebeab1fa5ad7672dd3e7486.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-gallery-02.jpg",
@@ -333,7 +415,9 @@
     "publicPath": "/scraped/200cd53a8fe7.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 41,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-2bc089f8a957cce513981903",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037685/milano-nail-spa/legacy-2bc089f8a957cce513981903.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-gallery-03.jpg",
@@ -341,7 +425,9 @@
     "publicPath": "/scraped/6d1a9bcb697c.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 42,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-9e2bd7ba3a1545a35b92ba6c",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037685/milano-nail-spa/legacy-9e2bd7ba3a1545a35b92ba6c.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-gallery-04.jpg",
@@ -349,7 +435,9 @@
     "publicPath": "/scraped/ac62ffd3f681.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 43,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-91bcefff4c54152e7a603def",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037686/milano-nail-spa/legacy-91bcefff4c54152e7a603def.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-gallery-05.jpg",
@@ -357,7 +445,9 @@
     "publicPath": "/scraped/767d5211e33e.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 44,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-d32ca3fe25e20af1a7bff31a",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037687/milano-nail-spa/legacy-d32ca3fe25e20af1a7bff31a.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-gallery-06.jpg",
@@ -365,7 +455,9 @@
     "publicPath": "/scraped/0c7f20971642.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 45,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-1b08b747d28969059084d77f",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037687/milano-nail-spa/legacy-1b08b747d28969059084d77f.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-gallery-07.jpg",
@@ -373,7 +465,9 @@
     "publicPath": "/scraped/4a1f4b8d189c.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 46,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-44217fc6ccbf55bcbe25c1e7",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037688/milano-nail-spa/legacy-44217fc6ccbf55bcbe25c1e7.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-gallery-08.jpg",
@@ -381,7 +475,9 @@
     "publicPath": "/scraped/cc0d485dd802.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 47,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-45b2888b359aaa17d3daf446",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037688/milano-nail-spa/legacy-45b2888b359aaa17d3daf446.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-gallery-09.jpg",
@@ -389,7 +485,9 @@
     "publicPath": "/scraped/9207e3d49a52.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 48,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-e0854a412f665d1c0ca1cba7",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037689/milano-nail-spa/legacy-e0854a412f665d1c0ca1cba7.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-gallery-10.jpg",
@@ -397,7 +495,9 @@
     "publicPath": "/scraped/39f471ddf4f5.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 49,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-887bd7568912bf0b0a0990fe",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037690/milano-nail-spa/legacy-887bd7568912bf0b0a0990fe.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-gallery-11.jpg",
@@ -405,7 +505,9 @@
     "publicPath": "/scraped/e8a5032822fa.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 50,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-69e55ac496c2c2f6dd6f6c00",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037691/milano-nail-spa/legacy-69e55ac496c2c2f6dd6f6c00.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-gallery-12.jpg",
@@ -413,7 +515,9 @@
     "publicPath": "/scraped/52dfa595388b.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 51,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-61b5bf08b387bfa83c815d6a",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037692/milano-nail-spa/legacy-61b5bf08b387bfa83c815d6a.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-charity-thumbnail.jpg",
@@ -421,7 +525,9 @@
     "publicPath": "/scraped/7702fb159785.jpg",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 52,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-7b3636473bc1cfca2d272d88",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037692/milano-nail-spa/legacy-7b3636473bc1cfca2d272d88.jpg"
   },
   {
     "sourceUrl": "https://milanonailspaflowermound.com/template07/images/milanonailflowermound/milano-nail-spa-flower-mound-logo-foot.png",
@@ -429,6 +535,8 @@
     "publicPath": "/scraped/b0a3c14b44b9.png",
     "alt": "Milano Nail Spa Flower Mound",
     "sortOrder": 53,
-    "collection": "gallery-items"
+    "collection": "gallery-items",
+    "cloudinaryPublicId": "milano-nail-spa/legacy-10b63d1f29920030c5f248d4",
+    "cloudinaryUrl": "https://res.cloudinary.com/gm8cc9qz/image/upload/v1787037693/milano-nail-spa/legacy-10b63d1f29920030c5f248d4.png"
   }
 ]

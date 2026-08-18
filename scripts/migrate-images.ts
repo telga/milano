@@ -1,5 +1,6 @@
-import 'dotenv/config'
+import { loadEnvConfig } from '@next/env'
 import { v2 as cloudinary } from 'cloudinary'
+import { createHash } from 'crypto'
 import { existsSync, readFileSync } from 'fs'
 import { join } from 'path'
 
@@ -8,6 +9,7 @@ import { join } from 'path'
  * Updates image-manifest.json with cloudinaryPublicId fields.
  */
 async function main() {
+  loadEnvConfig(process.cwd(), false)
   const { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } = process.env
 
   if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_API_KEY || !CLOUDINARY_API_SECRET) {
@@ -32,22 +34,28 @@ async function main() {
     sourceUrl: string
     localPath: string
     cloudinaryPublicId?: string
+    cloudinaryUrl?: string
   }>
 
   for (const entry of manifest) {
-    if (entry.cloudinaryPublicId) continue
-
     const filePath = join(process.cwd(), 'scripts', 'assets', entry.localPath)
     if (!existsSync(filePath)) continue
 
+    const desiredPublicId = `milano-nail-spa/legacy-${createHash('sha256')
+      .update(entry.sourceUrl)
+      .digest('hex')
+      .slice(0, 24)}`
+
+    if (entry.cloudinaryPublicId === desiredPublicId && entry.cloudinaryUrl) continue
+
     const result = await cloudinary.uploader.upload(filePath, {
-      folder: 'milano-nail-spa',
-      public_id: `legacy-${Buffer.from(entry.sourceUrl).toString('base64url').slice(0, 24)}`,
-      overwrite: false,
+      public_id: desiredPublicId,
+      overwrite: true,
       resource_type: 'image',
     })
 
     entry.cloudinaryPublicId = result.public_id
+    entry.cloudinaryUrl = result.secure_url
     console.log(`Uploaded ${entry.localPath} → ${result.secure_url}`)
   }
 

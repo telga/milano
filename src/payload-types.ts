@@ -9,6 +9,8 @@ export interface Media {
   url?: string | null
   filename?: string | null
   sourceUrl?: string | null
+  cloudinaryPublicId?: string | null
+  cloudinaryUrl?: string | null
   width?: number | null
   cloudinary?: {
     cloudName?: string

@@ -15,8 +15,8 @@ export const Media: CollectionConfig = {
     useAsTitle: 'alt',
     description:
       'Every photo uploaded to the website. You can also upload while editing a gallery photo, photo spot, or blog post.',
-    defaultColumns: ['filename', 'alt', 'updatedAt'],
-    listSearchableFields: ['alt', 'filename'],
+    defaultColumns: ['filename', 'alt', 'cloudinaryPublicId', 'updatedAt'],
+    listSearchableFields: ['alt', 'filename', 'sourceUrl', 'cloudinaryPublicId'],
   },
   access: {
     read: anyone,
@@ -43,6 +43,25 @@ export const Media: CollectionConfig = {
       type: 'text',
       admin: {
         description: 'Original legacy URL (for idempotent re-imports). Hidden from everyday editors.',
+        condition: (_data, _sibling, { user }) => !hideFromEditors({ user }),
+      },
+    },
+    {
+      name: 'cloudinaryPublicId',
+      label: 'Cloudinary public ID',
+      type: 'text',
+      index: true,
+      admin: {
+        description: 'Optional. Lets the website and admin use Cloudinary instead of local file storage.',
+        condition: (_data, _sibling, { user }) => !hideFromEditors({ user }),
+      },
+    },
+    {
+      name: 'cloudinaryUrl',
+      label: 'Cloudinary URL',
+      type: 'text',
+      admin: {
+        description: 'Optional secure Cloudinary delivery URL for this image.',
         condition: (_data, _sibling, { user }) => !hideFromEditors({ user }),
       },
     },

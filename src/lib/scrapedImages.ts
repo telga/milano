@@ -11,6 +11,8 @@ export type ScrapedImageEntry = {
   alt: string
   sortOrder?: number
   title?: string
+  cloudinaryPublicId?: string
+  cloudinaryUrl?: string
 }
 
 const MANIFEST = imageManifest as ScrapedImageEntry[]
@@ -20,6 +22,14 @@ function asMedia(entry: ScrapedImageEntry, id: number): Media {
     id,
     alt: entry.alt || 'Milano Nail Spa',
     url: entry.publicPath,
+    cloudinaryPublicId: entry.cloudinaryPublicId,
+    cloudinaryUrl: entry.cloudinaryUrl,
+    cloudinary: entry.cloudinaryPublicId
+      ? {
+          cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+          publicId: entry.cloudinaryPublicId,
+        }
+      : null,
     filename: entry.localPath.split('/').pop() || undefined,
     sourceUrl: entry.sourceUrl,
   }

@@ -24,6 +24,11 @@ export const metadata: Metadata = {
   description:
     'Luxury nail salon in Flower Mound, TX. Manicures, pedicures, nail art, lashes, and waxing.',
   metadataBase: new URL(getSiteUrl()),
+  icons: {
+    icon: '/scraped/7970457a5753.png',
+    shortcut: '/scraped/7970457a5753.png',
+    apple: '/scraped/7970457a5753.png',
+  },
 }
 
 export default function RootLayout({
