@@ -18,6 +18,16 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  serverExternalPackages: ['drizzle-kit', 'esbuild', 'esbuild-register', '@esbuild-kit/esm-loader'],
+  outputFileTracingIncludes: {
+    '/api/migrate': [
+      './node_modules/drizzle-kit/**/*',
+      './node_modules/esbuild/**/*',
+      './node_modules/@esbuild/**/*',
+      './node_modules/esbuild-register/**/*',
+      './node_modules/@esbuild-kit/**/*',
+    ],
+  },
   async redirects() {
     return [
       { source: '/index', destination: '/', permanent: true },
