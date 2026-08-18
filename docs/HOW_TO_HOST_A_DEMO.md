@@ -179,6 +179,8 @@ If the build fails:
 
 The live app needs a schema in Neon, then sample pages/services.
 
+Payload will **not** auto-create tables on Vercel (`NODE_ENV=production`). `/api/migrate` pushes the schema. `/api/seed` fills it. Always migrate first, from a deploy that includes that route.
+
 In **PowerShell**, replace the URL and secret:
 
 ```powershell
@@ -186,7 +188,11 @@ $base = "https://YOUR-PROJECT.vercel.app"
 $secret = "PASTE_SEED_SECRET_HERE"
 
 Invoke-RestMethod -Method POST -Uri "$base/api/migrate" -Headers @{ "x-seed-secret" = $secret }
-Invoke-RestMethod -Method POST -Uri "$base/api/seed" -Headers @{ "x-seed-secret" = $secret }
+try {
+  Invoke-RestMethod -Method POST -Uri "$base/api/seed" -Headers @{ "x-seed-secret" = $secret }
+} catch {
+  $_.ErrorDetails.Message
+}
 ```
 
 Or with `curl` (Git Bash / Windows curl):
@@ -199,6 +205,7 @@ curl -X POST "https://YOUR-PROJECT.vercel.app/api/seed" -H "x-seed-secret: PASTE
 You want JSON back, not `Unauthorized`.
 
 - **401** — `SEED_SECRET` in Vercel does not match what you sent. Fix the env var, redeploy if needed, retry.
+- **500 `Failed query: select count(*) from "users"`** — tables were not created. Redeploy a build that includes schema push, run **migrate** again, then seed.
 - **500 / timeout** — Neon might still be waking, or seed ran long. Wait 30 seconds and run **seed** again. It should skip an admin user that already exists.
 - Homepage still odd — hard refresh, then wait a minute (pages are cached ~60s).
 

@@ -4,6 +4,8 @@ import { runFixImageSlots } from '@/lib/fix-image-slots'
 import { getPayloadClient } from '@/lib/payload'
 import { backfillStaffUsernames, runSeed } from '@/lib/seed'
 
+export const maxDuration = 60
+
 export async function POST(request: Request) {
   const secret = request.headers.get('x-seed-secret')
   if (!secret || secret !== process.env.SEED_SECRET) {
@@ -31,8 +33,9 @@ export async function POST(request: Request) {
     return NextResponse.json(result)
   } catch (error) {
     console.error(error)
+    const cause = error instanceof Error && error.cause instanceof Error ? error.cause.message : undefined
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Seed failed' },
+      { error: error instanceof Error ? error.message : 'Seed failed', cause },
       { status: 500 },
     )
   }
