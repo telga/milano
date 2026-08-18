@@ -28,8 +28,8 @@ export const Media: CollectionConfig = {
     staticDir: 'media',
     mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'],
     adminThumbnail: ({ doc }) => {
-      const d = doc as { cloudinaryUrl?: string; url?: string }
-      return d.cloudinaryUrl || d.url || null
+      const d = doc as { url?: string }
+      return d.url || null
     },
   },
   fields: [
@@ -47,25 +47,6 @@ export const Media: CollectionConfig = {
       type: 'text',
       admin: {
         description: 'Original legacy URL (for idempotent re-imports). Hidden from everyday editors.',
-        condition: (_data, _sibling, { user }) => !hideFromEditors({ user }),
-      },
-    },
-    {
-      name: 'cloudinaryPublicId',
-      label: 'Cloudinary public ID',
-      type: 'text',
-      index: true,
-      admin: {
-        description: 'Optional. Lets the website and admin use Cloudinary instead of local file storage.',
-        condition: (_data, _sibling, { user }) => !hideFromEditors({ user }),
-      },
-    },
-    {
-      name: 'cloudinaryUrl',
-      label: 'Cloudinary URL',
-      type: 'text',
-      admin: {
-        description: 'Optional secure Cloudinary delivery URL for this image.',
         condition: (_data, _sibling, { user }) => !hideFromEditors({ user }),
       },
     },

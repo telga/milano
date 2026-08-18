@@ -21,15 +21,8 @@ function asMedia(entry: ScrapedImageEntry, id: number): Media {
   return {
     id,
     alt: entry.alt || 'Milano Nail Spa',
-    url: entry.publicPath,
+    url: entry.cloudinaryUrl || entry.publicPath,
     cloudinaryPublicId: entry.cloudinaryPublicId,
-    cloudinaryUrl: entry.cloudinaryUrl,
-    cloudinary: entry.cloudinaryPublicId
-      ? {
-          cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-          publicId: entry.cloudinaryPublicId,
-        }
-      : null,
     filename: entry.localPath.split('/').pop() || undefined,
     sourceUrl: entry.sourceUrl,
   }

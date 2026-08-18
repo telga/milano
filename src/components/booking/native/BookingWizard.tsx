@@ -192,6 +192,7 @@ export function BookingWizard({ phone, fallbackUrl, submitEnabled = false }: Boo
     if (previous) dispatch({ type: 'SET_STEP', step: previous })
   }, [state.step])
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- submitEnabled is stable (server prop)
   const handleSubmit = useCallback(async () => {
     if (!state.sessionId) return
     setSubmitting(true)

@@ -140,8 +140,7 @@ async function ensureCloudinaryMedia(
       data: {
         alt: entry.alt,
         sourceUrl: entry.sourceUrl,
-        cloudinaryPublicId: entry.cloudinaryPublicId,
-        cloudinaryUrl,
+        url: cloudinaryUrl,
       },
     })
     return current as { id: number | string }
@@ -153,10 +152,8 @@ async function ensureCloudinaryMedia(
       data: {
         alt: entry.alt,
         sourceUrl: entry.sourceUrl,
-        cloudinaryPublicId: entry.cloudinaryPublicId,
-        cloudinaryUrl,
         url: cloudinaryUrl,
-        filename: entry.localPath.split('/').pop(),
+        filename: entry.localPath.split('/').pop() || entry.alt,
       },
     })
     return created as { id: number | string }

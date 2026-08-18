@@ -8,8 +8,6 @@ import type { DefaultServerCellComponentProps, Payload } from 'payload'
 type MediaLite = {
   url?: string | null
   filename?: string | null
-  cloudinaryPublicId?: string | null
-  cloudinaryUrl?: string | null
 }
 
 let cached: { at: number; media: Map<string, MediaLite> } | null = null
@@ -23,7 +21,7 @@ async function mediaLookup(payload: Payload) {
     depth: 0,
     limit: 0,
     pagination: false,
-      select: { url: true, filename: true, cloudinaryPublicId: true, cloudinaryUrl: true },
+      select: { url: true, filename: true },
   })
 
   const media = new Map<string, MediaLite>(
@@ -32,9 +30,6 @@ async function mediaLookup(payload: Payload) {
       {
         url: typeof doc.url === 'string' ? doc.url : null,
         filename: String(doc.filename ?? ''),
-        cloudinaryPublicId:
-          typeof doc.cloudinaryPublicId === 'string' ? doc.cloudinaryPublicId : null,
-        cloudinaryUrl: typeof doc.cloudinaryUrl === 'string' ? doc.cloudinaryUrl : null,
       },
     ]),
   )
@@ -57,11 +52,7 @@ export default async function PhotoCell({ cellData, payload }: DefaultServerCell
   }
 
   const found = (await mediaLookup(payload)).get(String(id))
-  const src =
-    found?.cloudinaryUrl ||
-    (found?.cloudinaryPublicId && process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
-      ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${found.cloudinaryPublicId}`
-      : found?.url)
+  const src = found?.url || null
   const alt = found?.filename || ''
 
   if (!src) return <span className="milano-cell-empty">No photo</span>
