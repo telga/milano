@@ -1,7 +1,6 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import { payloadCloudinaryPlugin } from '@jhb.software/payload-cloudinary-plugin'
 import path from 'path'
 import { buildConfig } from 'payload'
 import sharp from 'sharp'
@@ -18,25 +17,6 @@ import { SiteImageSlots } from './src/collections/SiteImageSlots'
 import { Specialties } from './src/collections/Specialties'
 import { Users } from './src/collections/Users'
 import { SiteSettings } from './src/globals/SiteSettings'
-
-function getPlugins() {
-  const cloudName = process.env.CLOUDINARY_CLOUD_NAME
-  const apiKey = process.env.CLOUDINARY_API_KEY
-  const apiSecret = process.env.CLOUDINARY_API_SECRET
-
-  if (cloudName && apiKey && apiSecret) {
-    return [
-      payloadCloudinaryPlugin({
-        collections: { media: true },
-        cloudName,
-        credentials: { apiKey, apiSecret },
-        folder: 'milano',
-      }),
-    ]
-  }
-
-  return []
-}
 
 function getDatabaseAdapter() {
   if (process.env.DATABASE_URI) {
@@ -87,6 +67,5 @@ export default buildConfig({
     outputFile: path.resolve(process.cwd(), 'src/payload-types.ts'),
   },
   db: getDatabaseAdapter(),
-  plugins: getPlugins(),
   sharp,
 })
