@@ -3,7 +3,6 @@ import { Gutter } from '@payloadcms/ui'
 import Link from 'next/link'
 
 import AdminBookingToggle from '@/components/admin/AdminBookingToggle'
-import { getSiteUrl } from '@/lib/siteUrl'
 import { getUserRole, isAdmin } from '@/payload/access'
 
 type Task = {
@@ -63,19 +62,18 @@ function StatCard({ label, value }: { label: string; value: string | number }) {
 
 export default async function AdminDashboard(props: ServerProps) {
   const { payload, user } = props
-  const siteUrl = getSiteUrl()
   const role = getUserRole(user)
   const admin = isAdmin(user)
 
   const [services, gallery, drafts, announcements, categories, siteSettings] = await Promise.all([
-    payload.count({ collection: 'services', overrideAccess: false, user }),
-    payload.count({ collection: 'gallery-items', overrideAccess: false, user }),
+    payload.count({ collection: 'services', overrideAccess: false, user }).catch(() => ({ totalDocs: 0 })),
+    payload.count({ collection: 'gallery-items', overrideAccess: false, user }).catch(() => ({ totalDocs: 0 })),
     payload.count({
       collection: 'blog-posts',
       where: { status: { equals: 'draft' } },
       overrideAccess: false,
       user,
-    }),
+    }).catch(() => ({ totalDocs: 0 })),
     payload.find({
       collection: 'popup-announcements',
       where: {
@@ -85,9 +83,9 @@ export default async function AdminDashboard(props: ServerProps) {
       depth: 0,
       overrideAccess: false,
       user,
-    }),
-    payload.count({ collection: 'service-categories', overrideAccess: false, user }),
-    payload.findGlobal({ slug: 'site-settings', overrideAccess: true }),
+    }).catch(() => ({ docs: [] })),
+    payload.count({ collection: 'service-categories', overrideAccess: false, user }).catch(() => ({ totalDocs: 0 })),
+    payload.findGlobal({ slug: 'site-settings', overrideAccess: true }).catch(() => null),
   ])
 
   const activeAnnouncement = announcements.docs[0] as { id?: number | string; title?: string } | undefined
@@ -112,12 +110,12 @@ export default async function AdminDashboard(props: ServerProps) {
             turn something off again instead of deleting it.
           </p>
         </div>
-        <a className="milano-admin-dashboard__live" href={siteUrl} target="_blank" rel="noreferrer">
+        <a className="milano-admin-dashboard__live" href="/" target="_blank" rel="noreferrer">
           View live website
         </a>
       </header>
 
-      <AdminBookingToggle siteUrl={siteUrl} />
+      <AdminBookingToggle />
 
       <section className="milano-admin-tasks" aria-label="Common tasks">
         {EDITOR_TASKS.map((task) => (

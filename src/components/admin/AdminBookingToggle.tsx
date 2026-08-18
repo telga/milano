@@ -3,11 +3,7 @@
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
 
-type AdminBookingToggleProps = {
-  siteUrl: string
-}
-
-export default function AdminBookingToggle({ siteUrl }: AdminBookingToggleProps) {
+export default function AdminBookingToggle() {
   const [enabled, setEnabled] = useState(false)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -72,7 +68,7 @@ export default function AdminBookingToggle({ siteUrl }: AdminBookingToggleProps)
             : 'Book buttons open ABC Salon directly in a new tab — same as before.'}
         </p>
         <div className="milano-admin-booking__links">
-          <a href={`${siteUrl}/book`} target="_blank" rel="noreferrer">
+          <a href="/book" target="_blank" rel="noreferrer">
             Preview booking page
           </a>
           <Link href="/admin/globals/site-settings">Booking settings</Link>
