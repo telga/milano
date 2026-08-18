@@ -1,5 +1,6 @@
 import type { Media, SiteSetting } from '@/payload-types'
 
+import { cloudinaryDeliveryUrl } from '@/lib/cloudinary/config'
 import { getSiteUrl } from '@/lib/siteUrl'
 
 type MediaLike = Media | number | null | undefined
@@ -9,6 +10,11 @@ export type { MediaLike }
 export function getMediaUrl(media: MediaLike, fallback?: string): string {
   if (!media) return fallback || '/images/placeholder.svg'
   if (typeof media === 'number') return fallback || '/images/placeholder.svg'
+
+  if (media.cloudinaryPublicId) {
+    const cloudinaryUrl = cloudinaryDeliveryUrl(media.cloudinaryPublicId)
+    if (cloudinaryUrl) return cloudinaryUrl
+  }
 
   if (media.url) {
     if (media.url.startsWith('/') || media.url.startsWith('http')) return media.url

@@ -3,6 +3,7 @@ import { join } from 'path'
 import type { Payload } from 'payload'
 
 import { SITE_IMAGE_SLOTS } from '@/collections/SiteImageSlots'
+import { isCloudinaryConfigured } from '@/lib/cloudinary/config'
 import { SERVICE_CATEGORIES } from '@/lib/data/services'
 import { runFixImageSlots } from '@/lib/fix-image-slots'
 
@@ -119,12 +120,28 @@ function buildCloudinaryUrl(entry: ManifestEntry): string | null {
   return `https://res.cloudinary.com/${cloudName}/image/upload/${entry.cloudinaryPublicId}`
 }
 
+const TINY_JPEG = Buffer.from(
+  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
+  'base64',
+)
+
 async function ensureCloudinaryMedia(
   payload: Payload,
   entry: ManifestEntry,
 ): Promise<{ id: number | string } | null> {
   const cloudinaryUrl = buildCloudinaryUrl(entry)
   if (!entry.cloudinaryPublicId || !cloudinaryUrl) return null
+
+  const filename = `${entry.cloudinaryPublicId.replace(/[^\w.-]+/g, '-')}.jpg`
+  const mediaData = {
+    alt: entry.alt,
+    sourceUrl: entry.sourceUrl,
+    cloudinaryPublicId: entry.cloudinaryPublicId,
+    url: cloudinaryUrl,
+    filename,
+    mimeType: 'image/jpeg',
+    filesize: 1,
+  }
 
   const existing = await payload.find({
     collection: 'media',
@@ -137,11 +154,7 @@ async function ensureCloudinaryMedia(
     await payload.update({
       collection: 'media',
       id: current.id,
-      data: {
-        alt: entry.alt,
-        sourceUrl: entry.sourceUrl,
-        url: cloudinaryUrl,
-      },
+      data: mediaData,
     })
     return current as { id: number | string }
   }
@@ -149,16 +162,26 @@ async function ensureCloudinaryMedia(
   try {
     const created = await payload.create({
       collection: 'media',
-      data: {
-        alt: entry.alt,
-        sourceUrl: entry.sourceUrl,
-        url: cloudinaryUrl,
-        filename: entry.localPath.split('/').pop() || entry.alt,
-      },
+      data: mediaData,
     })
     return created as { id: number | string }
   } catch {
-    return null
+    try {
+      const created = await payload.create({
+        collection: 'media',
+        data: mediaData,
+        file: {
+          data: TINY_JPEG,
+          mimetype: 'image/png',
+          name: filename.replace(/\.jpg$/, '.png'),
+          size: TINY_JPEG.length,
+        },
+      })
+      return created as { id: number | string }
+    } catch (error) {
+      console.error('[seed] Cloudinary media create failed', entry.sourceUrl, error)
+      return null
+    }
   }
 }
 
@@ -286,23 +309,26 @@ export async function runSeed(payload: Payload) {
   }
 
   const mediaByUrl = new Map<string, number>()
-  const importMedia = canSeedMediaFiles()
+  const importLocalMedia = canSeedMediaFiles()
+  const importCloudinaryMedia = isCloudinaryConfigured()
 
-  if (importMedia) {
-    for (const entry of manifest) {
-      const media = await uploadMediaFromFile(payload, entry.localPath, entry.alt, entry.sourceUrl)
-      if (media) mediaByUrl.set(entry.sourceUrl, Number(media.id))
-    }
-  } else {
+  if (importCloudinaryMedia) {
     for (const entry of manifest) {
       const media = await ensureCloudinaryMedia(payload, entry)
       if (media) mediaByUrl.set(entry.sourceUrl, Number(media.id))
     }
+  } else if (importLocalMedia) {
+    for (const entry of manifest) {
+      const media = await uploadMediaFromFile(payload, entry.localPath, entry.alt, entry.sourceUrl)
+      if (media) mediaByUrl.set(entry.sourceUrl, Number(media.id))
+    }
   }
+
+  const hasMedia = mediaByUrl.size > 0
 
   for (const slotDef of SITE_IMAGE_SLOTS) {
     const manifestEntry = manifest.find((m) => m.slot === slotDef.slotId)
-    const imageId = importMedia && manifestEntry ? mediaByUrl.get(manifestEntry.sourceUrl) : undefined
+    const imageId = manifestEntry ? mediaByUrl.get(manifestEntry.sourceUrl) : undefined
 
     const existing = await payload.find({
       collection: 'site-image-slots',
@@ -325,7 +351,7 @@ export async function runSeed(payload: Payload) {
     }
   }
 
-  if (importMedia) {
+  if (hasMedia) {
     const logoEntry = manifest.find((m) => m.slot === 'logo')
     if (logoEntry) {
       const logoId = mediaByUrl.get(logoEntry.sourceUrl)
@@ -386,7 +412,7 @@ export async function runSeed(payload: Payload) {
   }
 
   const blogFeatured =
-    importMedia &&
+    hasMedia &&
     (manifest.find((m) => m.slot === 'blog-hero') ||
       manifest.find((m) => m.slot === 'home-hero') ||
       manifest[0])
@@ -448,11 +474,11 @@ We remain deeply committed to offering you a refined, relaxing, and truly luxuri
     await payload.create({ collection: 'popup-announcements', data: popupData })
   }
 
-  const fixResult = importMedia ? await runFixImageSlots(payload) : { skipped: true }
+  const fixResult = hasMedia ? await runFixImageSlots(payload) : { skipped: true }
 
   return {
     success: true,
-    mediaSkipped: !importMedia,
+    mediaSkipped: !hasMedia,
     imagesImported: mediaByUrl.size,
     categories: SERVICE_CATEGORIES.length,
     imageSlots: fixResult,

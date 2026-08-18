@@ -20,7 +20,6 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@jhb.software/payload-cloudinary-plugin": "^0.4.0",
     "@payloadcms/db-postgres": "^3.85.1",
     "@payloadcms/db-sqlite": "^3.85.1",
     "@payloadcms/next": "^3.85.1",

@@ -22,9 +22,11 @@ export async function runFixImageSlots(payload: Payload) {
     height?: number | null
   }>
 
-  /** Small assets are brand marks, not photography — never use them as page imagery */
-  const isMarkSized = (doc: (typeof docs)[number]) =>
-    (doc.width ?? 0) < MIN_PHOTO_EDGE || (doc.height ?? 0) < MIN_PHOTO_EDGE
+  /** Unknown dimensions (Cloudinary-backed records) are photography, not brand marks. */
+  const isMarkSized = (doc: (typeof docs)[number]) => {
+    if (doc.width == null && doc.height == null) return false
+    return (doc.width ?? 0) < MIN_PHOTO_EDGE || (doc.height ?? 0) < MIN_PHOTO_EDGE
+  }
 
   const photoIds = docs.filter((doc) => !isMarkSized(doc)).map((doc) => Number(doc.id))
   const markId = docs.find(isMarkSized)?.id

@@ -1,9 +1,13 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
+import { cloudStoragePlugin } from '@payloadcms/plugin-cloud-storage'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
 import sharp from 'sharp'
+
+import { cloudinaryAdapter } from './src/lib/cloudinary/adapter'
+import { isCloudinaryConfigured } from './src/lib/cloudinary/config'
 
 import { BlogPosts } from './src/collections/BlogPosts'
 import { GalleryItems } from './src/collections/GalleryItems'
@@ -79,5 +83,18 @@ export default buildConfig({
     outputFile: path.resolve(process.cwd(), 'src/payload-types.ts'),
   },
   db: getDatabaseAdapter(),
+  plugins: isCloudinaryConfigured()
+    ? [
+        cloudStoragePlugin({
+          collections: {
+            media: {
+              adapter: cloudinaryAdapter,
+              disableLocalStorage: true,
+              disablePayloadAccessControl: true,
+            },
+          },
+        }),
+      ]
+    : [],
   sharp,
 })

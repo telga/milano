@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { anyone, authenticated, hideFromEditors } from '@/payload/access'
 import { friendlyList } from '@/payload/adminFields'
+import { cloudinaryDeliveryUrl } from '@/lib/cloudinary/config'
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -28,7 +29,10 @@ export const Media: CollectionConfig = {
     staticDir: 'media',
     mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'],
     adminThumbnail: ({ doc }) => {
-      const d = doc as { url?: string }
+      const d = doc as { cloudinaryPublicId?: string; url?: string }
+      if (d.cloudinaryPublicId) {
+        return cloudinaryDeliveryUrl(d.cloudinaryPublicId, 'w_300,h_300,c_fill,f_auto,q_auto')
+      }
       return d.url || null
     },
   },
