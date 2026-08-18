@@ -11,9 +11,9 @@ export function getMediaUrl(media: MediaLike, fallback?: string): string {
   if (typeof media === 'number') return fallback || '/images/placeholder.svg'
 
   if (media.url) {
-    if (media.url.startsWith('http')) return media.url
+    if (media.url.startsWith('/') || media.url.startsWith('http')) return media.url
     const base = getSiteUrl()
-    return `${base}${media.url}`
+    return `${base}${media.url.startsWith('/') ? '' : '/'}${media.url}`
   }
 
   return fallback || '/images/placeholder.svg'

@@ -1,4 +1,4 @@
-import { readFileSync, existsSync } from 'fs'
+import { existsSync, mkdirSync, readFileSync } from 'fs'
 import { join } from 'path'
 import type { Payload } from 'payload'
 
@@ -71,27 +71,100 @@ function textToLexical(text: string) {
   }
 }
 
+/** Vercel's filesystem is read-only — Payload cannot mkdir `media/` there. */
+function canSeedMediaFiles(): boolean {
+  if (process.env.VERCEL) return false
+  try {
+    mkdirSync(join(process.cwd(), 'media'), { recursive: true })
+    return true
+  } catch {
+    return false
+  }
+}
+
 async function uploadMediaFromFile(
   payload: Payload,
   filePath: string,
   alt: string,
   sourceUrl: string,
 ) {
-  const absolute = join(process.cwd(), 'scripts', 'assets', filePath)
-  if (!existsSync(absolute)) return null
+  try {
+    const absolute = join(process.cwd(), 'scripts', 'assets', filePath)
+    if (!existsSync(absolute)) return null
 
-  const existing = await payload.find({
-    collection: 'media',
-    where: { sourceUrl: { equals: sourceUrl } },
-    limit: 1,
-  })
-  if (existing.docs[0]) return existing.docs[0]
+    const existing = await payload.find({
+      collection: 'media',
+      where: { sourceUrl: { equals: sourceUrl } },
+      limit: 1,
+    })
+    if (existing.docs[0]) return existing.docs[0]
 
-  return payload.create({
-    collection: 'media',
-    data: { alt, sourceUrl },
-    filePath: absolute,
-  })
+    return await payload.create({
+      collection: 'media',
+      data: { alt, sourceUrl },
+      filePath: absolute,
+    })
+  } catch {
+    return null
+  }
+}
+
+async function seedServiceCatalog(payload: Payload) {
+  for (const category of SERVICE_CATEGORIES) {
+    const catDoc = await payload.find({
+      collection: 'service-categories',
+      where: { slug: { equals: category.slug } },
+      limit: 1,
+    })
+
+    let categoryId: number
+    if (catDoc.docs[0]) {
+      categoryId = Number(catDoc.docs[0].id)
+      await payload.update({
+        collection: 'service-categories',
+        id: categoryId,
+        data: { name: category.name, sortOrder: category.sortOrder, published: true },
+      })
+    } else {
+      const created = await payload.create({
+        collection: 'service-categories',
+        data: {
+          name: category.name,
+          slug: category.slug,
+          sortOrder: category.sortOrder,
+          published: true,
+        },
+      })
+      categoryId = Number(created.id)
+    }
+
+    for (const [i, service] of category.services.entries()) {
+      const existing = await payload.find({
+        collection: 'services',
+        where: {
+          and: [{ name: { equals: service.name } }, { category: { equals: categoryId } }],
+        },
+        limit: 1,
+      })
+
+      const data = {
+        name: service.name,
+        category: categoryId,
+        durationMinutes: service.durationMinutes,
+        description: service.description,
+        bullets: service.bullets?.map((text) => ({ text })),
+        showPrice: false,
+        sortOrder: i,
+        published: true,
+      }
+
+      if (existing.docs[0]) {
+        await payload.update({ collection: 'services', id: existing.docs[0].id, data })
+      } else {
+        await payload.create({ collection: 'services', data })
+      }
+    }
+  }
 }
 
 export async function backfillStaffUsernames(payload: Payload) {
@@ -151,6 +224,8 @@ export async function runSeed(payload: Payload) {
     },
   })
 
+  await seedServiceCatalog(payload)
+
   const manifestPath = join(process.cwd(), 'scripts', 'image-manifest.json')
   let manifest: ManifestEntry[] = []
   if (existsSync(manifestPath)) {
@@ -158,15 +233,18 @@ export async function runSeed(payload: Payload) {
   }
 
   const mediaByUrl = new Map<string, number>()
+  const importMedia = canSeedMediaFiles()
 
-  for (const entry of manifest) {
-    const media = await uploadMediaFromFile(payload, entry.localPath, entry.alt, entry.sourceUrl)
-    if (media) mediaByUrl.set(entry.sourceUrl, Number(media.id))
+  if (importMedia) {
+    for (const entry of manifest) {
+      const media = await uploadMediaFromFile(payload, entry.localPath, entry.alt, entry.sourceUrl)
+      if (media) mediaByUrl.set(entry.sourceUrl, Number(media.id))
+    }
   }
 
   for (const slotDef of SITE_IMAGE_SLOTS) {
     const manifestEntry = manifest.find((m) => m.slot === slotDef.slotId)
-    const imageId = manifestEntry ? mediaByUrl.get(manifestEntry.sourceUrl) : undefined
+    const imageId = importMedia && manifestEntry ? mediaByUrl.get(manifestEntry.sourceUrl) : undefined
 
     const existing = await payload.find({
       collection: 'site-image-slots',
@@ -189,124 +267,71 @@ export async function runSeed(payload: Payload) {
     }
   }
 
-  const logoEntry = manifest.find((m) => m.slot === 'logo')
-  if (logoEntry) {
-    const logoId = mediaByUrl.get(logoEntry.sourceUrl)
-    if (logoId) {
-      await payload.updateGlobal({ slug: 'site-settings', data: { logo: logoId } })
+  if (importMedia) {
+    const logoEntry = manifest.find((m) => m.slot === 'logo')
+    if (logoEntry) {
+      const logoId = mediaByUrl.get(logoEntry.sourceUrl)
+      if (logoId) {
+        await payload.updateGlobal({ slug: 'site-settings', data: { logo: logoId } })
+      }
     }
-  }
 
-  for (const entry of manifest.filter((m) => m.collection === 'gallery-items')) {
-    const imageId = mediaByUrl.get(entry.sourceUrl)
-    if (!imageId) continue
-    const dup = await payload.find({
-      collection: 'gallery-items',
-      where: { image: { equals: imageId } },
-      limit: 1,
-    })
-    if (dup.docs[0]) continue
-    await payload.create({
-      collection: 'gallery-items',
-      data: {
-        image: imageId,
-        caption: entry.alt,
-        category: 'legacy-import',
-        sortOrder: entry.sortOrder ?? 0,
-        published: true,
-      },
-    })
-  }
-
-  for (const entry of manifest.filter((m) => m.collection === 'promotions')) {
-    const imageId = mediaByUrl.get(entry.sourceUrl)
-    if (!imageId) continue
-    await payload.create({
-      collection: 'promotions',
-      data: {
-        title: entry.title || 'Promotion',
-        image: imageId,
-        sortOrder: entry.sortOrder ?? 0,
-        published: true,
-      },
-    })
-  }
-
-  for (const entry of manifest.filter((m) => m.collection === 'specialties')) {
-    const imageId = mediaByUrl.get(entry.sourceUrl)
-    if (!imageId) continue
-    await payload.create({
-      collection: 'specialties',
-      data: {
-        title: entry.title || 'Specialty Design',
-        subtitle: 'Best Nail Design For You',
-        image: imageId,
-        sortOrder: entry.sortOrder ?? 0,
-        published: true,
-      },
-    })
-  }
-
-  for (const category of SERVICE_CATEGORIES) {
-    const catDoc = await payload.find({
-      collection: 'service-categories',
-      where: { slug: { equals: category.slug } },
-      limit: 1,
-    })
-
-    let categoryId: number
-    if (catDoc.docs[0]) {
-      categoryId = Number(catDoc.docs[0].id)
-      await payload.update({
-        collection: 'service-categories',
-        id: categoryId,
-        data: { name: category.name, sortOrder: category.sortOrder, published: true },
+    for (const entry of manifest.filter((m) => m.collection === 'gallery-items')) {
+      const imageId = mediaByUrl.get(entry.sourceUrl)
+      if (!imageId) continue
+      const dup = await payload.find({
+        collection: 'gallery-items',
+        where: { image: { equals: imageId } },
+        limit: 1,
       })
-    } else {
-      const created = await payload.create({
-        collection: 'service-categories',
+      if (dup.docs[0]) continue
+      await payload.create({
+        collection: 'gallery-items',
         data: {
-          name: category.name,
-          slug: category.slug,
-          sortOrder: category.sortOrder,
+          image: imageId,
+          caption: entry.alt,
+          category: 'legacy-import',
+          sortOrder: entry.sortOrder ?? 0,
           published: true,
         },
       })
-      categoryId = Number(created.id)
     }
 
-    for (const [i, service] of category.services.entries()) {
-      const existing = await payload.find({
-        collection: 'services',
-        where: {
-          and: [{ name: { equals: service.name } }, { category: { equals: categoryId } }],
+    for (const entry of manifest.filter((m) => m.collection === 'promotions')) {
+      const imageId = mediaByUrl.get(entry.sourceUrl)
+      if (!imageId) continue
+      await payload.create({
+        collection: 'promotions',
+        data: {
+          title: entry.title || 'Promotion',
+          image: imageId,
+          sortOrder: entry.sortOrder ?? 0,
+          published: true,
         },
-        limit: 1,
       })
+    }
 
-      const data = {
-        name: service.name,
-        category: categoryId,
-        durationMinutes: service.durationMinutes,
-        description: service.description,
-        bullets: service.bullets?.map((text) => ({ text })),
-        showPrice: false,
-        sortOrder: i,
-        published: true,
-      }
-
-      if (existing.docs[0]) {
-        await payload.update({ collection: 'services', id: existing.docs[0].id, data })
-      } else {
-        await payload.create({ collection: 'services', data })
-      }
+    for (const entry of manifest.filter((m) => m.collection === 'specialties')) {
+      const imageId = mediaByUrl.get(entry.sourceUrl)
+      if (!imageId) continue
+      await payload.create({
+        collection: 'specialties',
+        data: {
+          title: entry.title || 'Specialty Design',
+          subtitle: 'Best Nail Design For You',
+          image: imageId,
+          sortOrder: entry.sortOrder ?? 0,
+          published: true,
+        },
+      })
     }
   }
 
   const blogFeatured =
-    manifest.find((m) => m.slot === 'blog-hero') ||
-    manifest.find((m) => m.slot === 'home-hero') ||
-    manifest[0]
+    importMedia &&
+    (manifest.find((m) => m.slot === 'blog-hero') ||
+      manifest.find((m) => m.slot === 'home-hero') ||
+      manifest[0])
   const featuredId = blogFeatured ? mediaByUrl.get(blogFeatured.sourceUrl) : undefined
 
   const existingBlog = await payload.find({
@@ -365,11 +390,12 @@ We remain deeply committed to offering you a refined, relaxing, and truly luxuri
     await payload.create({ collection: 'popup-announcements', data: popupData })
   }
 
-  const fixResult = await runFixImageSlots(payload)
+  const fixResult = importMedia ? await runFixImageSlots(payload) : { skipped: true }
 
   return {
     success: true,
-    images: manifest.length,
+    mediaSkipped: !importMedia,
+    imagesImported: mediaByUrl.size,
     categories: SERVICE_CATEGORIES.length,
     imageSlots: fixResult,
   }

@@ -1,3 +1,4 @@
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { NextResponse } from 'next/server'
 
 import { runFixImageSlots } from '@/lib/fix-image-slots'
@@ -30,6 +31,8 @@ export async function POST(request: Request) {
     }
 
     const result = await runSeed(payload)
+    revalidateTag('site-content')
+    revalidatePath('/', 'layout')
     return NextResponse.json(result)
   } catch (error) {
     console.error(error)

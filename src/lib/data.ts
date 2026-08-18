@@ -3,6 +3,12 @@ import { unstable_cache } from 'next/cache'
 import type { SiteImageSlotId } from '@/collections/SiteImageSlots'
 import { REVALIDATE_SECONDS } from '@/lib/constants'
 import { getPayloadClient } from '@/lib/payload'
+import {
+  scrapedGalleryItems,
+  scrapedPromotions,
+  scrapedSpecialties,
+  withScrapedSlotImages,
+} from '@/lib/scrapedImages'
 import type {
   BlogPost,
   GalleryItem,
@@ -46,13 +52,13 @@ export async function getImageSlots(): Promise<SiteImageSlot[]> {
 }
 
 export async function getImageSlot(slotId: SiteImageSlotId): Promise<SiteImageSlot | undefined> {
-  const slots = await getImageSlots()
-  return slots.find((s) => s.slotId === slotId)
+  const slots = await getSlotsMapSafe()
+  return slots[slotId]
 }
 
 export async function getSlotsMap(): Promise<Record<string, SiteImageSlot | undefined>> {
   const slots = await getImageSlots()
-  return Object.fromEntries(slots.map((s) => [s.slotId, s]))
+  return withScrapedSlotImages(Object.fromEntries(slots.map((s) => [s.slotId, s])))
 }
 
 export async function getServiceCategories(): Promise<ServiceCategory[]> {
@@ -106,57 +112,72 @@ export async function getServicesByCategory(): Promise<
 }
 
 export async function getPromotions(): Promise<Promotion[]> {
-  return unstable_cache(
-    async () => {
-      const payload = await getPayloadClient()
-      const result = await payload.find({
-        collection: 'promotions',
-        where: { published: { equals: true } },
-        sort: 'sortOrder',
-        limit: 50,
-        depth: 2,
-      })
-      return result.docs as Promotion[]
-    },
-    ['promotions'],
-    cacheOpts,
-  )()
+  try {
+    return await unstable_cache(
+      async () => {
+        const payload = await getPayloadClient()
+        const result = await payload.find({
+          collection: 'promotions',
+          where: { published: { equals: true } },
+          sort: 'sortOrder',
+          limit: 50,
+          depth: 2,
+        })
+        const docs = result.docs as Promotion[]
+        return docs.length ? docs : scrapedPromotions()
+      },
+      ['promotions'],
+      cacheOpts,
+    )()
+  } catch {
+    return scrapedPromotions()
+  }
 }
 
 export async function getSpecialties(): Promise<Specialty[]> {
-  return unstable_cache(
-    async () => {
-      const payload = await getPayloadClient()
-      const result = await payload.find({
-        collection: 'specialties',
-        where: { published: { equals: true } },
-        sort: 'sortOrder',
-        limit: 50,
-        depth: 2,
-      })
-      return result.docs as Specialty[]
-    },
-    ['specialties'],
-    cacheOpts,
-  )()
+  try {
+    return await unstable_cache(
+      async () => {
+        const payload = await getPayloadClient()
+        const result = await payload.find({
+          collection: 'specialties',
+          where: { published: { equals: true } },
+          sort: 'sortOrder',
+          limit: 50,
+          depth: 2,
+        })
+        const docs = result.docs as Specialty[]
+        return docs.length ? docs : scrapedSpecialties()
+      },
+      ['specialties'],
+      cacheOpts,
+    )()
+  } catch {
+    return scrapedSpecialties()
+  }
 }
 
 export async function getGalleryItems(): Promise<GalleryItem[]> {
-  return unstable_cache(
-    async () => {
-      const payload = await getPayloadClient()
-      const result = await payload.find({
-        collection: 'gallery-items',
-        where: { published: { equals: true } },
-        sort: 'sortOrder',
-        limit: 200,
-        depth: 2,
-      })
-      return result.docs as GalleryItem[]
-    },
-    ['gallery-items'],
-    cacheOpts,
-  )()
+  try {
+    return await unstable_cache(
+      async () => {
+        const payload = await getPayloadClient()
+        const result = await payload.find({
+          collection: 'gallery-items',
+          where: { published: { equals: true } },
+          sort: 'sortOrder',
+          limit: 200,
+          depth: 2,
+        })
+        const docs = result.docs as GalleryItem[]
+        return docs.length ? docs : scrapedGalleryItems()
+      },
+      ['gallery-items'],
+      cacheOpts,
+    )()
+  } catch {
+    return scrapedGalleryItems()
+  }
 }
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
@@ -237,9 +258,9 @@ export async function getActiveHomePopup(): Promise<PopupAnnouncement | null> {
 
 export async function getSlotsMapSafe(): Promise<Record<string, SiteImageSlot | undefined>> {
   try {
-    return await getSlotsMap()
+    return withScrapedSlotImages(await getSlotsMap())
   } catch {
-    return {}
+    return withScrapedSlotImages({})
   }
 }
 

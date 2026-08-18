@@ -202,14 +202,20 @@ curl -X POST "https://YOUR-PROJECT.vercel.app/api/migrate" -H "x-seed-secret: PA
 curl -X POST "https://YOUR-PROJECT.vercel.app/api/seed" -H "x-seed-secret: PASTE_SEED_SECRET_HERE"
 ```
 
-You want JSON back, not `Unauthorized`.
+You want JSON back, not `Unauthorized`. A good seed response looks like:
+
+```json
+{ "success": true, "mediaSkipped": true, "categories": 15, ... }
+```
+
+On Vercel, `mediaSkipped: true` is normal — the serverless filesystem cannot store Payload uploads. Services still seed. Hero, gallery, promotions, and specialties photos come from **`public/scraped`** (already in git) and do not need the `media` table.
 
 - **401** — `SEED_SECRET` in Vercel does not match what you sent. Fix the env var, redeploy if needed, retry.
-- **500 `Failed query: select count(*) from "users"`** — tables were not created. Redeploy a build that includes schema push, run **migrate** again, then seed.
+- **500 `ENOENT ... mkdir 'media'`** — redeploy the latest code (seed now skips photos on Vercel and still writes services), then run **seed** again.
 - **500 / timeout** — Neon might still be waking, or seed ran long. Wait 30 seconds and run **seed** again. It should skip an admin user that already exists.
-- Homepage still odd — hard refresh, then wait a minute (pages are cached ~60s).
+- **Services menu still empty after seed** — hard refresh (Ctrl+F5). If still empty, run seed again and confirm JSON shows `"success": true` and `"categories"` is greater than zero.
 
-Scraped photos are in git (`scripts/assets/scraped`, `media`, `public/scraped`), so seed **can** attach them if that commit was part of the Vercel build. New uploads in `/admin` on Vercel still will not last past the next deploy.
+Hero / gallery photos come from `public/scraped` on the live site (static files in git). Payload’s `media` folder is for local admin uploads and is not writable on Vercel, so Neon’s `media` table staying empty is expected. New uploads in `/admin` on Vercel still will not last past the next deploy unless you add Cloudinary.
 
 ---
 
