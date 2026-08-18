@@ -18,9 +18,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  outputFileTracingIncludes: {
-    '/api/migrate': ['./node_modules/drizzle-kit/**/*'],
-  },
   async redirects() {
     return [
       { source: '/index', destination: '/', permanent: true },

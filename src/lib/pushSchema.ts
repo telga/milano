@@ -1,20 +1,10 @@
+import { pushSchema } from 'drizzle-kit/api'
 import type { Payload } from 'payload'
 
-type DrizzleKitApi = {
-  pushSchema: (
-    schema: unknown,
-    drizzle: unknown,
-    schemaFilters?: string[],
-    tablesFilter?: string[],
-    extensionsFilter?: string[],
-  ) => Promise<{ apply: () => Promise<void> }>
-}
-
 type SchemaAdapter = {
-  drizzle?: unknown
+  drizzle?: object
   extensions?: Record<string, boolean>
-  requireDrizzleKit?: () => DrizzleKitApi
-  schema?: unknown
+  schema?: Record<string, unknown>
   schemaName?: string
   tablesFilter?: string[]
 }
@@ -26,14 +16,13 @@ type SchemaAdapter = {
  */
 export async function pushPayloadSchema(payload: Payload): Promise<void> {
   const adapter = payload.db as SchemaAdapter
-  if (typeof adapter.requireDrizzleKit !== 'function' || !adapter.schema || !adapter.drizzle) {
+  if (!adapter.schema || !adapter.drizzle) {
     return
   }
 
-  const { pushSchema } = adapter.requireDrizzleKit()
   const { apply } = await pushSchema(
     adapter.schema,
-    adapter.drizzle,
+    adapter.drizzle as never,
     adapter.schemaName ? [adapter.schemaName] : undefined,
     adapter.tablesFilter,
     adapter.extensions?.postgis ? ['postgis'] : undefined,
