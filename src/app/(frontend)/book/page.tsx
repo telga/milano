@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation'
 
 import { BookingFacade } from '@/components/booking/BookingFacade'
 import { BookingWizard } from '@/components/booking/native'
-import { getAbcBookingUrl, isCustomBookingEnabled, isNativeBookingEnabled } from '@/lib/booking'
+import { getAbcBookingUrl, isBookingSubmitEnabled, isCustomBookingEnabled, isNativeBookingEnabled } from '@/lib/booking'
 import { getSiteSettingsSafe } from '@/lib/data'
 import { buildPageMetadata } from '@/lib/seo'
 
@@ -24,7 +24,11 @@ export default async function BookPage() {
 
   if (isNativeBookingEnabled(settings)) {
     return (
-      <BookingWizard phone={settings?.phone || undefined} fallbackUrl={abcBookingUrl} />
+      <BookingWizard
+        phone={settings?.phone || undefined}
+        fallbackUrl={abcBookingUrl}
+        submitEnabled={isBookingSubmitEnabled(settings)}
+      />
     )
   }
 

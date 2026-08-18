@@ -50,6 +50,12 @@ export default async function PhotoCell({ cellData, payload }: DefaultServerCell
     return <span className="milano-cell-empty">No photo</span>
   }
 
+  // payload may be undefined when this cell is rendered inside the media picker
+  // drawer (client-side context). Degrade gracefully rather than crashing.
+  if (!payload) {
+    return <span className="milano-cell-empty">—</span>
+  }
+
   const found = (await mediaLookup(payload)).get(String(id))
   const src =
     found?.cloudinaryUrl ||

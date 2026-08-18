@@ -53,7 +53,7 @@ export default function AdminBookingToggle({ siteUrl }: AdminBookingToggleProps)
       if (!res.ok) throw new Error('Save failed')
       setEnabled(next)
     } catch {
-      setError('Could not save. Try again or use Hours & Contact → Booking.')
+      setError('Could not save. Try again or use Website Misc → Booking.')
     } finally {
       setSaving(false)
     }

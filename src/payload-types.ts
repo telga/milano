@@ -110,6 +110,7 @@ export interface SiteSetting {
   hideServiceCardIcons?: boolean | null
   useCustomBookingFrontend?: boolean | null
   useNativeAbcBooking?: boolean | null
+  allowBookingSubmit?: boolean | null
   seo?: {
     title?: string | null
     description?: string | null

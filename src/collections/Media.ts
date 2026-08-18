@@ -15,8 +15,8 @@ export const Media: CollectionConfig = {
     useAsTitle: 'alt',
     description:
       'Every photo uploaded to the website. You can also upload while editing a gallery photo, photo spot, or blog post.',
-    defaultColumns: ['filename', 'alt', 'cloudinaryPublicId', 'updatedAt'],
-    listSearchableFields: ['alt', 'filename', 'sourceUrl', 'cloudinaryPublicId'],
+    defaultColumns: ['filename', 'alt', 'updatedAt'],
+    listSearchableFields: ['alt', 'filename', 'sourceUrl'],
   },
   access: {
     read: anyone,
@@ -27,6 +27,10 @@ export const Media: CollectionConfig = {
   upload: {
     staticDir: 'media',
     mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'],
+    adminThumbnail: ({ doc }) => {
+      const d = doc as { cloudinaryUrl?: string; url?: string }
+      return d.cloudinaryUrl || d.url || null
+    },
   },
   fields: [
     {

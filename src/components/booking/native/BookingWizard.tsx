@@ -30,11 +30,12 @@ import { BookingStaffStep } from './BookingStaffStep'
 type BookingWizardProps = {
   phone?: string
   fallbackUrl: string
+  submitEnabled?: boolean
 }
 
 type StaffOption = { id: string; name: string }
 
-export function BookingWizard({ phone, fallbackUrl }: BookingWizardProps) {
+export function BookingWizard({ phone, fallbackUrl, submitEnabled = false }: BookingWizardProps) {
   const [state, dispatch] = useReducer(nativeBookingReducer, initialNativeBookingState)
   const [staff, setStaff] = useState<StaffOption[]>([])
   const [categories, setCategories] = useState<string[]>([])
@@ -195,6 +196,14 @@ export function BookingWizard({ phone, fallbackUrl }: BookingWizardProps) {
     if (!state.sessionId) return
     setSubmitting(true)
     dispatch({ type: 'SET_ERROR', error: null })
+
+    if (!submitEnabled) {
+      // Demo mode: show success without actually sending to ABC Salon.
+      await new Promise((r) => setTimeout(r, 600))
+      setSubmitted(true)
+      setSubmitting(false)
+      return
+    }
 
     try {
       const res = await fetch('/api/booking/submit', {

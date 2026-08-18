@@ -5,7 +5,7 @@ import { revalidateGlobalOnChange } from '@/payload/hooks/revalidateOnChange'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
-  label: 'Hours & Contact',
+  label: 'Website Misc',
   admin: {
     group: 'Website Basics',
     hideAPIURL: true,
@@ -255,6 +255,16 @@ export const SiteSettings: GlobalConfig = {
               admin: {
                 description:
                   'When on (and custom booking is on), visitors see the full Milano-styled booking wizard powered by ABC Salon underneath. When off, the ABC form is embedded in an iframe.',
+              },
+            },
+            {
+              name: 'allowBookingSubmit',
+              label: 'Allow successful booking',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description:
+                  'When on (and both settings above are on), completing the wizard actually sends the appointment to ABC Salon. When off, the full native booking UI still shows but stops short of submitting — useful for demos.',
               },
             },
           ],

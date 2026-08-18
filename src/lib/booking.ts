@@ -15,6 +15,14 @@ export function isNativeBookingEnabled(settings?: SiteSetting | null): boolean {
   return Boolean(settings?.useCustomBookingFrontend && settings?.useNativeAbcBooking)
 }
 
+export function isBookingSubmitEnabled(settings?: SiteSetting | null): boolean {
+  return Boolean(
+    settings?.useCustomBookingFrontend &&
+      settings?.useNativeAbcBooking &&
+      settings?.allowBookingSubmit,
+  )
+}
+
 export function isInternalBookingHref(href: string): boolean {
   return href === BOOKING_PAGE_PATH || href.startsWith(`${BOOKING_PAGE_PATH}?`)
 }
