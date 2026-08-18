@@ -1,5 +1,7 @@
 # Production Deployment — Milano Nail Spa
 
+For a **free shareholder demo** (`*.vercel.app`, no custom domain), follow [HOW_TO_HOST_A_DEMO.md](HOW_TO_HOST_A_DEMO.md) instead of this file.
+
 ## Prerequisites
 
 - GitHub repository connected to Vercel

@@ -61,7 +61,7 @@ test.describe('Milano Nail Spa public site', () => {
     await expect(page.getByRole('link', { name: /Book (Now|Appointment)/i }).first()).toBeVisible()
   })
 
-  test('theme toggle persists preference', async ({ page }) => {
+  test('theme follows the device default', async ({ page }) => {
     await page.goto('/')
     const dialog = page.locator('[role="dialog"]')
     await dialog.waitFor({ state: 'visible', timeout: 5000 }).catch(() => null)
@@ -70,18 +70,19 @@ test.describe('Milano Nail Spa public site', () => {
       await expect(dialog).toHaveCount(0)
     }
 
+    const deviceTheme = await page.evaluate(() =>
+      window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+    )
+    await expect(page.locator('html')).toHaveAttribute('data-theme', deviceTheme)
+
     const toggle = page.getByRole('button', { name: /Switch to (dark|light) mode/i })
     await expect(toggle).toHaveAttribute('data-theme-ready', 'true')
 
-    const before = await page.locator('html').getAttribute('data-theme')
     await toggle.click()
-    await expect(page.locator('html')).not.toHaveAttribute('data-theme', before || '')
-
-    const after = await page.locator('html').getAttribute('data-theme')
-    expect(after).toBeTruthy()
+    await expect(page.locator('html')).not.toHaveAttribute('data-theme', deviceTheme)
 
     await page.reload()
-    await expect(page.locator('html')).toHaveAttribute('data-theme', after!)
+    await expect(page.locator('html')).toHaveAttribute('data-theme', deviceTheme)
   })
 
   test('services page renders categories', async ({ page }) => {

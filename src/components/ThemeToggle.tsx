@@ -3,13 +3,7 @@
 import { Moon, Sun } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-import {
-  THEME_STORAGE_KEY,
-  applyTheme,
-  getSystemTheme,
-  resolveTheme,
-  type Theme,
-} from '@/lib/theme'
+import { applyTheme, clearStoredTheme, getSystemTheme, type Theme } from '@/lib/theme'
 import { cn } from '@/lib/utils'
 
 type ThemeToggleProps = {
@@ -19,17 +13,13 @@ type ThemeToggleProps = {
 export function ThemeToggle({ className }: ThemeToggleProps) {
   const [theme, setTheme] = useState<Theme>('light')
   const [mounted, setMounted] = useState(false)
+  const [override, setOverride] = useState(false)
 
   useEffect(() => {
-    try {
-      const next = resolveTheme(localStorage.getItem(THEME_STORAGE_KEY))
-      setTheme(next)
-      applyTheme(next)
-    } catch {
-      const next = getSystemTheme()
-      setTheme(next)
-      applyTheme(next)
-    }
+    clearStoredTheme()
+    const next = getSystemTheme()
+    setTheme(next)
+    applyTheme(next)
     setMounted(true)
   }, [])
 
@@ -37,30 +27,21 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
     if (!mounted) return
     const media = window.matchMedia('(prefers-color-scheme: dark)')
     const onChange = () => {
-      try {
-        const stored = localStorage.getItem(THEME_STORAGE_KEY)
-        if (stored === 'light' || stored === 'dark') return
-      } catch {
-        // ignore
-      }
+      if (override) return
       const next = getSystemTheme()
       setTheme(next)
       applyTheme(next)
     }
     media.addEventListener('change', onChange)
     return () => media.removeEventListener('change', onChange)
-  }, [mounted])
+  }, [mounted, override])
 
   const toggle = () => {
     if (!mounted) return
     const next: Theme = theme === 'dark' ? 'light' : 'dark'
+    setOverride(true)
     setTheme(next)
     applyTheme(next)
-    try {
-      localStorage.setItem(THEME_STORAGE_KEY, next)
-    } catch {
-      // ignore
-    }
   }
 
   return (

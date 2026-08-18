@@ -75,6 +75,8 @@ docs/                 Deployment & admin guides
 
 - [How to Use the Admin Portal](docs/HOW_TO_USE_ADMIN.md) — Plain-language guide for salon staff
 - [Admin Guide](docs/ADMIN_GUIDE.md) — Technical CMS reference
+- [How Native Booking Works](docs/HOW_NATIVE_BOOKING_WORKS.md) — Shareholder overview of Milano booking + ABC
+- [How to host a live demo](docs/HOW_TO_HOST_A_DEMO.md) — Free Vercel + Neon staging URL for walkthroughs
 - [Deployment](docs/DEPLOYMENT.md) — Vercel + Neon + Cloudflare production setup
 - [Security](docs/SECURITY.md) — Security checklist
 

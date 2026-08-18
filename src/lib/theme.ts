@@ -7,11 +7,6 @@ export function getSystemTheme(): Theme {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
-export function resolveTheme(stored: string | null): Theme {
-  if (stored === 'light' || stored === 'dark') return stored
-  return getSystemTheme()
-}
-
 export function applyTheme(theme: Theme) {
   const root = document.documentElement
   root.classList.toggle('dark', theme === 'dark')
@@ -19,5 +14,13 @@ export function applyTheme(theme: Theme) {
   root.dataset.theme = theme
 }
 
-/** Inline script for root layout — prevents FOUC before hydration. */
-export const THEME_INIT_SCRIPT = `(function(){try{var k=${JSON.stringify(THEME_STORAGE_KEY)};var s=localStorage.getItem(k);var t=(s==='light'||s==='dark')?s:(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');var r=document.documentElement;r.classList.toggle('dark',t==='dark');r.style.colorScheme=t;r.dataset.theme=t;}catch(e){}})();`
+export function clearStoredTheme() {
+  try {
+    localStorage.removeItem(THEME_STORAGE_KEY)
+  } catch {
+    // ignore
+  }
+}
+
+/** Inline script for root layout — follows the device theme before hydration. */
+export const THEME_INIT_SCRIPT = `(function(){try{try{localStorage.removeItem(${JSON.stringify(THEME_STORAGE_KEY)});}catch(e){}var t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';var r=document.documentElement;r.classList.toggle('dark',t==='dark');r.style.colorScheme=t;r.dataset.theme=t;}catch(e){}})();`
