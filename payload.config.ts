@@ -7,6 +7,7 @@ import sharp from 'sharp'
 import { BlogPosts } from './src/collections/BlogPosts'
 import { GalleryItems } from './src/collections/GalleryItems'
 import { Media } from './src/collections/Media'
+import { MetricsEvents } from './src/collections/MetricsEvents'
 import { PopupAnnouncements } from './src/collections/PopupAnnouncements'
 import { Promotions } from './src/collections/Promotions'
 import { ServiceCategories } from './src/collections/ServiceCategories'
@@ -70,6 +71,7 @@ export default buildConfig({
     Specialties,
     BlogPosts,
     Users,
+    MetricsEvents,
   ],
   globals: [SiteSettings],
   editor: lexicalEditor(),

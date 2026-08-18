@@ -16,6 +16,7 @@ import {
   type NativeBookingStep,
 } from '@/lib/bookingFlow'
 import type { AvailabilitySlot } from '@/lib/abc-booking/types'
+import { trackClientEvent } from '@/lib/metrics/client'
 
 import { BookingConfirmStep } from './BookingConfirmStep'
 import { BookingDateTimeStep } from './BookingDateTimeStep'
@@ -80,6 +81,7 @@ export function BookingWizard({ phone, fallbackUrl }: BookingWizardProps) {
             type: 'SET_ERROR',
             error: 'Booking is temporarily unavailable. Please use ABC Salon directly.',
           })
+          trackClientEvent({ type: 'booking_fallback', status: 'forced', path: '/book' })
         }
       } finally {
         if (!cancelled) dispatch({ type: 'SET_LOADING', loading: false })
@@ -171,6 +173,10 @@ export function BookingWizard({ phone, fallbackUrl }: BookingWizardProps) {
     state.sessionId,
   ])
 
+  useEffect(() => {
+    trackClientEvent({ type: 'booking_step', step: state.step, path: '/book' })
+  }, [state.step])
+
   const goNext = useCallback(async () => {
     if (!canContinue(state)) return
     const following = nextStep(state.step)
@@ -220,6 +226,7 @@ export function BookingWizard({ phone, fallbackUrl }: BookingWizardProps) {
           error: json.error || 'Could not send the appointment. Please try ABC Salon booking.',
         })
         if (res.status !== 429 && json.fallbackUrl) {
+          trackClientEvent({ type: 'booking_fallback', status: 'forced', path: '/book' })
           window.open(json.fallbackUrl, '_blank', 'noopener,noreferrer')
         }
         return
@@ -244,7 +251,17 @@ export function BookingWizard({ phone, fallbackUrl }: BookingWizardProps) {
             selectedIds={state.serviceIds}
             guestCount={state.guestCount}
             maxGuestCount={maxGuestCount}
-            onToggle={(service) => dispatch({ type: 'TOGGLE_SERVICE', service })}
+            onToggle={(service) => {
+              dispatch({ type: 'TOGGLE_SERVICE', service })
+              if (!state.serviceIds.includes(service.id)) {
+                trackClientEvent({
+                  type: 'service_select',
+                  serviceKey: service.name,
+                  category: service.displayCategory || service.category,
+                  path: '/book',
+                })
+              }
+            }}
             onGuestCountChange={(count) =>
               dispatch({ type: 'SET_GUEST_COUNT', count, max: maxGuestCount })
             }
@@ -288,6 +305,7 @@ export function BookingWizard({ phone, fallbackUrl }: BookingWizardProps) {
             state={state}
             fallbackUrl={fallbackUrl}
             onSubmit={() => void handleSubmit()}
+            onFallback={() => trackClientEvent({ type: 'booking_fallback', status: 'click', path: '/book' })}
             submitting={submitting}
             submitted={submitted}
           />
@@ -315,6 +333,7 @@ export function BookingWizard({ phone, fallbackUrl }: BookingWizardProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gold underline"
+                onClick={() => trackClientEvent({ type: 'booking_fallback', status: 'click', path: '/book' })}
               >
                 Open ABC Salon booking
               </a>

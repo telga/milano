@@ -131,3 +131,32 @@ export interface PopupAnnouncement {
   sortOrder?: number | null
   updatedAt?: string | null
 }
+
+export interface MetricsEvent {
+  id: number
+  type:
+    | 'page_view'
+    | 'session'
+    | 'booking_step'
+    | 'booking_submit'
+    | 'booking_fallback'
+    | 'service_select'
+    | 'admin_login'
+    | 'admin_save'
+    | 'error'
+    | 'web_vital'
+    | 'health'
+  path?: string | null
+  step?: string | null
+  serviceKey?: string | null
+  category?: string | null
+  ok?: boolean | null
+  status?: string | null
+  value?: number | null
+  session?: string | null
+  day?: string | null
+  deploy?: string | null
+  createdAt?: string | null
+  updatedAt?: string | null
+}
+

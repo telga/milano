@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { adminField, adminOnly, adminOrSelf, hideFromEditors, isAdmin } from '@/payload/access'
 import { friendlyList } from '@/payload/adminFields'
+import { trackEvent } from '@/lib/metrics/track'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -31,6 +32,15 @@ export const Users: CollectionConfig = {
     update: adminOrSelf,
     delete: adminOnly,
     admin: ({ req: { user } }) => Boolean(user),
+  },
+  hooks: {
+    afterLogin: [
+      async ({ user }) => {
+        const role = typeof user === 'object' && user && 'role' in user ? String(user.role || 'staff') : 'staff'
+        void trackEvent({ type: 'admin_login', status: role })
+        return user
+      },
+    ],
   },
   fields: [
     {

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 
 import { createSession, fetchAbcEmployees } from '@/lib/abc-booking'
 import { checkRateLimit } from '@/lib/abc-booking/rate-limit'
+import { trackEvent } from '@/lib/metrics/track'
 
 function clientIp(request: Request): string {
   return (
@@ -27,6 +28,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ sessionId: session.id, staff })
   } catch (err) {
     console.error('[booking/session]', err)
+    void trackEvent({ type: 'error', status: 'booking/session', ok: false, path: '/api/booking/session' })
     return NextResponse.json({ error: 'Could not start booking session' }, { status: 502 })
   }
 }

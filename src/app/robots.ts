@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/admin/', '/api/'],
+      disallow: ['/admin/', '/api/', '/dev/', ...(process.env.DEV_DASHBOARD_PATH && process.env.DEV_DASHBOARD_PATH !== 'dev' ? [`/${process.env.DEV_DASHBOARD_PATH.replace(/^\/+|\/+$/g, '')}/`] : [])],
     },
     sitemap: `${base}/sitemap.xml`,
   }

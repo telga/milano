@@ -80,6 +80,8 @@ docs/                 Deployment & admin guides
 - [Deployment](docs/DEPLOYMENT.md) — Vercel + Neon + Cloudflare production setup
 - [Security](docs/SECURITY.md) — Security checklist
 
+Local metrics: set `DEV_DASHBOARD_SECRET` in `.env.local`, then open `/dev` (HTTP Basic, user `dev` unless you change `DEV_DASHBOARD_USER`). Omit the secret and `/dev` is 404.
+
 ## License
 
 Proprietary — Milano Nail Spa Flower Mound

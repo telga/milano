@@ -142,8 +142,13 @@ In the project: **Settings → Environment Variables**. Add each of these for **
 | `ABC_BOOKING_ENABLED` | `false` |
 | `ABC_BOOKING_MAX_PER_DAY` | `1` |
 | `SEED_ON_START` | `false` |
+| `DEV_DASHBOARD_USER` | `dev` |
+| `DEV_DASHBOARD_SECRET` | A long random string (same generator as Step 3) |
+| `DEV_DASHBOARD_PATH` | Optional. Default `dev`. Example `n7k2m` makes the URL `/n7k2m` |
 
 Leave `CLOUDINARY_*` empty unless you set up Cloudinary.
+
+The metrics dashboard is **not** linked from the site. Open `https://YOUR-PROJECT.vercel.app/dev` (or your custom path). The browser will ask for HTTP Basic user/password. If `DEV_DASHBOARD_SECRET` is missing, that URL is 404.
 
 **Important:** You may not know the `*.vercel.app` URL until the first deploy finishes. Then:
 
@@ -272,18 +277,13 @@ Leaving a public `/admin` with a weak password is the main risk. Delete or chang
 
 ---
 
-## Photos (optional, if they complain)
+## Photos
 
-Vercel does not keep files you upload in admin. Next deploy wipes the disk.
+Salon photos that are **in git** (`public/scraped`, `scripts/assets/scraped`, `media`, and `scripts/image-manifest.json`) go up with the Vercel build. Seed can attach them from those folders.
 
-If you need real photos on the demo:
+**Admin uploads on Vercel** still sit on an ephemeral disk. The next deploy wipes those new files unless you later add Cloudinary (or similar) as Payload storage.
 
-1. Cloudinary free account
-2. Add `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` (and `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`) on Vercel
-3. Locally: `npm run scrape` then `npm run migrate:images` (needs those keys in `.env.local`)
-4. Payload on this project still stores CMS uploads on disk unless you later add a Cloudinary storage plugin — so Cloudinary today mainly helps a local migrate path, not magic admin uploads on Vercel
-
-For a booking-only shareholder walkthrough, **skip Cloudinary**.
+Cloudinary remains optional. For a booking-only walkthrough you can skip it.
 
 ---
 

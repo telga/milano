@@ -7,6 +7,7 @@ type BookingConfirmStepProps = {
   state: NativeBookingState
   fallbackUrl: string
   onSubmit: () => void
+  onFallback?: () => void
   submitting: boolean
   submitted?: boolean
 }
@@ -15,6 +16,7 @@ export function BookingConfirmStep({
   state,
   fallbackUrl,
   onSubmit,
+  onFallback,
   submitting,
   submitted,
 }: BookingConfirmStepProps) {
@@ -77,7 +79,7 @@ export function BookingConfirmStep({
           {submitting ? 'Submitting…' : 'Request Appointment (1 live test / day)'}
         </Button>
         <Button asChild variant="outline">
-          <a href={fallbackUrl} target="_blank" rel="noopener noreferrer">
+          <a href={fallbackUrl} target="_blank" rel="noopener noreferrer" onClick={onFallback}>
             Complete on ABC Salon instead
           </a>
         </Button>

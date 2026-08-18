@@ -1,6 +1,15 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
+import {
+  getDashboardPath,
+  isAuthorizedDashboardRequest,
+  isDashboardEnabled,
+  isDashboardPagePath,
+  missingDashboardResponse,
+  unauthorizedDashboardResponse,
+} from '@/lib/metrics/auth'
+
 const CLASSIC_LAYOUT = process.env.NEXT_PUBLIC_CLASSIC_LAYOUT === 'true'
 
 const CLASSIC_REDIRECTS: Record<string, string> = {
@@ -50,6 +59,30 @@ function applySecurityHeaders(response: NextResponse) {
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
+  const dashPath = getDashboardPath()
+  const isMetricsGet = pathname === '/api/dev/metrics'
+  const isDashPage = isDashboardPagePath(pathname)
+
+  if (isDashPage || isMetricsGet) {
+    if (!isDashboardEnabled()) {
+      return missingDashboardResponse()
+    }
+    if (!isAuthorizedDashboardRequest(request.headers.get('authorization'))) {
+      return unauthorizedDashboardResponse()
+    }
+    if (dashPath !== 'dev' && (pathname === `/${dashPath}` || pathname.startsWith(`/${dashPath}/`))) {
+      const url = request.nextUrl.clone()
+      url.pathname = pathname.replace(`/${dashPath}`, '/dev') || '/dev'
+      const rewritten = NextResponse.rewrite(url)
+      rewritten.headers.set('X-Robots-Tag', 'noindex, nofollow')
+      rewritten.headers.set('Cache-Control', 'no-store')
+      return applySecurityHeaders(rewritten)
+    }
+    const next = NextResponse.next()
+    next.headers.set('X-Robots-Tag', 'noindex, nofollow')
+    next.headers.set('Cache-Control', 'no-store')
+    return applySecurityHeaders(next)
+  }
 
   if (CLASSIC_LAYOUT) {
     const redirectTarget = CLASSIC_REDIRECTS[pathname]

@@ -126,6 +126,22 @@ test.describe('Milano Nail Spa public site', () => {
     const json = await res.json()
     expect(json.status).toBe('ok')
   })
+
+  test('dev dashboard is locked', async ({ request }) => {
+    const res = await request.get('/dev')
+    expect([401, 404]).toContain(res.status())
+
+    const secret = process.env.DEV_DASHBOARD_SECRET
+    if (secret) {
+      const user = process.env.DEV_DASHBOARD_USER || 'dev'
+      const authed = await request.get('/dev', {
+        headers: {
+          Authorization: `Basic ${Buffer.from(`${user}:${secret}`).toString('base64')}`,
+        },
+      })
+      expect(authed.ok()).toBeTruthy()
+    }
+  })
 })
 
 test.describe('Booking facade', () => {

@@ -2,6 +2,7 @@ import type { GlobalConfig } from 'payload'
 
 import { adminField, anyone, authenticated, hideFromEditors } from '@/payload/access'
 import { revalidateGlobalOnChange } from '@/payload/hooks/revalidateOnChange'
+import { trackEvent } from '@/lib/metrics/track'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
@@ -17,7 +18,15 @@ export const SiteSettings: GlobalConfig = {
     update: authenticated,
   },
   hooks: {
-    afterChange: [revalidateGlobalOnChange],
+    afterChange: [
+      revalidateGlobalOnChange,
+      ({ req, doc }) => {
+        if (req?.user) {
+          void trackEvent({ type: 'admin_save', status: 'site-settings' })
+        }
+        return doc
+      },
+    ],
   },
   fields: [
     {

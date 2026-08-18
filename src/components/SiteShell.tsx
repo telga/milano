@@ -1,5 +1,6 @@
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
+import { MetricsBeacon } from '@/components/metrics/MetricsBeacon'
 import { resolveBookingHref } from '@/lib/booking'
 import { getImageSlot, getSiteSettingsSafe } from '@/lib/data'
 import type { SiteSetting } from '@/payload-types'
@@ -20,6 +21,7 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
           <Header />
           <main>{children}</main>
           <Footer />
+          <MetricsBeacon />
         </>
       )
     }
@@ -45,6 +47,7 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
         socialLinks={socialLinks}
         hiddenNavigationItems={hiddenNavigationItems}
       />
+      <MetricsBeacon />
     </>
   )
 }

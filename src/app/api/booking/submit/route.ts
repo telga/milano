@@ -6,6 +6,7 @@ import { submitAbcAppointment } from '@/lib/abc-booking/submit'
 import { getAbcBookingUrl } from '@/lib/booking'
 import { checkRateLimit } from '@/lib/abc-booking/rate-limit'
 import { getSiteSettingsSafe } from '@/lib/data'
+import { trackEvent } from '@/lib/metrics/track'
 
 function clientIp(request: Request): string {
   return request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
@@ -22,6 +23,7 @@ export async function POST(request: Request) {
   const fallbackUrl = getAbcBookingUrl(settings)
 
   if (!isAbcSubmitEnabled()) {
+    void trackEvent({ type: 'booking_submit', ok: false, status: 'disabled' })
     return NextResponse.json(
       {
         error: 'Native submit is disabled. Set ABC_BOOKING_ENABLED=true to send a real test booking.',
@@ -46,12 +48,14 @@ export async function POST(request: Request) {
     }
 
     if (!body.serviceIds?.length || !body.name || !body.phone || !body.date || !body.time) {
+      void trackEvent({ type: 'booking_submit', ok: false, status: 'validation' })
       return NextResponse.json({ error: 'Missing required booking fields' }, { status: 400 })
     }
 
     const quota = remainingBookingsToday()
     const slot = consumeBookingSlot()
     if (!slot.ok) {
+      void trackEvent({ type: 'booking_submit', ok: false, status: 'quota' })
       return NextResponse.json(
         {
           error: `Daily live-booking limit reached (${quota.limit}/day). Try again tomorrow.`,
@@ -73,6 +77,12 @@ export async function POST(request: Request) {
         staffName: body.staffName,
         guestCount: body.guestCount,
       })
+      void trackEvent({
+        type: 'booking_submit',
+        ok: true,
+        status: 'ok',
+        serviceKey: body.serviceIds.join(','),
+      })
     } catch (err) {
       refundBookingSlot()
       throw err
@@ -85,6 +95,8 @@ export async function POST(request: Request) {
     })
   } catch (err) {
     console.error('[booking/submit]', err)
+    void trackEvent({ type: 'booking_submit', ok: false, status: 'abc_error' })
+    void trackEvent({ type: 'error', status: 'booking/submit', ok: false, path: '/api/booking/submit' })
     const message = err instanceof Error ? err.message : 'Booking submission failed'
     return NextResponse.json(
       {
