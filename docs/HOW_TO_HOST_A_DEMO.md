@@ -138,7 +138,7 @@ In the project: **Settings → Environment Variables**. Add each of these for **
 | `ADMIN_USERNAME` | From Step 3 |
 | `ADMIN_PASSWORD` | From Step 3 |
 | `ADMIN_EMAIL` | From Step 3 |
-| `NEXT_PUBLIC_SERVER_URL` | Your Vercel URL, e.g. `https://milano-demo-xxxx.vercel.app` (no trailing slash) |
+| `NEXT_PUBLIC_SERVER_URL` | Full URL with `https://`, e.g. `https://milano-demo-xxxx.vercel.app` (no trailing slash) |
 | `ABC_BOOKING_ENABLED` | `false` |
 | `ABC_BOOKING_MAX_PER_DAY` | `1` |
 | `SEED_ON_START` | `false` |
@@ -153,7 +153,7 @@ The metrics dashboard is **not** linked from the site. Open `https://YOUR-PROJEC
 **Important:** You may not know the `*.vercel.app` URL until the first deploy finishes. Then:
 
 1. Copy the URL from the Vercel dashboard (HTTPS, no trailing slash).
-2. Set `NEXT_PUBLIC_SERVER_URL`.
+2. Set `NEXT_PUBLIC_SERVER_URL` to that full `https://…` URL.
 3. **Deployments → … on the latest → Redeploy** (so the public URL is baked into the build).
 
 Never set `SEED_ON_START=true` on this public demo. That would let anyone hit `/api/bootstrap`.

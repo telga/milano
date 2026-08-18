@@ -3,6 +3,7 @@ import { Cormorant_Garamond, DM_Sans } from 'next/font/google'
 
 import { BUSINESS } from '@/lib/constants'
 import { localBusinessJsonLd } from '@/lib/seo'
+import { getSiteUrl } from '@/lib/siteUrl'
 import { THEME_INIT_SCRIPT } from '@/lib/theme'
 
 import './globals.css'
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
   title: BUSINESS.name,
   description:
     'Luxury nail salon in Flower Mound, TX. Manicures, pedicures, nail art, lashes, and waxing.',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'),
+  metadataBase: new URL(getSiteUrl()),
 }
 
 export default function RootLayout({

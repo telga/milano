@@ -1,5 +1,7 @@
 import type { CollectionAfterChangeHook, GlobalAfterChangeHook } from 'payload'
 
+import { getSiteUrl } from '@/lib/siteUrl'
+
 const REVALIDATE_COLLECTIONS = new Set([
   'site-image-slots',
   'service-categories',
@@ -14,7 +16,7 @@ const REVALIDATE_COLLECTIONS = new Set([
 
 const revalidate = async (tags: string[]) => {
   const secret = process.env.REVALIDATION_SECRET
-  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+  const baseUrl = getSiteUrl()
 
   if (!secret) return
 

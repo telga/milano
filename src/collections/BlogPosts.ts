@@ -3,6 +3,7 @@ import type { CollectionBeforeChangeHook, CollectionConfig } from 'payload'
 import { authenticated } from '@/payload/access'
 import { friendlyList, photoCell, slugify } from '@/payload/adminFields'
 import { revalidateOnChange } from '@/payload/hooks/revalidateOnChange'
+import { getSiteUrl } from '@/lib/siteUrl'
 
 const ensurePublishedAt: CollectionBeforeChangeHook = ({ data, originalDoc }) => {
   const next = { ...data }
@@ -31,7 +32,7 @@ export const BlogPosts: CollectionConfig = {
     preview: (doc) => {
       const slug = typeof doc?.slug === 'string' ? doc.slug : ''
       if (!slug) return null
-      const base = process.env.NEXT_PUBLIC_SERVER_URL || ''
+      const base = getSiteUrl()
       return `${base}/blog/${slug}`
     },
   },

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 
 import { BUSINESS } from '@/lib/constants'
 import { getSiteSettings } from '@/lib/data'
+import { getPublicSiteUrl } from '@/lib/siteUrl'
 
 export async function buildPageMetadata(
   title: string,
@@ -51,7 +52,7 @@ export function localBusinessJsonLd(settings: {
       postalCode: '75028',
       addressCountry: 'US',
     },
-    url: process.env.NEXT_PUBLIC_SERVER_URL || 'https://milanonailspaflowermound.com',
+    url: getPublicSiteUrl(),
     priceRange: '$$',
   }
 }

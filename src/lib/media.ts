@@ -1,5 +1,7 @@
 import type { Media, SiteSetting } from '@/payload-types'
 
+import { getSiteUrl } from '@/lib/siteUrl'
+
 type MediaLike = Media | number | null | undefined
 
 export type { MediaLike }
@@ -10,7 +12,7 @@ export function getMediaUrl(media: MediaLike, fallback?: string): string {
 
   if (media.url) {
     if (media.url.startsWith('http')) return media.url
-    const base = process.env.NEXT_PUBLIC_SERVER_URL || ''
+    const base = getSiteUrl()
     return `${base}${media.url}`
   }
 

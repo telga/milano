@@ -1,5 +1,7 @@
 import Link from 'next/link'
 
+import { getSiteUrl } from '@/lib/siteUrl'
+
 /**
  * Pinned above the generated nav so the two things staff need most —
  * the task list and the hours/contact settings — are never buried.
@@ -10,7 +12,7 @@ const SHORTCUTS = [
 ]
 
 export default function AdminQuickLinks() {
-  const siteUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+  const siteUrl = getSiteUrl()
 
   return (
     <div className="milano-nav-shortcuts">

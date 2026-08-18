@@ -3,6 +3,7 @@ import { Gutter } from '@payloadcms/ui'
 import Link from 'next/link'
 
 import AdminBookingToggle from '@/components/admin/AdminBookingToggle'
+import { getSiteUrl } from '@/lib/siteUrl'
 import { getUserRole, isAdmin } from '@/payload/access'
 
 type Task = {
@@ -62,7 +63,7 @@ function StatCard({ label, value }: { label: string; value: string | number }) {
 
 export default async function AdminDashboard(props: ServerProps) {
   const { payload, user } = props
-  const siteUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+  const siteUrl = getSiteUrl()
   const role = getUserRole(user)
   const admin = isAdmin(user)
 

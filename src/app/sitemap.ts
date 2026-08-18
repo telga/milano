@@ -1,9 +1,10 @@
 import type { MetadataRoute } from 'next'
 
 import { NAV_LINKS } from '@/lib/constants'
+import { getPublicSiteUrl } from '@/lib/siteUrl'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = process.env.NEXT_PUBLIC_SERVER_URL || 'https://milanonailspaflowermound.com'
+  const base = getPublicSiteUrl()
   const now = new Date()
 
   return [

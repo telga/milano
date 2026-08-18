@@ -164,6 +164,8 @@ export function BookingWizard({ phone, fallbackUrl }: BookingWizardProps) {
       state.guestCount,
       state.time,
     )
+    // state.time is passed through so a vanished slot can be cleared; changing the pick should not refetch.
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- omit state.time
   }, [
     loadAvailability,
     state.date,
