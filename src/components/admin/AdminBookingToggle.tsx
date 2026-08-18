@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
 
 type AdminBookingToggleProps = {
@@ -74,7 +75,7 @@ export default function AdminBookingToggle({ siteUrl }: AdminBookingToggleProps)
           <a href={`${siteUrl}/book`} target="_blank" rel="noreferrer">
             Preview booking page
           </a>
-          <a href="/admin/globals/site-settings">Booking settings</a>
+          <Link href="/admin/globals/site-settings">Booking settings</Link>
         </div>
         {error && (
           <p className="milano-admin-booking__error" role="alert">

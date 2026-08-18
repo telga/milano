@@ -202,7 +202,7 @@ You want JSON back, not `Unauthorized`.
 - **500 / timeout** — Neon might still be waking, or seed ran long. Wait 30 seconds and run **seed** again. It should skip an admin user that already exists.
 - Homepage still odd — hard refresh, then wait a minute (pages are cached ~60s).
 
-Scraped photos live in a gitignored folder, so **this cloud seed usually will not attach the full photo library**. Services, about text, hours, and booking still work. Placeholders are OK for a booking walkthrough.
+Scraped photos are in git (`scripts/assets/scraped`, `media`, `public/scraped`), so seed **can** attach them if that commit was part of the Vercel build. New uploads in `/admin` on Vercel still will not last past the next deploy.
 
 ---
 

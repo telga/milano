@@ -1,8 +1,9 @@
-import { getPayloadClient } from '@/lib/payload'
 import { currentDeploy, utcDay, type MetricsEventInput } from '@/lib/metrics/types'
 
 export async function trackEvent(input: MetricsEventInput): Promise<void> {
   try {
+    // Dynamic import avoids a cycle: collections → track → payload config → collections
+    const { getPayloadClient } = await import('@/lib/payload')
     const payload = await getPayloadClient()
     await payload.create({
       collection: 'metrics-events',

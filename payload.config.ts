@@ -1,3 +1,4 @@
+import { postgresAdapter } from '@payloadcms/db-postgres'
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
@@ -19,8 +20,6 @@ import { SiteSettings } from './src/globals/SiteSettings'
 
 function getDatabaseAdapter() {
   if (process.env.DATABASE_URI) {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { postgresAdapter } = require('@payloadcms/db-postgres')
     return postgresAdapter({
       pool: {
         connectionString: process.env.DATABASE_URI,
