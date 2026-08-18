@@ -3,6 +3,7 @@ import { PageHero } from '@/components/SiteImage'
 import { SectionHeading } from '@/components/SectionHeading'
 import { ServiceAccordion } from '@/components/ServiceAccordion'
 import { ServiceIconGrid } from '@/components/ServiceIconGrid'
+import { resolveBookingHref } from '@/lib/booking'
 import {
   getServiceCategories,
   getServicesByCategory,
@@ -25,6 +26,8 @@ export default async function ServicesPage() {
     getSlotsMapSafe(),
     getServiceCategories().catch(() => []),
   ])
+
+  const bookingHref = resolveBookingHref(settings)
 
   return (
     <>
@@ -54,7 +57,7 @@ export default async function ServicesPage() {
           <SectionHeading title="Complete" accent="Menu." className="mb-10" />
           <ServiceAccordion groups={groups} />
           <div className="mt-12 text-center">
-            <BookButton bookingUrl={settings?.bookingUrl || undefined} label="Book Appointment" />
+            <BookButton bookingHref={bookingHref} label="Book Appointment" />
           </div>
         </div>
       </section>

@@ -30,7 +30,17 @@ Open **Website Basics → Hours & Contact → Navigation** and select any pages 
 ### Service card icons
 
 Open **Website Basics → Hours & Contact → Service cards** and enable **Hide icons on service cards** to remove the decorative icons site-wide.
-5. Changes appear on the live site within ~1 minute
+
+### Custom booking facade
+
+- **Dashboard toggle:** large switch on the admin home screen (`AdminBookingToggle`)
+- **Setting:** `useCustomBookingFrontend` on **Hours & Contact → Booking**
+- **Native wizard:** `useNativeAbcBooking` — full Milano 5-step UI via `/api/booking/*` proxy to ABC JSON endpoints. Shareholder overview: [HOW_NATIVE_BOOKING_WORKS.md](HOW_NATIVE_BOOKING_WORKS.md)
+- **When ON (iframe mode):** `resolveBookingHref()` returns `/book`; page embeds ABC iframe (`BookingFacade`)
+- **When OFF:** Book buttons use external `bookingUrl` (ABC Salon POS)
+- **Protocol notes:** see [ABC_BOOKING_PROTOCOL.md](ABC_BOOKING_PROTOCOL.md)
+
+Changes appear on the live site within ~1 minute
 
 Editors can update images; only Admins create/delete slot documents.
 

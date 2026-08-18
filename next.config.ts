@@ -28,7 +28,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/appointment',
-        destination: 'https://abcapp.us/feedback/appointment?appid=tI8PdCO',
+        destination: '/book',
         permanent: false,
       },
     ]

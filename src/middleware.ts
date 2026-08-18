@@ -40,7 +40,7 @@ function applySecurityHeaders(response: NextResponse) {
     "font-src 'self' https://fonts.gstatic.com data:",
     "img-src 'self' data: blob: https: http:",
     "connect-src 'self' https:",
-    "frame-src https://maps.google.com https://www.google.com",
+    "frame-src https://maps.google.com https://www.google.com https://abcapp.us",
     "frame-ancestors 'none'",
   ].join('; ')
 

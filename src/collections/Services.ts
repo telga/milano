@@ -118,6 +118,16 @@ export const Services: CollectionConfig = {
         components: yesNoCell,
       },
     },
+    {
+      name: 'abcServiceId',
+      label: 'ABC service ID',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        description:
+          'Optional. Maps this service to ABC Salon booking (format: category::name::index). Leave blank for auto-match by name.',
+      },
+    },
     displayOrderField,
     publishedCheckbox,
   ],

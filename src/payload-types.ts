@@ -46,6 +46,7 @@ export interface Service {
   bullets?: Array<{ text: string; id?: string }> | null
   price?: number | null
   showPrice?: boolean | null
+  abcServiceId?: string | null
   sortOrder?: number | null
   published?: boolean | null
 }
@@ -105,6 +106,8 @@ export interface SiteSetting {
     'home' | 'about' | 'promotions' | 'specialties' | 'services' | 'gallery' | 'blog' | 'contact'
   > | null
   hideServiceCardIcons?: boolean | null
+  useCustomBookingFrontend?: boolean | null
+  useNativeAbcBooking?: boolean | null
   seo?: {
     title?: string | null
     description?: string | null

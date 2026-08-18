@@ -5,6 +5,7 @@ import { ContactForm } from '@/components/ContactForm'
 import { PageHero } from '@/components/SiteImage'
 import { SectionHeading } from '@/components/SectionHeading'
 import { SocialLinks } from '@/components/SocialLinks'
+import { resolveBookingHref } from '@/lib/booking'
 import { BUSINESS } from '@/lib/constants'
 import { getServiceCategories, getSiteSettings, getSlotsMapSafe } from '@/lib/data'
 import { buildPageMetadata } from '@/lib/seo'
@@ -32,6 +33,7 @@ export default async function ContactPage() {
   ]
 
   const serviceNames = categories.map((category) => category.name)
+  const bookingHref = resolveBookingHref(settings)
 
   return (
     <>
@@ -102,7 +104,7 @@ export default async function ContactPage() {
                 </ul>
                 <div className="mt-6">
                   <BookButton
-                    bookingUrl={settings?.bookingUrl || undefined}
+                    bookingHref={bookingHref}
                     label="Book Appointment"
                     className="w-full sm:w-auto"
                   />

@@ -1,6 +1,7 @@
 import { BookButton } from '@/components/BookButton'
 import { ContentCardGrid } from '@/components/ContentCards'
 import { PageHero } from '@/components/SiteImage'
+import { resolveBookingHref } from '@/lib/booking'
 import { getPromotions, getSiteSettings, getSlotsMapSafe } from '@/lib/data'
 import { buildPageMetadata } from '@/lib/seo'
 
@@ -17,6 +18,8 @@ export default async function PromotionsPage() {
     getSiteSettings().catch(() => null),
     getSlotsMapSafe(),
   ])
+
+  const bookingHref = resolveBookingHref(settings)
 
   return (
     <>
@@ -36,7 +39,7 @@ export default async function PromotionsPage() {
             </p>
           )}
           <div className="mt-12 text-center">
-            <BookButton bookingUrl={settings?.bookingUrl || undefined} label="Book Appointment" />
+            <BookButton bookingHref={bookingHref} label="Book Appointment" />
           </div>
         </div>
       </section>

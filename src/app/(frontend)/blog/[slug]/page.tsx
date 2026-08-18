@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 
 import { BookButton } from '@/components/BookButton'
 import { RichTextRenderer } from '@/components/RichTextRenderer'
+import { resolveBookingHref } from '@/lib/booking'
 import { getBlogPostBySlug, getSiteSettings } from '@/lib/data'
 import { getMediaAlt, getMediaUrl } from '@/lib/media'
 import { buildPageMetadata } from '@/lib/seo'
@@ -29,6 +30,8 @@ export default async function BlogPostPage({ params }: Props) {
 
   if (!post) notFound()
 
+  const bookingHref = resolveBookingHref(settings)
+
   return (
     <article>
       {post.featuredImage && (
@@ -53,7 +56,7 @@ export default async function BlogPostPage({ params }: Props) {
           <RichTextRenderer content={post.content} />
         </div>
         <div className="mt-12">
-          <BookButton bookingUrl={settings?.bookingUrl || undefined} label="Book Appointment" />
+          <BookButton bookingHref={bookingHref} label="Book Appointment" />
         </div>
       </div>
     </article>

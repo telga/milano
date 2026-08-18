@@ -43,6 +43,7 @@ next-env.d.ts
 
 # payload / database
 milano.db
+.data/
 /media
 /scripts/assets/scraped
 /scripts/image-manifest.json

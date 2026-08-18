@@ -2,6 +2,7 @@ import type { ServerProps } from 'payload'
 import { Gutter } from '@payloadcms/ui'
 import Link from 'next/link'
 
+import AdminBookingToggle from '@/components/admin/AdminBookingToggle'
 import { getUserRole, isAdmin } from '@/payload/access'
 
 type Task = {
@@ -65,7 +66,7 @@ export default async function AdminDashboard(props: ServerProps) {
   const role = getUserRole(user)
   const admin = isAdmin(user)
 
-  const [services, gallery, drafts, announcements, categories] = await Promise.all([
+  const [services, gallery, drafts, announcements, categories, siteSettings] = await Promise.all([
     payload.count({ collection: 'services', overrideAccess: false, user }),
     payload.count({ collection: 'gallery-items', overrideAccess: false, user }),
     payload.count({
@@ -85,9 +86,19 @@ export default async function AdminDashboard(props: ServerProps) {
       user,
     }),
     payload.count({ collection: 'service-categories', overrideAccess: false, user }),
+    payload.findGlobal({ slug: 'site-settings', overrideAccess: true }),
   ])
 
   const activeAnnouncement = announcements.docs[0] as { id?: number | string; title?: string } | undefined
+  const customBooking = Boolean(
+    siteSettings && 'useCustomBookingFrontend' in siteSettings && siteSettings.useCustomBookingFrontend,
+  )
+  const nativeBooking = Boolean(
+    siteSettings &&
+      'useNativeAbcBooking' in siteSettings &&
+      siteSettings.useNativeAbcBooking &&
+      customBooking,
+  )
 
   return (
     <Gutter className="milano-admin-dashboard">
@@ -105,6 +116,8 @@ export default async function AdminDashboard(props: ServerProps) {
         </a>
       </header>
 
+      <AdminBookingToggle siteUrl={siteUrl} />
+
       <section className="milano-admin-tasks" aria-label="Common tasks">
         {EDITOR_TASKS.map((task) => (
           <Link key={task.href} className="milano-admin-task" href={task.href}>
@@ -117,6 +130,17 @@ export default async function AdminDashboard(props: ServerProps) {
 
       <section className="milano-admin-dashboard__status" aria-label="Website status">
         <h2>Right now</h2>
+        <p className="milano-admin-dashboard__notice">
+          Booking:{' '}
+          <strong>
+            {nativeBooking
+              ? 'Native Milano wizard'
+              : customBooking
+                ? 'Custom page (iframe)'
+                : 'ABC Salon link'}
+          </strong>
+          . <Link href="/admin/globals/site-settings">Change in settings</Link>
+        </p>
         <p className="milano-admin-dashboard__notice">
           {activeAnnouncement ? (
             <>

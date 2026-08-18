@@ -18,6 +18,7 @@ import {
   getSiteSettings,
   getSlotsMapSafe,
 } from '@/lib/data'
+import { resolveBookingHref } from '@/lib/booking'
 import { isClassicLayout } from '@/lib/constants'
 import { getMediaUrl } from '@/lib/media'
 import { buildPageMetadata } from '@/lib/seo'
@@ -59,6 +60,7 @@ export default async function HomePage() {
   ])
 
   const aboutText = settings?.aboutText
+  const bookingHref = resolveBookingHref(settings)
   const logoUrl = settings?.logo
     ? getMediaUrl(settings.logo)
     : slots.logo?.image
@@ -73,7 +75,7 @@ export default async function HomePage() {
         phone={settings?.phone || undefined}
       />
 
-      <HomeHero slot={slots['home-hero']} bookingUrl={settings?.bookingUrl || undefined} />
+      <HomeHero slot={slots['home-hero']} bookingHref={bookingHref} />
 
       <section className="section-pad">
         <div className="container-luxury">
@@ -118,7 +120,7 @@ export default async function HomePage() {
             </ul>
             <div className="mt-9 flex flex-wrap gap-4">
               <BookButton
-                bookingUrl={settings?.bookingUrl || undefined}
+                bookingHref={bookingHref}
                 label="Book Appointment"
                 variant="outline"
               />
@@ -178,7 +180,7 @@ export default async function HomePage() {
             </p>
           </div>
           <BookButton
-            bookingUrl={settings?.bookingUrl || undefined}
+            bookingHref={bookingHref}
             size="lg"
             label="Book Appointment"
             className="w-full sm:w-auto"

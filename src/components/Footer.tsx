@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import { BookButton } from '@/components/BookButton'
 import { SocialLinks } from '@/components/SocialLinks'
+import { resolveBookingHref } from '@/lib/booking'
 import { BUSINESS, NAV_LINKS } from '@/lib/constants'
 import type { SiteSetting } from '@/payload-types'
 
@@ -9,7 +10,7 @@ type FooterProps = {
   phone?: string
   email?: string
   address?: string
-  bookingUrl?: string
+  bookingHref?: string
   socialLinks?: SiteSetting['socialLinks']
   hiddenNavigationItems?: SiteSetting['hiddenNavigationItems']
 }
@@ -18,13 +19,15 @@ export function Footer({
   phone = BUSINESS.phone,
   email = BUSINESS.email,
   address = BUSINESS.address,
-  bookingUrl,
+  bookingHref,
   socialLinks,
   hiddenNavigationItems,
 }: FooterProps) {
   const visibleLinks = NAV_LINKS.filter(
     (link) => !hiddenNavigationItems?.includes(link.anchor),
   )
+
+  const bookHref = bookingHref || resolveBookingHref(null)
 
   return (
     <footer className="border-t border-border bg-surface">
@@ -34,7 +37,7 @@ export function Footer({
           <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">{BUSINESS.tagline}</p>
           <SocialLinks links={socialLinks} className="mt-6" />
           <div className="mt-6">
-            <BookButton bookingUrl={bookingUrl} variant="outline" label="Book Appointment" />
+            <BookButton bookingHref={bookHref} variant="outline" label="Book Appointment" />
           </div>
         </div>
 

@@ -13,6 +13,7 @@ import { HomeHero, PageHero, SlotImage } from '@/components/SiteImage'
 import { SectionHeading } from '@/components/SectionHeading'
 import { SocialLinks } from '@/components/SocialLinks'
 import { StatsRow } from '@/components/StatsRow'
+import { resolveBookingHref } from '@/lib/booking'
 import { BUSINESS } from '@/lib/constants'
 import { SALON_EXPERIENCE } from '@/lib/salonExperience'
 import {
@@ -70,6 +71,7 @@ export async function ClassicHome() {
   ])
 
   const aboutText = settings?.aboutText
+  const bookingHref = resolveBookingHref(settings)
   const logoUrl = settings?.logo
     ? getMediaUrl(settings.logo)
     : slots.logo?.image
@@ -95,7 +97,7 @@ export async function ClassicHome() {
       <div id="home">
         <HomeHero
           slot={slots['home-hero']}
-          bookingUrl={settings?.bookingUrl || undefined}
+          bookingHref={bookingHref}
           servicesHref="/#services"
         />
       </div>
@@ -143,7 +145,7 @@ export async function ClassicHome() {
             </ul>
             <div className="mt-9">
               <BookButton
-                bookingUrl={settings?.bookingUrl || undefined}
+                bookingHref={bookingHref}
                 label="Book Appointment"
                 variant="outline"
               />

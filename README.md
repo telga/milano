@@ -8,7 +8,7 @@ Enterprise website for [Milano Nail Spa Flower Mound](https://milanonailspaflowe
 - **CMS / Admin:** Payload CMS at `/admin`
 - **Database:** SQLite (local dev) or Neon Postgres (production)
 - **Images:** Payload media + optional Cloudinary CDN
-- **Booking:** External [ABC Salon POS](https://abcapp.us/feedback/appointment?appid=tI8PdCO)
+- **Booking:** ABC Salon POS — optional Milano-branded facade at `/book`; native 5-step wizard when both booking toggles are on in admin
 
 ## Quick Start
 

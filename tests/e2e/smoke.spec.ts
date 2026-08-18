@@ -1,4 +1,56 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type APIRequestContext, type Page } from '@playwright/test'
+
+async function revalidateSiteContent(request: APIRequestContext) {
+  const secret = process.env.REVALIDATION_SECRET
+  if (!secret) return
+  await request.post('/api/revalidate', {
+    headers: {
+      'Content-Type': 'application/json',
+      'x-revalidation-secret': secret,
+    },
+    data: { tags: ['site-content'] },
+  })
+}
+
+async function loginAsAdmin(page: Page) {
+  const username =
+    process.env.ADMIN_USERNAME || process.env.ADMIN_EMAIL || 'admin@milanonailflowermound.com'
+  const password = process.env.ADMIN_PASSWORD || 'ChangeMe123!'
+
+  await page.goto('/admin/login')
+  await page
+    .locator('#field-username, input[name="username"], #field-email, input[name="email"]')
+    .first()
+    .fill(username)
+  await page.locator('#field-password, input[name="password"]').first().fill(password)
+  await page.getByRole('button', { name: /^Login$/i }).click()
+  await page.waitForURL(/\/admin(\/)?$/, { timeout: 20000 })
+}
+
+async function setCustomBookingEnabled(page: Page, enabled: boolean) {
+  await setBookingSettings(page, { useCustomBookingFrontend: enabled, useNativeAbcBooking: false })
+}
+
+async function setBookingSettings(
+  page: Page,
+  settings: { useCustomBookingFrontend?: boolean; useNativeAbcBooking?: boolean },
+) {
+  const status = await page.evaluate(async (value) => {
+    const res = await fetch('/api/globals/site-settings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(value),
+    })
+    return res.status
+  }, settings)
+  expect(status).toBe(200)
+  await revalidateSiteContent(page.request)
+}
+
+function headerBookLink(page: Page) {
+  return page.locator('header').getByRole('link', { name: 'Book Now' })
+}
 
 test.describe('Milano Nail Spa public site', () => {
   test('homepage loads', async ({ page }) => {
@@ -75,6 +127,110 @@ test.describe('Milano Nail Spa public site', () => {
   })
 })
 
+test.describe('Booking facade', () => {
+  test.describe.configure({ mode: 'serial' })
+
+  test.beforeAll(async ({ browser }) => {
+    const page = await browser.newPage()
+    try {
+      await loginAsAdmin(page)
+      await setBookingSettings(page, {
+        useCustomBookingFrontend: false,
+        useNativeAbcBooking: false,
+      })
+    } finally {
+      await page.close()
+    }
+  })
+
+  test('book link uses ABC when custom booking is off', async ({ page }) => {
+    test.slow()
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto('/')
+    const bookLink = headerBookLink(page)
+    await expect(bookLink).toBeVisible()
+    await expect(bookLink).toHaveAttribute('href', /abcapp\.us/)
+    await expect(bookLink).toHaveAttribute('target', '_blank')
+  })
+
+  test('/book redirects to ABC when custom booking is off', async ({ page }) => {
+    await page.goto('/book')
+    await expect(page).toHaveURL(/abcapp\.us/)
+  })
+
+  test('custom booking ON routes to /book with iframe shell', async ({ page }) => {
+    test.slow()
+    await loginAsAdmin(page)
+    await setCustomBookingEnabled(page, true)
+
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto('/')
+    const bookLink = headerBookLink(page)
+    await expect(bookLink).toHaveAttribute('href', '/book')
+    await expect(bookLink).not.toHaveAttribute('target', '_blank')
+
+    await page.goto('/book')
+    await expect(page.getByRole('heading', { name: /Reserve Your/i })).toBeVisible()
+    await expect(page.locator('iframe[title*="Book an appointment" i]')).toBeVisible()
+
+    await setCustomBookingEnabled(page, false)
+  })
+
+  test('native wizard renders service step with mocked API', async ({ page }) => {
+    test.slow()
+
+    await page.route('**/api/booking/session', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          sessionId: 'test-session',
+          staff: [{ id: 'van', name: 'Van' }],
+        }),
+      })
+    })
+
+    await page.route('**/api/booking/services', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          categories: ['Manicure'],
+          services: [
+            {
+              id: 'manicure::delux mani::5',
+              name: 'Delux Mani',
+              category: 'Manicure',
+              price: 31,
+              durationMinutes: 20,
+            },
+          ],
+        }),
+      })
+    })
+
+    await loginAsAdmin(page)
+    await setBookingSettings(page, {
+      useCustomBookingFrontend: true,
+      useNativeAbcBooking: true,
+    })
+
+    await page.goto('/book')
+    await expect(page.getByRole('heading', { name: /Your Perfect Nails/i })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /Choose Your Service/i })).toBeVisible()
+    await expect(page.getByText('Number of clients')).toBeVisible()
+    await expect(page.getByRole('button', { name: /Number of clients, currently 1/i })).toBeVisible()
+    await expect(page.getByLabel('Search services')).toBeVisible()
+    await page.getByRole('button', { name: /Manicure/i }).click()
+    await expect(page.getByRole('button', { name: 'Delux Mani' })).toBeVisible()
+
+    await setBookingSettings(page, {
+      useCustomBookingFrontend: false,
+      useNativeAbcBooking: false,
+    })
+  })
+})
+
 test.describe('Admin', () => {
   test('admin login page loads', async ({ page }) => {
     await page.goto('/admin')
@@ -101,6 +257,8 @@ test.describe('Admin', () => {
     await expect(page.getByRole('link', { name: /Add or edit a service/i })).toBeVisible()
     await expect(page.getByRole('link', { name: /Swap a photo on the website/i })).toBeVisible()
     await expect(page.getByRole('link', { name: /View live website/i }).first()).toBeVisible()
+
+    await expect(page.getByRole('switch', { name: /Use Milano booking page/i })).toBeVisible()
 
     // Shortcuts pinned above the sidebar nav
     await expect(page.getByRole('link', { name: /Hours & contact/i }).first()).toBeVisible()
@@ -155,5 +313,8 @@ test.describe('Admin', () => {
     await expect(page.getByText('Hide pages from website menus', { exact: true })).toBeVisible()
     await page.getByRole('button', { name: 'Service cards' }).click()
     await expect(page.getByText('Hide icons on service cards', { exact: true })).toBeVisible()
+    await page.getByRole('button', { name: 'Booking' }).click()
+    await expect(page.getByText('Use Milano booking page', { exact: true })).toBeVisible()
+    await expect(page.getByText('Use native Milano booking UI', { exact: true })).toBeVisible()
   })
 })

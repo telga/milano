@@ -5,6 +5,7 @@ import { BookButton } from '@/components/BookButton'
 import { SlotImage } from '@/components/SiteImage'
 import { SectionHeading } from '@/components/SectionHeading'
 import { StatsRow } from '@/components/StatsRow'
+import { resolveBookingHref } from '@/lib/booking'
 import { getSiteSettings, getSlotsMapSafe } from '@/lib/data'
 import { SALON_EXPERIENCE } from '@/lib/salonExperience'
 import { buildPageMetadata } from '@/lib/seo'
@@ -45,6 +46,8 @@ export default async function AboutPage() {
     getSlotsMapSafe(),
   ])
 
+  const bookingHref = resolveBookingHref(settings)
+
   return (
     <>
       <section className="section-pad">
@@ -66,11 +69,7 @@ export default async function AboutPage() {
               ))}
             </ul>
             <div className="mt-10">
-              <BookButton
-                bookingUrl={settings?.bookingUrl || undefined}
-                label="Book Appointment"
-                variant="outline"
-              />
+              <BookButton bookingHref={bookingHref} label="Book Appointment" variant="outline" />
             </div>
           </div>
           <div className="relative aspect-[4/5] w-full overflow-hidden border border-border sm:aspect-[16/11] lg:aspect-auto lg:min-h-[35rem]">

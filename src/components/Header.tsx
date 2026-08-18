@@ -7,16 +7,17 @@ import { useEffect, useState } from 'react'
 
 import { BookButton } from '@/components/BookButton'
 import { ThemeToggle } from '@/components/ThemeToggle'
+import { resolveBookingHref } from '@/lib/booking'
 import { CLASSIC_LAYOUT, NAV_LINKS, navHref } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import type { SiteSetting } from '@/payload-types'
 
 type HeaderProps = {
-  bookingUrl?: string
+  bookingHref?: string
   hiddenNavigationItems?: SiteSetting['hiddenNavigationItems']
 }
 
-export function Header({ bookingUrl, hiddenNavigationItems }: HeaderProps) {
+export function Header({ bookingHref, hiddenNavigationItems }: HeaderProps) {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
   const classic = CLASSIC_LAYOUT
@@ -52,6 +53,8 @@ export function Header({ bookingUrl, hiddenNavigationItems }: HeaderProps) {
       isActive(link) ? 'text-gold' : 'text-foreground/70',
     )
 
+  const bookHref = bookingHref || resolveBookingHref(null)
+
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-[var(--header-bg)] backdrop-blur-md">
       <div className="container-luxury grid grid-cols-[1fr_auto] items-center gap-3 py-3 sm:py-4 xl:grid-cols-[auto_1fr_auto]">
@@ -81,7 +84,7 @@ export function Header({ bookingUrl, hiddenNavigationItems }: HeaderProps) {
         <div className="flex items-center justify-end gap-2 sm:gap-3">
           <ThemeToggle />
           <div className="hidden sm:block">
-            <BookButton bookingUrl={bookingUrl} size="sm" label="Book Now" />
+            <BookButton bookingHref={bookHref} size="sm" label="Book Now" />
           </div>
           <button
             type="button"
@@ -110,7 +113,7 @@ export function Header({ bookingUrl, hiddenNavigationItems }: HeaderProps) {
               </li>
             ))}
             <li className="pt-2 sm:hidden">
-              <BookButton bookingUrl={bookingUrl} className="w-full" label="Book Now" />
+              <BookButton bookingHref={bookHref} className="w-full" label="Book Now" />
             </li>
           </ul>
         </nav>

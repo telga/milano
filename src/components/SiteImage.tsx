@@ -141,14 +141,14 @@ const SEAL_SIZE_MOBILE = 'h-36 w-36 sm:h-44 sm:w-44'
 type HomeHeroProps = {
   slot?: SiteImageSlot | null
   fallbackSrc?: string
-  bookingUrl?: string
+  bookingHref: string
   servicesHref?: string
 }
 
 export function HomeHero({
   slot,
   fallbackSrc,
-  bookingUrl,
+  bookingHref,
   servicesHref = '/services',
 }: HomeHeroProps) {
   return (
@@ -170,7 +170,7 @@ export function HomeHero({
             </p>
             <div className="mt-8 flex flex-col items-start gap-5 sm:mt-10">
               <BookButton
-                bookingUrl={bookingUrl}
+                bookingHref={bookingHref}
                 size="lg"
                 label="Book Appointment"
                 variant="outline"

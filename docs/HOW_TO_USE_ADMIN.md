@@ -176,11 +176,24 @@ To turn it off without deleting: untick **Showing on website**.
    - **Hours** — business hours rows
    - **Navigation** — select pages to hide from the header and footer menus
    - **Service cards** — hide or show the small gold icons on service cards
+   - **Booking** — turn the Milano booking page on or off
    - **Website text** — about paragraph and social links
-   - **Advanced** (Admins only) — booking link and SEO defaults
+   - **Advanced** (Admins only) — ABC booking link URL and SEO defaults
 3. Save.
 
-The booking link should stay pointed to your ABC Salon POS appointment page unless your developer changes it.
+### Custom booking page (dashboard toggle)
+
+On the admin **home screen**, use the large **Online booking** switch at the top:
+
+- **ON** — Book buttons open `/book` on your website (Milano styling + ABC booking form inside).
+- **OFF** — Book buttons open ABC Salon directly in a new tab (original behavior).
+
+You can also change this under **Hours & Contact → Booking**.
+
+- **Use native Milano booking UI** — full Milano-styled wizard (ABC Salon underneath). Requires custom booking to be on. For a plain-language overview, see [HOW_NATIVE_BOOKING_WORKS.md](HOW_NATIVE_BOOKING_WORKS.md).
+- When native is off but custom is on, visitors see the ABC form inside a styled iframe.
+
+The ABC link URL itself stays in **Advanced** (Admins only). Only change it if your booking provider changes.
 
 ---
 

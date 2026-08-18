@@ -1,10 +1,11 @@
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
+import { resolveBookingHref } from '@/lib/booking'
 import { getImageSlot, getSiteSettingsSafe } from '@/lib/data'
 import type { SiteSetting } from '@/payload-types'
 
 export async function SiteShell({ children }: { children: React.ReactNode }) {
-  let bookingUrl: string | undefined
+  let bookingHref: string | undefined
   let phone: string | undefined
   let email: string | undefined
   let address: string | undefined
@@ -22,7 +23,7 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
         </>
       )
     }
-    bookingUrl = settings.bookingUrl || undefined
+    bookingHref = resolveBookingHref(settings)
     phone = settings.phone || undefined
     email = settings.email || undefined
     address = settings.address || undefined
@@ -34,13 +35,13 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <Header bookingUrl={bookingUrl} hiddenNavigationItems={hiddenNavigationItems} />
+      <Header bookingHref={bookingHref} hiddenNavigationItems={hiddenNavigationItems} />
       <main>{children}</main>
       <Footer
         phone={phone}
         email={email}
         address={address}
-        bookingUrl={bookingUrl}
+        bookingHref={bookingHref}
         socialLinks={socialLinks}
         hiddenNavigationItems={hiddenNavigationItems}
       />

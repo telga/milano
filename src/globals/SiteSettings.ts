@@ -224,6 +224,32 @@ export const SiteSettings: GlobalConfig = {
           ],
         },
         {
+          label: 'Booking',
+          description: 'How customers book appointments on the website.',
+          fields: [
+            {
+              name: 'useCustomBookingFrontend',
+              label: 'Use Milano booking page',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description:
+                  'When on, Book buttons open the styled booking page on this website. When off, they go straight to the ABC Salon booking link.',
+              },
+            },
+            {
+              name: 'useNativeAbcBooking',
+              label: 'Use native Milano booking UI',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description:
+                  'When on (and custom booking is on), visitors see the full Milano-styled booking wizard powered by ABC Salon underneath. When off, the ABC form is embedded in an iframe.',
+              },
+            },
+          ],
+        },
+        {
           label: 'Advanced',
           description: 'Technical settings — admins only.',
           fields: [

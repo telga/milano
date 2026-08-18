@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
-import { BOOKING_URL } from '@/lib/constants'
+import { isInternalBookingHref } from '@/lib/booking'
 import { cn } from '@/lib/utils'
 
 type BookButtonProps = {
@@ -9,7 +9,8 @@ type BookButtonProps = {
   variant?: 'default' | 'outline' | 'slate'
   size?: 'default' | 'sm' | 'lg'
   label?: string
-  bookingUrl?: string
+  /** Resolved destination from resolveBookingHref(settings). */
+  bookingHref: string
 }
 
 export function BookButton({
@@ -17,13 +18,19 @@ export function BookButton({
   variant = 'default',
   size = 'default',
   label = 'Book Now',
-  bookingUrl = BOOKING_URL,
+  bookingHref,
 }: BookButtonProps) {
+  const internal = isInternalBookingHref(bookingHref)
+
   return (
     <Button asChild variant={variant} size={size} className={cn(className)}>
-      <Link href={bookingUrl} target="_blank" rel="noopener noreferrer">
-        {label}
-      </Link>
+      {internal ? (
+        <Link href={bookingHref}>{label}</Link>
+      ) : (
+        <Link href={bookingHref} target="_blank" rel="noopener noreferrer">
+          {label}
+        </Link>
+      )}
     </Button>
   )
 }
